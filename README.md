@@ -1,6 +1,9 @@
 # GoHighLevelMastery
 A comprehensive, step-by-step learning path to mastering GoHighLevel (GHL) from scratch. This repository tracks my technical progression through sub-account architectures, custom landing page builds, advanced Zapier automations, and scalable snapshot deployments."
 > 💡 **Pro-Tip:** If you don't have an account yet, you can use [**this link to get a 14-Day Free Trial**](https://www.gohighlevel.com?fp_ref=va-logistics45). This gives you full access to a sandbox sub-account so you can build out the funnels and workflows in Phase 2 and Phase 3!
+
+[🚀 Upgrade to Pro Sandbox Access](https://www.gohighlevel.com?fp_ref=va-logistics45)
+
 ## 🗺️ The 12-Week Roadmap Breakdown
 
 ### 📍 Phase 1: Interface & Contacts Setup
@@ -43,3 +46,24 @@ A comprehensive, step-by-step learning path to mastering GoHighLevel (GHL) from 
 
 * 💼 **Connect with me on LinkedIn:** [Maria Fe Blanca](https://www.linkedin.com/in/maria-fe-blanca-754a1a267)
 * 📬 **Work Inquiries:** [maria@jmbrandify.com](mailto:maria@jmbrandify.com)
+
+## 📌 Preview the Roadmap
+
+Open `index.html` in your browser to view the interactive GoHighLevel roadmap locally.
+
+## GHL Glossary
+
+- **Sub-Account** — a separate client workspace inside GoHighLevel that keeps CRM, funnels, and automations segmented.
+- **Workflow** — an automation sequence that uses triggers, actions, delays, and conditional paths.
+- **Snapshot** — a reusable backup of funnels, workflows, pipelines, and settings that can be cloned into another account.
+- **Pipeline** — a visual sales board for tracking opportunities across stages.
+- **Smart List** — a dynamic contact list filtered by tags, behaviors, and field values.
+- **SaaS Mode** — the reseller layer that lets agencies provision and monetize sub-accounts.
+- **Custom Field** — a user-defined data field for storing unique contact or opportunity details.
+- **Webhook** — a push notification from GoHighLevel to an external app or service.
+- **API v2** — the GoHighLevel developer API for integrations, data access, and custom apps.
+- **White-label** — branding the GHL platform with your own agency identity.
+
+## GitHub Pages Deployment
+
+This repo now includes a GitHub Actions workflow at `.github/workflows/pages.yml` that deploys the site to the `gh-pages` branch whenever `main` is pushed.

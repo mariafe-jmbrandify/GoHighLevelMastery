@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GoHighLevel Mastery Roadmap — Brandify</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #000000;
+    --surface:   #0a0a14;
+    --surface2:  #0f0f1e;
+    --border:    #1e2a4a;
+    --navy:      #1a237e;
+    --navy2:     #283593;
+    --navy3:     #3949ab;
+    --cyan:      #29b6f6;
+    --cyan2:     #4dd0e1;
+    --cyan3:     #80deea;
+    --text:      #e8e8f4;
+    --muted:     #7b8ab8;
+    --white:     #ffffff;
+    --green:     #4dd0e1;   /* repurposed cyan as "complete" color */
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* grid overlay */
+  body::before {
+    content:'';
+    position:fixed; inset:0;
+    background-image:
+      linear-gradient(rgba(41,182,246,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(41,182,246,.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+    pointer-events:none; z-index:0;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position:relative; z-index:1;
+    padding: 72px 32px 52px;
+    text-align:center;
+  }
+  .hero::before {
+    content:'';
+    position:absolute; top:-80px; left:50%; transform:translateX(-50%);
+    width:700px; height:420px;
+    background:radial-gradient(ellipse, rgba(26,35,126,.45) 0%, transparent 68%);
+    pointer-events:none;
+  }
+  .hero::after {
+    content:'';
+    position:absolute; top:20px; left:50%; transform:translateX(-50%);
+    width:500px; height:260px;
+    background:radial-gradient(ellipse, rgba(41,182,246,.12) 0%, transparent 68%);
+    pointer-events:none;
+  }
+
+  .brand-logo {
+    display:inline-flex; align-items:center; gap:10px;
+    margin-bottom:28px;
+    animation:fadeDown .5s ease both;
+  }
+  .brand-jm {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:32px; letter-spacing:2px;
+    color: var(--navy2);
+    text-shadow: 2px 2px 0 var(--navy3), -1px -1px 0 var(--navy);
+    line-height:1;
+  }
+  .brand-name {
+    font-family:'Great Vibes', cursive;
+    font-size:26px;
+    background: linear-gradient(135deg, var(--cyan) 0%, var(--cyan2) 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  .brand-divider {
+    width:1px; height:28px; background:var(--border);
+  }
+  .brand-tagline {
+    font-size:10px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--muted); font-family:'DM Mono',monospace;
+    line-height:1.5;
+    text-align:left;
+  }
+
+  .badge {
+    display:inline-block;
+    background:rgba(26,35,126,.25); border:1px solid rgba(41,182,246,.3);
+    color:var(--cyan); font-family:'DM Mono',monospace;
+    font-size:10px; letter-spacing:3px; text-transform:uppercase;
+    padding:5px 14px; border-radius:2px; margin-bottom:22px;
+    animation:fadeDown .5s ease .05s both;
+  }
+
+  .hero h1 {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(56px,9vw,110px); line-height:.92; letter-spacing:3px;
+    background:linear-gradient(160deg, #ffffff 0%, var(--cyan2) 45%, var(--navy3) 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    animation:fadeDown .5s ease .1s both;
+  }
+
+  .hero p {
+    margin:18px auto 0; font-size:17px; color:var(--muted); font-weight:300;
+    max-width:540px; line-height:1.65;
+    animation:fadeDown .5s ease .18s both;
+  }
+
+  .stats-row {
+    display:flex; justify-content:center; gap:44px; margin-top:38px; flex-wrap:wrap;
+    animation:fadeDown .5s ease .26s both;
+  }
+  .stat-num {
+    font-family:'Bebas Neue',sans-serif; font-size:38px;
+    background: linear-gradient(135deg, var(--cyan) 0%, var(--cyan2) 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    line-height:1;
+  }
+  .stat-label { font-size:11px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-top:3px; font-family:'DM Mono',monospace; }
+
+  /* ── PROGRESS ── */
+  .progress-section { position:relative; z-index:1; max-width:1080px; margin:0 auto; padding:0 24px 44px; }
+  .progress-bar-wrap { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:22px 26px; }
+  .progress-label { display:flex; justify-content:space-between; margin-bottom:10px; }
+  .progress-label span { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+  .progress-label .pct { color:var(--cyan); }
+  .progress-track { height:5px; background:var(--border); border-radius:99px; overflow:hidden; }
+  .progress-fill { height:100%; background:linear-gradient(90deg, var(--navy2), var(--cyan)); border-radius:99px; width:0%; transition:width .8s cubic-bezier(.22,1,.36,1); }
+
+  /* ── PHASES ── */
+  .container { position:relative; z-index:1; max-width:1080px; margin:0 auto; padding:0 24px 72px; }
+  .phases { position:relative; }
+  .phases::before {
+    content:''; position:absolute; left:25px; top:0; bottom:0; width:2px;
+    background:linear-gradient(to bottom, var(--navy2), var(--navy3), var(--cyan2), var(--cyan), var(--cyan3));
+    opacity:.5;
+  }
+
+  .phase { margin-bottom:52px; animation:slideIn .5s ease both; }
+  .phase:nth-child(1){animation-delay:.08s} .phase:nth-child(2){animation-delay:.16s}
+  .phase:nth-child(3){animation-delay:.24s} .phase:nth-child(4){animation-delay:.32s}
+  .phase:nth-child(5){animation-delay:.40s}
+
+  .phase-header { display:flex; align-items:center; gap:18px; margin-bottom:18px; }
+  .phase-dot {
+    width:52px; height:52px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-family:'Bebas Neue',sans-serif; font-size:20px; flex-shrink:0; position:relative; z-index:1;
+    border:2px solid transparent;
+  }
+
+  /* All phases share the navy/cyan brand palette, graduated */
+  .phase-1 .phase-dot { background:rgba(26,35,126,.25); border-color:var(--navy2); color:var(--cyan2); box-shadow:0 0 24px rgba(26,35,126,.4); }
+  .phase-2 .phase-dot { background:rgba(40,53,147,.25); border-color:var(--navy3); color:var(--cyan2); box-shadow:0 0 24px rgba(40,53,147,.4); }
+  .phase-3 .phase-dot { background:rgba(57,73,171,.25); border-color:var(--navy3); color:var(--cyan); box-shadow:0 0 24px rgba(57,73,171,.4); }
+  .phase-4 .phase-dot { background:rgba(41,182,246,.1); border-color:var(--cyan); color:var(--cyan); box-shadow:0 0 24px rgba(41,182,246,.25); }
+  .phase-5 .phase-dot { background:rgba(77,208,225,.1); border-color:var(--cyan2); color:var(--cyan2); box-shadow:0 0 24px rgba(77,208,225,.25); }
+
+  .phase-title-wrap{flex:1}
+  .phase-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
+  .phase-1 .phase-label,.phase-2 .phase-label { color:var(--navy3); }
+  .phase-3 .phase-label { color:var(--cyan); }
+  .phase-4 .phase-label,.phase-5 .phase-label { color:var(--cyan2); }
+
+  .phase-title { font-family:'Bebas Neue',sans-serif; font-size:30px; letter-spacing:1px; line-height:1; color:var(--white); }
+  .phase-weeks { background:rgba(26,35,126,.2); border:1px solid var(--border); border-radius:3px; padding:4px 11px; font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); white-space:nowrap; }
+
+  .phase-objective { margin-left:70px; padding:10px 14px; background:rgba(26,35,126,.12); border-left:3px solid var(--navy2); border-radius:0 4px 4px 0; font-size:13.5px; color:var(--muted); font-style:italic; margin-bottom:16px; }
+  .phase-content { margin-left:70px; display:grid; grid-template-columns:repeat(auto-fill,minmax(295px,1fr)); gap:14px; }
+
+  /* ── MODULE CARDS ── */
+  .module-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; overflow:hidden; transition:transform .2s, border-color .2s, box-shadow .2s; }
+  .module-card:hover { transform:translateY(-3px); box-shadow:0 14px 44px rgba(0,0,0,.6); }
+  .phase-1 .module-card:hover,.phase-2 .module-card:hover { border-color:rgba(40,53,147,.6); box-shadow:0 14px 44px rgba(26,35,126,.3); }
+  .phase-3 .module-card:hover { border-color:rgba(57,73,171,.6); box-shadow:0 14px 44px rgba(57,73,171,.25); }
+  .phase-4 .module-card:hover,.phase-5 .module-card:hover { border-color:rgba(41,182,246,.4); box-shadow:0 14px 44px rgba(41,182,246,.15); }
+
+  .card-header { padding:14px 18px 11px; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--border); }
+  .card-icon { width:30px; height:30px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0; }
+  .phase-1 .card-icon,.phase-2 .card-icon { background:rgba(26,35,126,.3); }
+  .phase-3 .card-icon { background:rgba(57,73,171,.25); }
+  .phase-4 .card-icon,.phase-5 .card-icon { background:rgba(41,182,246,.1); }
+
+  .card-title { font-size:14px; font-weight:600; color:var(--white); line-height:1.25; }
+  .card-body { padding:12px 18px 14px; }
+  .topic-item { display:flex; align-items:flex-start; gap:8px; padding:5px 0; border-bottom:1px solid rgba(255,255,255,.04); font-size:13px; color:#a8b8d8; line-height:1.45; }
+  .topic-item:last-child { border-bottom:none; }
+
+  .checkbox { width:15px; height:15px; border-radius:3px; border:1.5px solid var(--border); cursor:pointer; flex-shrink:0; margin-top:2px; transition:all .15s; display:flex; align-items:center; justify-content:center; font-size:9px; }
+  .checkbox.checked { background:var(--cyan); border-color:var(--cyan); color:#000; }
+
+  /* ── RESOURCE LINKS ── */
+  .card-resources { border-top:1px solid var(--border); padding:10px 18px 13px; display:flex; flex-direction:column; gap:5px; }
+  .res-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:2px; }
+  .res-link { display:flex; align-items:center; gap:7px; text-decoration:none; padding:5px 8px; border-radius:5px; transition:background .15s; border:1px solid transparent; }
+  .res-link:hover { background:rgba(255,255,255,.04); border-color:var(--border); }
+  .res-link .res-icon { width:18px; height:18px; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; }
+  .yt .res-icon { background:rgba(26,35,126,.3); color:var(--cyan2); }
+  .doc .res-icon { background:rgba(41,182,246,.1); color:var(--cyan); }
+  .yt span { font-size:12px; color:var(--cyan2); }
+  .doc span { font-size:12px; color:var(--cyan); }
+
+  /* ── CERTS ── */
+  .cert-section { position:relative; z-index:1; max-width:1080px; margin:0 auto; padding:0 24px 52px; }
+  .section-header { font-family:'Bebas Neue',sans-serif; font-size:34px; letter-spacing:2px; text-align:center; margin-bottom:6px; color:var(--white); }
+  .section-sub { text-align:center; color:var(--muted); font-size:13px; margin-bottom:24px; }
+  .cert-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  @media(max-width:740px){ .cert-cards { grid-template-columns:1fr; } }
+
+  .cert-card { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:18px; display:flex; gap:14px; align-items:flex-start; transition:border-color .2s,transform .2s; }
+  .cert-card:hover { border-color:rgba(41,182,246,.35); transform:translateY(-2px); }
+  .cert-num { font-family:'Bebas Neue',sans-serif; font-size:30px; line-height:1; flex-shrink:0;
+    background:linear-gradient(135deg, var(--navy3), var(--cyan));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  .cert-info h4 { font-size:14px; font-weight:600; margin-bottom:4px; color:var(--white); }
+  .cert-info p { font-size:12px; color:var(--muted); line-height:1.5; }
+  .cert-tag { display:inline-block; margin-top:7px; background:rgba(41,182,246,.1); border:1px solid rgba(41,182,246,.25); color:var(--cyan); font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1px; padding:2px 7px; border-radius:2px; text-transform:uppercase; }
+  .cert-res { margin-top:10px; display:flex; flex-direction:column; gap:4px; }
+
+  .glossary-section { max-width:1080px; margin:0 auto 44px; padding:0 24px; }
+  .glossary-header { font-family:'Bebas Neue',sans-serif; font-size:32px; letter-spacing:1px; color:var(--white); margin-bottom:8px; text-align:center; }
+  .glossary-sub { text-align:center; color:var(--muted); font-size:13px; margin-bottom:20px; }
+  .glossary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+  .glossary-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px; }
+  .glossary-term { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--cyan); margin-bottom:6px; }
+  .glossary-definition { color:var(--text); font-size:14px; line-height:1.6; }
+
+  /* ── FOOTER ── */
+  .footer { position:relative; z-index:1; text-align:center; padding:32px 24px 48px; }
+  .footer-brand { font-family:'Great Vibes', cursive; font-size:22px; background:linear-gradient(135deg, var(--cyan) 0%, var(--cyan2) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:6px; }
+  .footer-tagline { font-size:11px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; font-family:'DM Mono',monospace; }
+
+  .top-bar { position:sticky; top:0; z-index:10; backdrop-filter:blur(16px); background:rgba(0,0,0,.82); border-bottom:1px solid rgba(255,255,255,.08); }
+  .top-bar-inner { max-width:1080px; margin:0 auto; padding:12px 24px; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .top-bar-copy { color:var(--cyan2); font-family:'DM Mono',monospace; font-size:13px; }
+  .top-bar-button { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:11px 18px; border-radius:999px; background:linear-gradient(135deg, var(--cyan), var(--cyan2)); color:#000; font-family:'DM Sans',sans-serif; font-size:12px; font-weight:700; text-decoration:none; transition:transform .18s ease, box-shadow .18s ease; }
+  .top-bar-button:hover { transform:translateY(-1px); box-shadow:0 18px 30px rgba(41,182,246,.22); }
+  .upgrade-note { margin:14px 18px 0; padding:13px 14px; border-radius:10px; background:rgba(41,182,246,.1); border:1px solid rgba(41,182,246,.24); color:var(--cyan2); font-size:13px; line-height:1.6; }
+  .upgrade-note a { color:var(--white); text-decoration:underline; }
+  .pro-tip { margin:16px 0 0 70px; padding:14px 16px; border-radius:10px; background:rgba(41,182,246,.08); border-left:3px solid var(--cyan); color:var(--text); font-size:13px; line-height:1.65; }
+  .pro-tip strong { color:var(--cyan2); }
+  .pro-tip a { color:var(--cyan2); text-decoration:underline; }
+
+  /* ── DIVIDER ── */
+  .divider { position:relative; z-index:1; max-width:1080px; margin:0 auto 44px; padding:0 24px; }
+  .divider-line { border:none; height:1px; background:linear-gradient(90deg,transparent,var(--navy2),var(--cyan2),var(--navy2),transparent); opacity:.5; }
+
+  @keyframes fadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes slideIn{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:translateX(0)}}
+
+  @media(max-width:700px){
+    .phases::before{left:20px}
+    .phase-dot{width:42px;height:42px;font-size:17px}
+    .phase-title{font-size:23px}
+    .phase-objective,.phase-content{margin-left:60px}
+    .brand-logo{flex-wrap:wrap;justify-content:center}
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <div class="top-bar-copy">Need advanced access for SaaS mode and API workflows?</div>
+    <a class="top-bar-button" href="https://www.gohighlevel.com?fp_ref=va-logistics45" target="_blank">🚀 Upgrade to Pro Sandbox Access</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="brand-logo">
+    <div class="brand-jm">JM</div>
+    <div class="brand-divider"></div>
+    <div class="brand-name">Brandify</div>
+    <div class="brand-divider"></div>
+    <div class="brand-tagline">Systems that flow.<br>Designs that connect.</div>
+  </div>
+  <div class="badge">Complete Learning Path · 2026 Edition</div>
+  <h1>GoHighLevel<br>Mastery</h1>
+  <p>Beginner → Expert — with hand-picked YouTube tutorials & official GHL docs for every single module.</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">Phases</div></div>
+    <div class="stat"><div class="stat-num">12+</div><div class="stat-label">Weeks</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">Certifications</div></div>
+    <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Video Guides</div></div>
+  </div>
+</section>
+
+<!-- PROGRESS -->
+<div class="progress-section">
+  <div class="progress-bar-wrap">
+    <div class="progress-label">
+      <span>Overall Progress</span>
+      <span class="pct" id="progressPct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+</div>
+
+<div class="container">
+<div class="phases">
+
+<!-- ═══ PHASE 1 ═══ -->
+<div class="phase phase-1">
+  <div class="phase-header">
+    <div class="phase-dot">01</div>
+    <div class="phase-title-wrap">
+      <div class="phase-label">Phase 1 · Weeks 1–2</div>
+      <div class="phase-title">The Foundation</div>
+    </div>
+    <div class="phase-weeks">🔷 Beginner</div>
+  </div>
+  <div class="phase-objective">Understand the ecosystem, terminology, and how information moves within a single sub-account.</div>
+  <div class="pro-tip"><strong>Pro-Tip:</strong> If you don't have an account yet, you can use <a href="https://www.gohighlevel.com/?fp_ref=va-logistics45" target="_blank"><strong>this link to get a 14-Day Free Trial</strong></a>. This gives you full access to a sandbox sub-account so you can build out the funnels and workflows in Phase 2 and Phase 3!</div>
+  <div class="phase-content">
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">🏗️</div><div class="card-title">Interface & Basic Setup</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Agency vs. Sub-Account Architecture</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Core Settings: domains, business profiles, permissions</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Email setup: LeadConnector / Mailgun</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Phone/SMS: LC Phone / Twilio</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=x-R0Z4qA_Wc" target="_blank"><div class="res-icon">▶</div><span>GHL Full Beginner Course 2026</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=YMHJ9jvoKjY" target="_blank"><div class="res-icon">▶</div><span>How to Use GHL Step-by-Step (2026)</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/155000000204" target="_blank"><div class="res-icon">📄</div><span>Getting Started w/ HighLevel : HighLevel Support Portal</span></a>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">📋</div><div class="card-title">Contact Management & Data Structure</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Contacts Tab: import, export, filter lists</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Custom Fields & Values for unique client data</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Smart Lists: dynamic saved views by tags/behavior</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Practice: build your first segmented audience list</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=deUAleALdXQ" target="_blank"><div class="res-icon">▶</div><span>Contacts, Smart Lists & Custom Fields</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=CO_5QmPCWEU" target="_blank"><div class="res-icon">▶</div><span>Smart Lists & Contacts Explained</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/en/support/solutions/articles/155000006504" target="_blank"><div class="res-icon">📄</div><span>Official: Contacts List View & SmartLists 2.0</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48001171922-adding-files-to-contacts-using-a-custom-field" target="_blank"><div class="res-icon">📄</div><span>Official: Custom Fields for Contacts</span></a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ PHASE 2 ═══ -->
+<div class="phase phase-2">
+  <div class="phase-header">
+    <div class="phase-dot">02</div>
+    <div class="phase-title-wrap">
+      <div class="phase-label">Phase 2 · Weeks 3–5</div>
+      <div class="phase-title">Core Ops & Funnel Building</div>
+    </div>
+    <div class="phase-weeks">🔷 Intermediate</div>
+  </div>
+  <div class="phase-objective">Build user-facing assets and manage active sales pipelines.</div>
+  <div class="pro-tip"><strong>Pro-Tip:</strong> If you don't have an account yet, you can use <a href="https://www.gohighlevel.com/?fp_ref=va-logistics45" target="_blank"><strong>this link to get a 14-Day Free Trial</strong></a>. This gives you full access to a sandbox sub-account so you can build out the funnels and workflows in Phase 2 and Phase 3!</div>
+  <div class="phase-content">
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">🌐</div><div class="card-title">Sites, Funnels & Forms</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Page Builder: drag-and-drop landing pages & websites</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Form & Survey Builders: multi-step intake forms</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Pop-ups & Sticky Bars: exit-intent lead magnets</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Practice: build a complete lead capture funnel</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=SGFfbxs041g" target="_blank"><div class="res-icon">▶</div><span>Website & Funnel Builder for Beginners 2025</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=o2pzSlBoPsk" target="_blank"><div class="res-icon">▶</div><span>Build Your First Sales Funnel (Step-by-Step)</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=5BwhYhJYY94" target="_blank"><div class="res-icon">▶</div><span>Build a Funnel + Workflow with AI (2025)</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/155000005057-getting-started-launch-a-funnel" target="_blank"><div class="res-icon">📄</div><span>Official: How to Launch a Funnel</span></a>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">📊</div><div class="card-title">Opportunity Pipelines</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Pipeline Architecture: multi-stage visual boards</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Card Management: drag stages, update deal values</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Revenue Velocity: monitor pipeline health metrics</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=YD393RZhkHw" target="_blank"><div class="res-icon">▶</div><span>How to Create a GHL Pipeline (2025)</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/155000001985-step-by-step-guide-creating-pipelines" target="_blank"><div class="res-icon">📄</div><span>Official: Step-by-step Guide — Creating Pipelines</span></a>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">📅</div><div class="card-title">Calendars & Scheduling</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Individual, team & round-robin calendar setup</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Google Calendar / Outlook sync</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Booking confirmations & reminder automation</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=gsCRM4Hqc20" target="_blank"><div class="res-icon">▶</div><span>Calendar Setup — Automate Bookings (2026)</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=1l5pylQIr30" target="_blank"><div class="res-icon">▶</div><span>Integrate Google Calendar with GHL</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48000982605" target="_blank"><div class="res-icon">📄</div><span>Official: Calendars Overview</span></a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ PHASE 3 ═══ -->
+<div class="phase phase-3">
+  <div class="phase-header">
+    <div class="phase-dot">03</div>
+    <div class="phase-title-wrap">
+      <div class="phase-label">Phase 3 · Weeks 6–8</div>
+      <div class="phase-title">The Automation Engine</div>
+    </div>
+    <div class="phase-weeks">🔵 Advanced</div>
+  </div>
+  <div class="phase-objective">Master GHL Workflows — the absolute core of the platform.</div>
+  <div class="pro-tip"><strong>Pro-Tip:</strong> If you don't have an account yet, you can use <a href="https://www.gohighlevel.com/?fp_ref=va-logistics45" target="_blank"><strong>this link to get a 14-Day Free Trial</strong></a>. This gives you full access to a sandbox sub-account so you can build out the funnels and workflows in Phase 2 and Phase 3!</div>
+  <div class="phase-content">
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">⚡</div><div class="card-title">Workflow Triggers & Actions</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Triggers: Form Submitted, Tag Added, Stage Changed</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Actions: auto-email, update stage, add tag, assign user</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Build your first end-to-end lead nurture workflow</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=zxr5yuLLV7U" target="_blank"><div class="res-icon">▶</div><span>GHL Automation for Beginners — Build First Workflow</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=Rmk5uFcob9Q" target="_blank"><div class="res-icon">▶</div><span>Workflow AI: Automated Lead Follow-Up</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/155000002288-getting-started-with-workflows" target="_blank"><div class="res-icon">📄</div><span>Official: Getting Started with Workflows</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/155000002445-introduction-to-workflows-and-automations" target="_blank"><div class="res-icon">📄</div><span>Official: Intro to Workflows & Automations</span></a>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">🔀</div><div class="card-title">Advanced Workflow Logic</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>If/Else Conditional Branches: route leads by data</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Wait Steps: time-based & event-based delays</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Internal Notifications: SMS/email/desktop alerts</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Practice: multi-path nurture with 5+ branches</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=pgKCulPwEqg" target="_blank"><div class="res-icon">▶</div><span>GHL Workflows: Beginner to Advanced (2026)</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=hb-JwJ_nKxI" target="_blank"><div class="res-icon">▶</div><span>Advanced Workflow Builder — Full Tutorial</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=V1jqch0ii1U" target="_blank"><div class="res-icon">▶</div><span>Build Workflows Just By Talking — AI Builder</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/155000002288-getting-started-with-workflows" target="_blank"><div class="res-icon">📄</div><span>Official: Workflow Conditions & If/Else Branches</span></a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ PHASE 4 ═══ -->
+<div class="phase phase-4">
+  <div class="phase-header">
+    <div class="phase-dot">04</div>
+    <div class="phase-title-wrap">
+      <div class="phase-label">Phase 4 · Weeks 9–11</div>
+      <div class="phase-title">Scaling & Productization</div>
+    </div>
+    <div class="phase-weeks">🩵 Expert</div>
+  </div>
+  <div class="phase-objective">Build systems that can be duplicated and scaled across multiple client accounts.</div>
+  <div class="pro-tip"><strong>Pro-Tip:</strong> If you don't have an account yet, you can use <a href="https://www.gohighlevel.com/?fp_ref=va-logistics45" target="_blank"><strong>this link to get a 14-Day Free Trial</strong></a>. This gives you full access to a sandbox sub-account so you can build out the funnels and workflows in Phase 2 and Phase 3!</div>
+  <div class="phase-content">
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">📦</div><div class="card-title">Snapshot Architecture</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Creating Snapshots: bundle fields, pipelines, funnels & workflows</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Push Updates: deploy to clients without overwriting data</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Version control strategy for snapshot management</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=Dx4Tf2VX21I" target="_blank"><div class="res-icon">▶</div><span>How to Get & Use GHL SaaS Snapshots</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48000982511-snapshots-overview" target="_blank"><div class="res-icon">📄</div><span>Official: Snapshots Overview</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48000982513-how-to-share-snapshots" target="_blank"><div class="res-icon">📄</div><span>Official: Sharing Snapshots</span></a>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">💼</div><div class="card-title">SaaS Mode & Provisioning</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>SaaS Configurator: lock/unlock features by pricing tier</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Re-billing: automated wallet for SMS/email/AI</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>White-label branding setup for your agency</span></div>
+      </div>
+      <div class="upgrade-note">Note: These advanced workflows perform best with an upgraded GoHighLevel SaaS / Pro Plan. <a href="https://www.gohighlevel.com?fp_ref=va-logistics45" target="_blank">Unlock advanced automation</a>.</div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=pPQAL1b18yM" target="_blank"><div class="res-icon">▶</div><span>How to Set Up SaaS Mode (2026)</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=AmhNPpfEclA" target="_blank"><div class="res-icon">▶</div><span>GHL SaaS Full Walkthrough 2025</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48001184920-saas-mode-full-setup-guide-faq" target="_blank"><div class="res-icon">📄</div><span>Official: SaaS Mode Full Setup Guide</span></a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ PHASE 5 ═══ -->
+<div class="phase phase-5">
+  <div class="phase-header">
+    <div class="phase-dot">05</div>
+    <div class="phase-title-wrap">
+      <div class="phase-label">Phase 5 · Weeks 12+</div>
+      <div class="phase-title">Expert & Developer Level</div>
+    </div>
+    <div class="phase-weeks">🩵 Master</div>
+  </div>
+  <div class="phase-objective">Connect GHL to the wider world through custom code, webhooks, and complex integrations.</div>
+  <div class="pro-tip"><strong>Pro-Tip:</strong> If you don't have an account yet, you can use <a href="https://www.gohighlevel.com/?fp_ref=va-logistics45" target="_blank"><strong>this link to get a 14-Day Free Trial</strong></a>. This gives you full access to a sandbox sub-account so you can build out the funnels and workflows in Phase 2 and Phase 3!</div>
+  <div class="phase-content">
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">🔗</div><div class="card-title">Webhooks & Middleware</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Inbound Webhooks: trigger GHL from external apps</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Outbound Webhooks: push data to Zapier / Make</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Build: GHL ↔ Zapier ↔ external DB integration</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/playlist?list=PLL31x9TXl_mIqWrLumeR1ueyFM6LYrD_W" target="_blank"><div class="res-icon">▶</div><span>GHL Automation Tutorials Playlist (2025)</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48001207048-creating-subaccounts-using-zapier" target="_blank"><div class="res-icon">📄</div><span>Official: Sub-Accounts via Zapier</span></a>
+        <a class="res-link doc" href="https://developers.gohighlevel.com" target="_blank"><div class="res-icon">📄</div><span>GHL Developer Portal</span></a>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">⚙️</div><div class="card-title">Advanced Customization & API v2</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Custom Value Injection: change text/links across accounts</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Custom JS/CSS: tracking codes, layouts, behaviors</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>GHL API v2: custom apps & marketplace integrations</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Capstone: API-driven client onboarding system</span></div>
+      </div>
+      <div class="upgrade-note">Note: For advanced API and webhook integrations, an upgraded GoHighLevel SaaS / Pro Plan is recommended. <a href="https://www.gohighlevel.com?fp_ref=va-logistics45" target="_blank">Upgrade your account structure</a>.</div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=YMHJ9jvoKjY" target="_blank"><div class="res-icon">▶</div><span>GHL Advanced Features Deep-Dive (2026)</span></a>
+        <a class="res-link doc" href="https://developers.gohighlevel.com" target="_blank"><div class="res-icon">📄</div><span>Official: GHL API v2 Developer Docs</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/155000000521-how-to-use-custom-fields-for-opportunities" target="_blank"><div class="res-icon">📄</div><span>Official: How to Use Custom Fields for Opportunities</span></a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- /phases -->
+</div><!-- /container -->
+
+<div class="divider"><hr class="divider-line"></div>
+
+<!-- GLOSSARY -->
+<div class="glossary-section">
+  <div class="glossary-header">📚 GoHighLevel Glossary</div>
+  <div class="glossary-sub">A quick reference for the most important GHL concepts used throughout this roadmap.</div>
+  <div class="glossary-grid">
+    <div class="glossary-card"><div class="glossary-term">Sub-Account</div><div class="glossary-definition">A separate client workspace inside GoHighLevel that keeps contacts, funnels, and automations segmented.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Workflow</div><div class="glossary-definition">An automation sequence that uses triggers, actions, delays, and conditional branches.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Snapshot</div><div class="glossary-definition">A reusable bundle of funnels, workflows, pipelines, and settings that can be cloned into another account.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Pipeline</div><div class="glossary-definition">A visual sales board for tracking opportunities through stages and revenue progress.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Smart List</div><div class="glossary-definition">A dynamic contact list filtered by tags, behavior, custom fields, or saved query rules.</div></div>
+    <div class="glossary-card"><div class="glossary-term">SaaS Mode</div><div class="glossary-definition">The reseller layer that lets agencies provision, bundle, and monetize sub-accounts.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Custom Field</div><div class="glossary-definition">A user-defined data field for storing unique contact or opportunity details.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Webhook</div><div class="glossary-definition">A push notification from GoHighLevel to an external app or service when an event occurs.</div></div>
+    <div class="glossary-card"><div class="glossary-term">API v2</div><div class="glossary-definition">The GoHighLevel developer API for integrations, data access, and custom apps.</div></div>
+    <div class="glossary-card"><div class="glossary-term">White-label</div><div class="glossary-definition">Branding the GoHighLevel platform with your own agency identity for clients.</div></div>
+  </div>
+</div>
+
+<!-- CERTIFICATIONS -->
+<div class="cert-section">
+  <div class="section-header">🏆 Certification Path</div>
+  <div class="section-sub">Official free courses inside GoHighLevel University — take them in order</div>
+  <div class="cert-cards">
+    <div class="cert-card">
+      <div class="cert-num">01</div>
+      <div class="cert-info">
+        <h4>GHL Foundations Certification</h4>
+        <p>Core platform, sub-account setup, contacts & communication basics.</p>
+        <span class="cert-tag">Phase 1</span>
+        <div class="cert-res">
+          <a class="res-link yt" href="https://www.youtube.com/watch?v=CUe2HnyrXps" target="_blank"><div class="res-icon">▶</div><span>GHL Overview in 15 Minutes (2026)</span></a>
+          <a class="res-link doc" href="https://university.gohighlevel.com" target="_blank"><div class="res-icon">📄</div><span>GHL University (Official Courses)</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-num">02</div>
+      <div class="cert-info">
+        <h4>GHL Admin Certification</h4>
+        <p>Agency-level config, workflows & multi-account management.</p>
+        <span class="cert-tag">Phase 3</span>
+        <div class="cert-res">
+          <a class="res-link yt" href="https://www.youtube.com/watch?v=pgKCulPwEqg" target="_blank"><div class="res-icon">▶</div><span>Workflows Beginner to Advanced (2026)</span></a>
+          <a class="res-link doc" href="https://university.gohighlevel.com" target="_blank"><div class="res-icon">📄</div><span>GHL University — Admin Track</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-num">03</div>
+      <div class="cert-info">
+        <h4>GHL Automation Specialist</h4>
+        <p>Advanced automation, snapshots, SaaS mode & client scaling.</p>
+        <span class="cert-tag">Phase 4</span>
+        <div class="cert-res">
+          <a class="res-link yt" href="https://www.youtube.com/watch?v=pPQAL1b18yM" target="_blank"><div class="res-icon">▶</div><span>SaaS Mode Full Tutorial (2026)</span></a>
+          <a class="res-link doc" href="https://university.gohighlevel.com" target="_blank"><div class="res-icon">📄</div><span>GHL University — Automation Track</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-brand">Brandify</div>
+  <div class="footer-tagline">Systems that flow. Designs that connect.</div>
+</div>
+
+<script>
+  const total = document.querySelectorAll('.checkbox').length;
+  function toggleCheck(el){
+    el.classList.toggle('checked');
+    el.textContent = el.classList.contains('checked') ? '✓' : '';
+    const done = document.querySelectorAll('.checkbox.checked').length;
+    const pct = Math.round((done/total)*100);
+    document.getElementById('progressPct').textContent = pct+'%';
+    document.getElementById('progressFill').style.width = pct+'%';
+  }
+</script>
+</body>
+</html>

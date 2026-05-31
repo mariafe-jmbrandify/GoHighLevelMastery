@@ -222,7 +222,8 @@
     background:linear-gradient(135deg, var(--navy3), var(--cyan));
     -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
   }
-  .cert-info h4 { font-size:14px; font-weight:600; margin-bottom:4px; color:var(--white); }
+  .cert-info h4 { font-size:14px; font-weight:600; margin-bottom:4px; color:var(--white); display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .pdf-badge { display:inline-flex; align-items:center; justify-content:center; padding:2px 6px; background:rgba(41,182,246,.12); border:1px solid rgba(41,182,246,.22); color:var(--cyan); font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1px; border-radius:999px; text-transform:uppercase; }
   .cert-info p { font-size:12px; color:var(--muted); line-height:1.5; }
   .cert-tag { display:inline-block; margin-top:7px; background:rgba(41,182,246,.1); border:1px solid rgba(41,182,246,.25); color:var(--cyan); font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1px; padding:2px 7px; border-radius:2px; text-transform:uppercase; }
   .cert-res { margin-top:10px; display:flex; flex-direction:column; gap:4px; }
@@ -1299,29 +1300,29 @@
     <div class="section-sub">Downloadable templates to accelerate implementation.</div>
     <div class="cert-cards" style="margin-top:12px; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px;">
       <div class="cert-card" style="display:flex; flex-direction:column; gap:8px;">
-        <h4 style="margin:0;">Workflow Planning Template</h4>
+        <h4 style="margin:0;">Workflow Planning Template <span class="pdf-badge">PDF</span></h4>
         <p style="margin:0; font-size:12px; color:var(--muted);">Map triggers, actions, and handoffs before building.</p>
-        <a href="resources/workflow-planning-template.md" download style="color:var(--cyan); font-weight:700; margin-top:auto;">↓ Download</a>
+        <a href="resources/workflow-planning-template.pdf" download type="application/pdf" style="color:var(--cyan); font-weight:700; margin-top:auto;">↓ Download PDF</a>
       </div>
       <div class="cert-card" style="display:flex; flex-direction:column; gap:8px;">
-        <h4 style="margin:0;">Funnel Planning Worksheet</h4>
+        <h4 style="margin:0;">Funnel Planning Worksheet <span class="pdf-badge">PDF</span></h4>
         <p style="margin:0; font-size:12px; color:var(--muted);">Design conversion paths for your lead funnels.</p>
-        <a href="resources/funnel-planning-worksheet.md" download style="color:var(--cyan); font-weight:700; margin-top:auto;">↓ Download</a>
+        <a href="resources/funnel-planning-worksheet.pdf" download type="application/pdf" style="color:var(--cyan); font-weight:700; margin-top:auto;">↓ Download PDF</a>
       </div>
       <div class="cert-card" style="display:flex; flex-direction:column; gap:8px;">
-        <h4 style="margin:0;">Discovery Call Form</h4>
+        <h4 style="margin:0;">Discovery Call Form <span class="pdf-badge">PDF</span></h4>
         <p style="margin:0; font-size:12px; color:var(--muted);">Standardized intake form to capture client needs.</p>
-        <a href="resources/discovery-call-form.md" download style="color:var(--cyan); font-weight:700; margin-top:auto;">↓ Download</a>
+        <a href="resources/discovery-call-form.pdf" download type="application/pdf" style="color:var(--cyan); font-weight:700; margin-top:auto;">↓ Download PDF</a>
       </div>
       <div class="cert-card" style="display:flex; flex-direction:column; gap:8px;">
-        <h4 style="margin:0;">Pipeline Blueprint</h4>
+        <h4 style="margin:0;">Pipeline Blueprint <span class="pdf-badge">PDF</span></h4>
         <p style="margin:0; font-size:12px; color:var(--muted);">Template for multi-stage sales pipelines.</p>
-        <a href="resources/pipeline-blueprint-template.md" download style="color:var(--cyan); font-weight:700; margin-top:auto;">↓ Download</a>
+        <a href="resources/pipeline-blueprint-template.pdf" download type="application/pdf" style="color:var(--cyan); font-weight:700; margin-top:auto;">↓ Download PDF</a>
       </div>
       <div class="cert-card" style="display:flex; flex-direction:column; gap:8px;">
-        <h4 style="margin:0;">Client Onboarding Checklist</h4>
+        <h4 style="margin:0;">Client Onboarding Checklist <span class="pdf-badge">PDF</span></h4>
         <p style="margin:0; font-size:12px; color:var(--muted);">Step-by-step checklist for client setups.</p>
-        <a href="resources/client-onboarding-checklist.md" download style="color:var(--cyan); font-weight:700; margin-top:auto;">↓ Download</a>
+        <a href="resources/client-onboarding-checklist.pdf" download type="application/pdf" style="color:var(--cyan); font-weight:700; margin-top:auto;">↓ Download PDF</a>
       </div>
     </div>
   </div>

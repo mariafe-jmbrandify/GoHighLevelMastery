@@ -218,6 +218,33 @@
 
   .cert-card { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:18px; display:flex; gap:14px; align-items:flex-start; transition:border-color .2s,transform .2s; }
   .cert-card:hover { border-color:rgba(41,182,246,.35); transform:translateY(-2px); }
+  .program-cards { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:24px; }
+  .program-card { display:flex; flex-direction:column; gap:16px; }
+  .program-card-title { font-size:20px; font-weight:700; color:var(--white); margin-bottom:6px; }
+  .program-price { font-size:32px; font-family:'Bebas Neue',sans-serif; color:var(--cyan); line-height:1; }
+  .program-regular { font-size:12px; color:var(--muted); text-decoration:line-through; margin-top:4px; }
+  .program-description { color:var(--text); font-size:13px; line-height:1.75; }
+  .program-list { list-style:none; margin:0; padding:0; display:grid; gap:10px; color:#a8b8d8; font-size:13px; }
+  .program-list li { display:flex; align-items:flex-start; gap:10px; }
+  .program-list li::before { content:'✓'; color:var(--cyan); flex-shrink:0; }
+  .program-best-for { font-size:13px; color:var(--muted); line-height:1.7; }
+  .program-button { display:inline-flex; align-items:center; justify-content:center; padding:14px 16px; border-radius:10px; background:linear-gradient(135deg, var(--cyan), var(--cyan2)); color:#000; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; text-decoration:none; transition:transform .18s ease, box-shadow .18s ease; }
+  .program-button:hover { transform:translateY(-1px); box-shadow:0 10px 24px rgba(41,182,246,.18); }
+  .program-summary { display:grid; grid-template-columns:repeat(2,minmax(280px,1fr)); gap:14px; margin-top:20px; }
+  .program-summary-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:20px; }
+  .program-summary-card h4 { margin:0 0 10px; font-size:16px; color:var(--white); }
+  .program-summary-card p { margin:0 0 16px; color:var(--muted); font-size:13px; line-height:1.7; }
+  .program-summary-list { list-style:none; margin:0; padding:0; display:grid; gap:10px; color:#a8b8d8; font-size:13px; }
+  .program-summary-list li { display:flex; align-items:flex-start; gap:10px; }
+  .program-summary-list li::before { content:'•'; color:var(--cyan); line-height:1.3; }
+  .founding-note { background:rgba(41,182,246,.08); border:1px solid rgba(41,182,246,.22); border-radius:12px; padding:20px; color:var(--cyan2); font-size:13px; line-height:1.8; margin-top:24px; }
+  .founding-note strong { display:block; color:var(--white); margin-bottom:8px; }
+  .founding-note ul { list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+  .founding-note li { display:flex; align-items:flex-start; gap:10px; }
+  .founding-note li::before { content:'•'; color:var(--cyan); line-height:1.3; }
+  .cert-statement { background:rgba(26,35,126,.16); border:1px solid rgba(41,182,246,.18); border-radius:12px; padding:20px; color:var(--text); font-size:13px; line-height:1.75; text-align:center; margin-top:18px; }
+  @media(max-width:900px){ .program-cards, .program-summary { grid-template-columns:1fr; } }
+  .cert-card:hover { border-color:rgba(41,182,246,.35); transform:translateY(-2px); }
   .cert-num { font-family:'Bebas Neue',sans-serif; font-size:30px; line-height:1; flex-shrink:0;
     background:linear-gradient(135deg, var(--navy3), var(--cyan));
     -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
@@ -1363,6 +1390,101 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="cert-section">
+  <div class="section-header">🏆 JM Brandify Certification Program</div>
+  <div class="section-sub">Turn your learning into proof of skill.
+    Complete the capstone projects, submit your work for review, and earn a competency-based certification that validates your ability to build real GoHighLevel systems.</div>
+  <div style="display:flex; justify-content:center; margin-bottom:16px;">
+    <div style="background:rgba(41,182,246,.12); border:1px solid rgba(41,182,246,.24); border-radius:999px; padding:8px 16px; color:var(--cyan2); font-family:'DM Mono',monospace; font-size:12px; letter-spacing:1px;">🎉 Founding Member Launch — Limited to First 20 Graduates</div>
+  </div>
+
+  <div class="program-cards">
+    <div class="cert-card program-card" style="display:flex; flex-direction:column;">
+      <div>
+        <div class="program-card-title">🥉 GHL Mastery Practitioner</div>
+        <div class="program-price">$9</div>
+        <div class="program-regular">Regular Price: $49</div>
+      </div>
+      <p class="program-description">Perfect for beginners, VAs, freelancers, and aspiring GoHighLevel specialists who want to validate their implementation skills.</p>
+      <ul class="program-list">
+        <li>Full roadmap access</li>
+        <li>Resource Vault access</li>
+        <li>Portfolio submission</li>
+        <li>Capstone review</li>
+        <li>Certification review</li>
+        <li>Official JM Brandify Certificate (PDF)</li>
+        <li>LinkedIn-ready certification badge</li>
+      </ul>
+      <p class="program-best-for"><strong>Best For:</strong> Those who want proof they can build CRM systems, funnels, and automations.</p>
+      <a class="program-button" href="#">Become a Founding Member</a>
+    </div>
+
+    <div class="cert-card program-card" style="display:flex; flex-direction:column;">
+      <div>
+        <div class="program-card-title">🏗️ Operations Architect Certification</div>
+        <div class="program-price">$49</div>
+        <div class="program-regular">Regular Price: $149</div>
+      </div>
+      <p class="program-description">For freelancers, consultants, agency owners, and systems builders who want to demonstrate operational architecture expertise.</p>
+      <ul class="program-list">
+        <li>Everything in GHL Mastery Practitioner</li>
+        <li>Bonus Specialist Phase review</li>
+        <li>Personalized implementation feedback</li>
+        <li>Workflow & systems assessment</li>
+        <li>Operations Architect Certificate</li>
+        <li>LinkedIn-ready badge</li>
+        <li>Founding Member Recognition</li>
+      </ul>
+      <p class="program-best-for"><strong>Best For:</strong> Professionals who want to position themselves as Operations Architects and implementation specialists.</p>
+      <a class="program-button" href="#">Apply for Operations Architect Certification</a>
+    </div>
+  </div>
+
+  <div class="program-summary">
+    <div class="program-summary-card">
+      <h4>📂 What You Submit</h4>
+      <p>Certification is earned through demonstrated implementation, not course completion.</p>
+      <ul class="program-summary-list">
+        <li>Phase 1 CRM Foundation screenshots</li>
+        <li>Phase 2 Lead Capture Funnel URL</li>
+        <li>Phase 3 Workflow & Nurture System screenshots</li>
+        <li>Phase 4 SaaS Snapshot documentation</li>
+        <li>Phase 5 Client Provisioning System</li>
+        <li>Bonus Phase deliverables</li>
+        <li>Discovery Call Template</li>
+        <li>Automation Audit</li>
+        <li>Workflow Map</li>
+        <li>SOP Documentation</li>
+      </ul>
+    </div>
+    <div class="program-summary-card">
+      <h4>🎁 What You Receive</h4>
+      <p>Certification includes review, portfolio support, and proof-of-work credentials.</p>
+      <ul class="program-summary-list">
+        <li>Certification review</li>
+        <li>Portfolio assessment</li>
+        <li>Pass / Revision Needed evaluation</li>
+        <li>Personalized recommendations</li>
+        <li>Official JM Brandify Certificate</li>
+        <li>LinkedIn Badge</li>
+        <li>Portfolio-ready proof of work</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="founding-note">
+    <strong>Founding Member Offer</strong>
+    The first 20 successful graduates will receive lifetime access to future roadmap updates, toolkit additions, and certification program enhancements.
+    <ul>
+      <li>GHL Mastery Practitioner — $9</li>
+      <li>Operations Architect Certification — $49</li>
+    </ul>
+    Limited to the first 20 graduates.
+  </div>
+
+  <div class="cert-statement">This is a competency-based certification. You are not certified for watching videos. You are certified for building, documenting, and implementing working GoHighLevel systems.</div>
 </div>
 
 <div class="affiliate-disclosure">Disclosure: Some links on this page may be affiliate links. If you purchase through them, we may earn a commission at no additional cost to you.</div>

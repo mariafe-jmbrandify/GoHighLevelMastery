@@ -4,7 +4,8 @@
   "description": "A comprehensive, step-by-step learning path to mastering GoHighLevel (GHL) from scratch. This repository tracks my technical progression through sub-account architectures, custom landing page builds, advanced Zapier automations, and scalable snapshot deployments.\" > 💡 **Pro-Tip:** If you don't have an account yet, you can use [**this link to get a 14-Day Free Trial**](https://www.gohighlevel.com?fp_ref=va-logistics45). This gives you full access to a sandbox sub-account so you can build out the funnels and workflows in Phase 2 and Phase 3!",
   "main": "test-ghl-puppeteer.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "fetch-sheet": "python3 scripts/fetch_spreadsheet.py"
   },
   "repository": {
     "type": "git",

@@ -67,3 +67,13 @@ Open `index.html` in your browser to view the interactive GoHighLevel roadmap lo
 ## GitHub Pages Deployment
 
 This repo now includes a GitHub Actions workflow at `.github/workflows/pages.yml` that deploys the site to the `gh-pages` branch whenever `main` is pushed.
+
+## Spreadsheet Data Integration
+
+A new script, `scripts/fetch_spreadsheet.py`, downloads your shared Google Sheet into `resources/roadmap_sheet.csv`. The HTML page now reads that CSV and displays a live lead tracker section when the page is loaded from a web server.
+
+The current spreadsheet source is `1vfGGbV2wOdOCqrp0W_02poc6df7aNq1eXRpo_k63s5s`, and the schedule button uses the booking destination `https://calendar.app.google/f9rWn4rqWSkt83v66`.
+
+## Scheduling Notifications
+
+When the schedule form is submitted, the page looks up the lead in `resources/roadmap_sheet.csv` and restores the lead details from the spreadsheet. It also opens an email draft addressed to `maria@jmbrandify.com` so the owner can be notified right away about the new lead.

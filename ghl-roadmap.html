@@ -1305,25 +1305,6 @@
   </div>
 </div>
 
-<!-- LEAD SHEET TRACKER -->
-<div class="container">
-  <div class="sheet-section">
-    <div class="section-header">📊 Live Leads Tracker</div>
-    <div class="section-sub">Imported directly from the GoHighLevel roadmap spreadsheet.</div>
-    <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px; margin-top:18px;">
-      <div id="leadSheetLoader" style="color:var(--cyan); font-size:13px; letter-spacing:0.4px;">Loading spreadsheet leads…</div>
-      <div id="leadSheetError" style="display:none; color:#ff8a80; font-size:13px; margin-top:12px;"></div>
-      <div id="leadSheetTableWrap" style="overflow-x:auto; margin-top:18px; display:none;">
-        <table id="leadSheetTable" class="sheet-table">
-          <thead></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-      <div style="margin-top:14px; color:var(--muted); font-size:12px;">If you want the latest data, refresh the page after running <code>python3 scripts/fetch_spreadsheet.py</code> or <code>npm run fetch-sheet</code>.</div>
-    </div>
-  </div>
-</div>
-
 <!-- COMPLETION CERTIFICATE -->
 <div class="container">
   <div style="position:relative; z-index:1; max-width:800px; margin:24px auto 28px; padding:0 24px;">
@@ -1696,28 +1677,13 @@
         const bottleneck = document.getElementById('opsBottleneck').value.trim();
         const opsForm = document.getElementById('opsForm');
         const opsConfirmation = document.getElementById('opsConfirmation');
-        const opsLeadRestore = document.getElementById('opsLeadRestore');
-        const opsLeadRestoreContent = document.getElementById('opsLeadRestoreContent');
 
         if (!name || !email || !phone || !bottleneck) {
           alert('Please complete all fields before continuing to booking.');
           return;
         }
 
-        const leadEntry = findLeadEntry(email, phone);
-        const restoredDetails = leadEntry ? formatLeadDetails(leadEntry) : '';
-
-        if (opsLeadRestore && opsLeadRestoreContent) {
-          if (restoredDetails) {
-            opsLeadRestoreContent.textContent = restoredDetails;
-            opsLeadRestore.style.display = 'block';
-          } else {
-            opsLeadRestoreContent.textContent = 'No matching lead details were found in the spreadsheet.';
-            opsLeadRestore.style.display = 'block';
-          }
-        }
-
-        openLeadNotificationEmail(restoredDetails, { name, email, phone, bottleneck });
+        openLeadNotificationEmail('', { name, email, phone, bottleneck });
 
         if (opsForm && opsConfirmation) {
           opsForm.style.display = 'none';
@@ -1737,8 +1703,6 @@
         }, 2200);
       });
     }
-
-    loadLeadSheet();
 
     // re-bind click handlers in case any checkboxes were added dynamically
     checkboxes.forEach(cb => {

@@ -2287,6 +2287,7 @@
     const certPaymentSuccess = document.getElementById('certPaymentSuccess');
     const certSubmitButton = document.getElementById('certSubmitButton');
     const certEmailInput = document.getElementById('certEmail');
+    const certTypeSelect = document.getElementById('certType');
     window.certEmailInput = certEmailInput;
     window.certPaymentNotice = certPaymentNotice;
     window.certPaymentSuccess = certPaymentSuccess;
@@ -2294,6 +2295,16 @@
     let certPaymentStarted = false;
     let certPaymentEmail = '';
     window.certPaymentEmail = certPaymentEmail;
+
+    const certificationPaymentLinks = {
+      'GHL Mastery Practitioner': 'https://www.paypal.com/ncp/payment/68V7PVPBCV8Z2',
+      'Operations Architect Certification': 'https://www.paypal.com/ncp/payment/N9RV29QJ79JZA'
+    };
+
+    const getSelectedCertificationPaymentLink = () => {
+      const selectedCertification = certTypeSelect ? certTypeSelect.value : '';
+      return certificationPaymentLinks[selectedCertification] || '';
+    };
 
     const showFormAfterSuccess = emailValue => {
       certPaymentStarted = true;
@@ -2363,7 +2374,15 @@
         if (certPaymentNotice) {
           certPaymentNotice.textContent = 'Opening PayPal checkout...';
         }
-        window.open('https://www.paypal.com/checkoutnow?token=YOUR_FALLBACK_PAYMENT_TOKEN', '_blank');
+        const paymentUrl = getSelectedCertificationPaymentLink();
+        if (!paymentUrl) {
+          alert('Please select the certification you are applying for before starting PayPal checkout.');
+          if (certTypeSelect) {
+            certTypeSelect.focus();
+          }
+          return;
+        }
+        window.open(paymentUrl, '_blank');
         showFormAfterSuccess(emailValue);
       });
     }

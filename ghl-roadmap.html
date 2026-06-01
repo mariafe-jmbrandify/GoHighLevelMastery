@@ -231,6 +231,8 @@
   .program-button { display:inline-flex; align-items:center; justify-content:center; padding:14px 16px; border-radius:10px; background:linear-gradient(135deg, var(--cyan), var(--cyan2)); color:#000; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; text-decoration:none; transition:transform .18s ease, box-shadow .18s ease; }
   .program-button:hover { transform:translateY(-1px); box-shadow:0 10px 24px rgba(41,182,246,.18); }
   .program-summary { display:grid; grid-template-columns:repeat(2,minmax(280px,1fr)); gap:14px; margin-top:20px; }
+  .cert-two-column { display:grid; grid-template-columns:repeat(2,minmax(300px,1fr)); gap:12px; margin-top:16px; }
+  @media(max-width:900px){ .cert-two-column { grid-template-columns:1fr; } }
   .program-summary-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:20px; }
   .program-summary-card h4 { margin:0 0 10px; font-size:16px; color:var(--white); }
   .program-summary-card p { margin:0 0 16px; color:var(--muted); font-size:13px; line-height:1.7; }
@@ -1529,7 +1531,7 @@
   <div style="position:relative; z-index:1; max-width:960px; margin:24px auto 28px; padding:0 24px;">
     <div class="section-header">🏆 Earn Your JM Brandify Certification</div>
     <div class="section-sub">Complete these steps to earn your JM Brandify certification.</div>
-    <div style="display:grid; grid-template-columns:1fr; gap:12px; margin-top:16px;">
+    <div class="cert-two-column">
       <div class="cert-card" style="display:flex; flex-direction:column; gap:12px;">
         <div style="font-weight:700; color:var(--white);">Checklist</div>
         <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>All modules completed</span></div>
@@ -1777,6 +1779,63 @@
   </div>
 
   <div class="cert-statement">This is a competency-based certification. You are not certified for watching videos. You are certified for building, documenting, and implementing working GoHighLevel systems.</div>
+</div>
+
+<div class="container">
+  <div style="position:relative; z-index:1; max-width:1080px; margin:24px auto 28px; padding:0 24px;">
+    <div class="section-header">🧩 Build the Certification Portal Inside GoHighLevel</div>
+    <div class="section-sub">Turn certification review into a structured system where students submit proof of work, receive review status, and earn credentials based on demonstrated implementation skills.</div>
+    <div class="cert-cards" style="margin-top:18px; grid-template-columns:repeat(3,minmax(240px,1fr)); gap:14px;">
+      <div class="cert-card" style="border-color:rgba(41,182,246,.35);">
+        <h4>📤 Student Submission Portal</h4>
+        <p class="program-description">Students submit proof of completed capstones through a GoHighLevel form or funnel.</p>
+        <ul class="pricing-list">
+          <li>PDF documents</li>
+          <li>Screenshots</li>
+          <li>Funnel URLs</li>
+          <li>Workflow screenshots</li>
+          <li>Snapshot documentation</li>
+          <li>Optional Loom walkthrough links</li>
+        </ul>
+      </div>
+      <div class="cert-card" style="border-color:rgba(41,182,246,.35);">
+        <h4>📊 Certification Tracking Fields</h4>
+        <p class="program-description">Use custom fields to track every student’s certification progress.</p>
+        <ul class="pricing-list">
+          <li>Phase 1 Status</li>
+          <li>Phase 2 Status</li>
+          <li>Phase 3 Status</li>
+          <li>Phase 4 Status</li>
+          <li>Phase 5 Status</li>
+          <li>Final Project Status</li>
+          <li>Certification Status</li>
+        </ul>
+        <p class="program-description" style="margin-top:12px; color:var(--muted);">Recommended status values:</p>
+        <ul class="pricing-list">
+          <li>Not Submitted</li>
+          <li>Pending Review</li>
+          <li>Revision Needed</li>
+          <li>Passed</li>
+          <li>Certified</li>
+        </ul>
+      </div>
+      <div class="cert-card" style="border-color:rgba(41,182,246,.35);">
+        <h4>⚙️ Certification Review Workflow</h4>
+        <p class="program-description">Automate the review journey from submission to certification delivery.</p>
+        <ul class="pricing-list">
+          <li>Submission Received</li>
+          <li>AI Review</li>
+          <li>Manual Review</li>
+          <li>Pass / Revision Needed</li>
+          <li>Issue Certificate</li>
+          <li>Send Badge</li>
+          <li>Update Certification Status</li>
+        </ul>
+      </div>
+    </div>
+    <div class="cert-statement" style="margin-top:20px;">This is a competency-based certification.<br>Students are not certified for watching lessons.<br>They are certified for building, documenting, and implementing working GoHighLevel systems.</div>
+    <p class="program-description" style="margin-top:18px; color:var(--text);">A JM Brandify Certified GoHighLevel Specialist earns proof that they can build CRM systems, funnels, workflows, automations, SaaS snapshots, and client infrastructure.</p>
+  </div>
 </div>
 
 <div class="affiliate-disclosure">Disclosure: Some links on this page may be affiliate links. If you purchase through them, we may earn a commission at no additional cost to you.</div>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="80" viewBox="0 0 360 80">
+  <defs>
+    <linearGradient id="jmGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#29b6f6"/>
+      <stop offset="100%" stop-color="#4dd0e1"/>
+    </linearGradient>
+    <linearGradient id="brandifyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4dd0e1"/>
+      <stop offset="100%" stop-color="#80deea"/>
+    </linearGradient>
+    <style type="text/css"><![CDATA[
+      .logo-jm { font-family: 'Bebas Neue', sans-serif; font-size:56px; font-weight:700; fill: url(#jmGradient); }
+      .logo-brandify { font-family: 'Great Vibes', cursive; font-size:46px; fill: url(#brandifyGradient); }
+    ]]></style>
+  </defs>
+  <text class="logo-jm" x="0" y="54">JM</text>
+  <text class="logo-brandify" x="88" y="54">Brandify</text>
+</svg>

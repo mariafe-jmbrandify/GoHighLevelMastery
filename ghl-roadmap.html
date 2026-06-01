@@ -276,7 +276,8 @@
 
   /* ── FOOTER ── */
   .footer { position:relative; z-index:1; text-align:center; padding:32px 24px 48px; }
-  .footer-brand { font-family:'Great Vibes', cursive; font-size:22px; background:linear-gradient(135deg, var(--cyan) 0%, var(--cyan2) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:6px; }
+  .footer-brand { display:inline-flex; align-items:center; justify-content:center; margin-bottom:6px; }
+  .footer-brand img.footer-logo { height:40px; width:auto; display:block; }
   .footer-tagline { font-size:11px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; font-family:'DM Mono',monospace; }
 
   .top-bar { position:sticky; top:0; z-index:10; backdrop-filter:blur(16px); background:rgba(0,0,0,.82); border-bottom:1px solid rgba(255,255,255,.08); }
@@ -322,7 +323,7 @@
     <div class="brand-divider"></div>
     <div class="brand-name">Brandify</div>
     <div class="brand-divider"></div>
-    <div class="brand-tagline">Systems that flow.<br>Designs that connect.</div>
+    <div class="brand-tagline">Automate the Noise. Lead the Mission.<br>We don't guess. We engineer.</div>
   </div>
   <div class="badge">Complete Learning Path · 2026 Edition</div>
   <h1>GoHighLevel<br>Mastery</h1>
@@ -1491,7 +1492,13 @@
 
 <!-- FOOTER -->
 <div class="footer">
-  <div class="footer-brand">JM Brandify</div>
+  <div class="footer-brand">
+    <div class="brand-jm">JM</div>
+    <div class="brand-divider"></div>
+    <div class="brand-name">Brandify</div>
+    <div class="brand-divider"></div>
+    <div class="brand-tagline">Automate the Noise. Lead the Mission.<br>We don't guess. We engineer.</div>
+  </div>
   <div class="footer-tagline">Automate the Noise. Lead the Mission.</div>
   <div style="font-size:10px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; font-family:'DM Mono',monospace; margin-top:6px;">We don't guess. We engineer.</div>
 </div>

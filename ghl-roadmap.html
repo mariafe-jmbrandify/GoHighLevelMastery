@@ -1539,6 +1539,7 @@
       </label>
       <div id="paypal-container-68V7PVPBCV8Z2" style="margin-top:10px;"></div>
       <div style="margin-top:10px; color:var(--muted); font-size:13px;">Pay with PayPal to start the submission payment. Your purchase confirmation will be sent to the email above.</div>
+      <div id="certPaymentFallback" style="margin-top:14px;"><a id="certPaymentFallbackButton" href="#" style="display:inline-flex; align-items:center; justify-content:center; padding:12px 16px; border-radius:12px; background:linear-gradient(135deg, var(--cyan), var(--cyan2)); color:#000; font-weight:700; text-decoration:none;">Pay with PayPal</a></div>
       <div id="certPaymentNotice" style="margin-top:10px; color:var(--muted); font-size:13px;">Wait for PayPal to start your payment before you submit your evidence.</div>
       <div id="certPaymentSuccess" style="display:none; margin-top:10px; color:var(--cyan); font-size:13px;">Payment started. A confirmation email will be sent once your transaction completes.</div>
     </div>
@@ -2266,6 +2267,7 @@
     const certModalClose = document.getElementById('certModalClose');
     const certForm = document.getElementById('certSubmissionForm');
     const certConfirmation = document.getElementById('certSubmissionConfirmation');
+    const certPaymentFallbackButton = document.getElementById('certPaymentFallbackButton');
     const certPaymentNotice = document.getElementById('certPaymentNotice');
     const certPaymentSuccess = document.getElementById('certPaymentSuccess');
     const certSubmitButton = document.getElementById('certSubmitButton');
@@ -2303,6 +2305,17 @@
         trigger.addEventListener('click', event => {
           event.preventDefault();
           certModal.style.display = 'flex';
+          if (certForm) {
+            certForm.style.display = 'none';
+          }
+          if (certPaymentSuccess) {
+            certPaymentSuccess.style.display = 'none';
+          }
+          if (certSubmitButton) {
+            certSubmitButton.disabled = true;
+            certSubmitButton.style.opacity = '0.65';
+          }
+          certPaymentStarted = false;
         });
       });
     }
@@ -2318,6 +2331,25 @@
         if (event.target === certModal) {
           certModal.style.display = 'none';
         }
+      });
+    }
+
+    if (certPaymentFallbackButton) {
+      certPaymentFallbackButton.addEventListener('click', event => {
+        event.preventDefault();
+        const emailValue = certEmailInput ? certEmailInput.value.trim() : '';
+        if (!emailValue) {
+          alert('Please enter your email address so we can send your payment confirmation.');
+          if (certEmailInput) {
+            certEmailInput.focus();
+          }
+          return;
+        }
+        if (certPaymentNotice) {
+          certPaymentNotice.textContent = 'Opening PayPal checkout...';
+        }
+        window.open('https://www.paypal.com/checkoutnow?token=YOUR_FALLBACK_PAYMENT_TOKEN', '_blank');
+        showFormAfterSuccess(emailValue);
       });
     }
 

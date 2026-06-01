@@ -1552,7 +1552,14 @@
       <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px; margin-bottom:12px;">Email Address for Payment Confirmation *
         <input id="certEmail" type="email" placeholder="you@example.com" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
       </label>
-      <div id="paypal-container-68V7PVPBCV8Z2" style="margin-top:10px;"></div>
+      <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px; margin-bottom:12px;">Certification Payment *
+        <select id="certPaymentType" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
+          <option value="">Select Certification</option>
+          <option value="GHL Mastery Practitioner">GHL Mastery Practitioner</option>
+          <option value="Operations Architect Certification">Operations Architect Certification</option>
+        </select>
+      </label>
+      <div id="paypal-container-cert" style="margin-top:10px;"></div>
       <div style="margin-top:10px; color:var(--muted); font-size:13px;">Pay with PayPal to start the submission payment. Your purchase confirmation will be sent to the email above.</div>
       <div id="certPaymentFallback" style="margin-top:14px;"><a id="certPaymentFallbackButton" href="#" style="display:inline-flex; align-items:center; justify-content:center; padding:12px 16px; border-radius:12px; background:linear-gradient(135deg, var(--cyan), var(--cyan2)); color:#000; font-weight:700; text-decoration:none;">Pay with PayPal</a></div>
       <div id="certPaymentNotice" style="margin-top:10px; color:var(--muted); font-size:13px;">Wait for PayPal to start your payment before you submit your evidence.</div>
@@ -2287,6 +2294,7 @@
     const certPaymentSuccess = document.getElementById('certPaymentSuccess');
     const certSubmitButton = document.getElementById('certSubmitButton');
     const certEmailInput = document.getElementById('certEmail');
+    const certPaymentTypeSelect = document.getElementById('certPaymentType');
     const certTypeSelect = document.getElementById('certType');
     window.certEmailInput = certEmailInput;
     window.certPaymentNotice = certPaymentNotice;
@@ -2302,7 +2310,7 @@
     };
 
     const getSelectedCertificationPaymentLink = () => {
-      const selectedCertification = certTypeSelect ? certTypeSelect.value : '';
+      const selectedCertification = certPaymentTypeSelect ? certPaymentTypeSelect.value : '';
       return certificationPaymentLinks[selectedCertification] || '';
     };
 
@@ -2311,6 +2319,9 @@
       certPaymentEmail = emailValue;
       if (certForm) {
         certForm.style.display = 'grid';
+      }
+      if (certTypeSelect && certPaymentTypeSelect) {
+        certTypeSelect.value = certPaymentTypeSelect.value;
       }
       if (certSubmitButton) {
         certSubmitButton.disabled = false;
@@ -2448,41 +2459,78 @@
 </script>
 <script src="https://www.paypal.com/sdk/js?client-id=BAAD5UB-qdrBtNSVeVJISuQ1-LGkwgJXQidWGRgd603r3llj27nCcDUP-iPEWW6rAHkcF42cDR07K1fs0I&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
 <script>
-  paypal.HostedButtons({
-    hostedButtonId: "68V7PVPBCV8Z2",
-    onClick: function(data, actions) {
-      const emailValue = window.certEmailInput ? window.certEmailInput.value.trim() : '';
-      if (!emailValue) {
-        alert('Please enter your email address so we can send your payment confirmation.');
-        if (window.certEmailInput) {
-          window.certEmailInput.focus();
-        }
-        return actions.reject();
-      }
-      if (window.certPaymentNotice) {
-        window.certPaymentNotice.textContent = 'Opening PayPal checkout...';
-      }
-      window.certPaymentEmail = emailValue;
-      return actions.resolve();
-    },
-    onApprove: function(data, actions) {
-      const emailValue = window.certPaymentEmail || (window.certEmailInput ? window.certEmailInput.value.trim() : '');
-      if (window.showFormAfterSuccess) {
-        window.showFormAfterSuccess(emailValue);
-      }
-    },
-    onCancel: function(data) {
-      if (window.certPaymentNotice) {
-        window.certPaymentNotice.textContent = 'Payment was canceled. Please try again to submit your evidence.';
-      }
-    },
-    onError: function(err) {
-      if (window.certPaymentNotice) {
-        window.certPaymentNotice.textContent = 'There was an error with PayPal. Please refresh and try again.';
-      }
-      console.error('PayPal error', err);
+  const certificationHostedButtonIds = {
+    'GHL Mastery Practitioner': '68V7PVPBCV8Z2',
+    'Operations Architect Certification': 'N9RV29QJ79JZA'
+  };
+
+  const getSelectedCertificationHostedButtonId = () => {
+    const selectedCertification = document.getElementById('certPaymentType') ? document.getElementById('certPaymentType').value : '';
+    return certificationHostedButtonIds[selectedCertification] || '';
+  };
+
+  const renderPayPalButton = () => {
+    const buttonId = getSelectedCertificationHostedButtonId();
+    const container = document.getElementById('paypal-container-cert');
+
+    if (!container) {
+      return;
     }
-  }).render("#paypal-container-68V7PVPBCV8Z2");
+    container.innerHTML = '';
+
+    if (!buttonId) {
+      container.innerHTML = '<div style="color:var(--muted); font-size:13px;">Select a certification above to load the PayPal button.</div>';
+      return;
+    }
+
+    paypal.HostedButtons({
+      hostedButtonId: buttonId,
+      onClick: function(data, actions) {
+        const emailValue = window.certEmailInput ? window.certEmailInput.value.trim() : '';
+        if (!emailValue) {
+          alert('Please enter your email address so we can send your payment confirmation.');
+          if (window.certEmailInput) {
+            window.certEmailInput.focus();
+          }
+          return actions.reject();
+        }
+        if (window.certPaymentNotice) {
+          window.certPaymentNotice.textContent = 'Opening PayPal checkout...';
+        }
+        window.certPaymentEmail = emailValue;
+        return actions.resolve();
+      },
+      onApprove: function(data, actions) {
+        const emailValue = window.certPaymentEmail || (window.certEmailInput ? window.certEmailInput.value.trim() : '');
+        if (window.showFormAfterSuccess) {
+          window.showFormAfterSuccess(emailValue);
+        }
+      },
+      onCancel: function(data) {
+        if (window.certPaymentNotice) {
+          window.certPaymentNotice.textContent = 'Payment was canceled. Please try again to submit your evidence.';
+        }
+      },
+      onError: function(err) {
+        if (window.certPaymentNotice) {
+          window.certPaymentNotice.textContent = 'There was an error with PayPal. Please refresh and try again.';
+        }
+        console.error('PayPal error', err);
+      }
+    }).render('#paypal-container-cert');
+  };
+
+  const certPaymentTypeSelect = document.getElementById('certPaymentType');
+  if (certPaymentTypeSelect) {
+    certPaymentTypeSelect.addEventListener('change', () => {
+      if (document.getElementById('certType')) {
+        document.getElementById('certType').value = certPaymentTypeSelect.value;
+      }
+      renderPayPalButton();
+    });
+  }
+
+  renderPayPalButton();
 </script>
 </body>
 </html>

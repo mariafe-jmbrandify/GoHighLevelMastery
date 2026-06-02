@@ -1948,6 +1948,9 @@
   let leadSheetData = [];
   let leadSheetLoaded = false;
   let leadSheetError = null;
+  const SHEET_ID = '1vfGGbV2wOdOCqrp0W_02poc6df7aNq1eXRpo_k63s5s';
+  const REMOTE_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
+  const LOCAL_SHEET_CSV_URL = 'resources/roadmap_sheet.csv';
   const progressPct = document.getElementById('progressPct');
   const progressFill = document.getElementById('progressFill');
   const storageKey = 'ghlRoadmapProgress';
@@ -2076,33 +2079,37 @@
     leadSheetHeaders = headers;
     leadSheetData = data;
 
-    const thead = table.querySelector('thead');
-    const tbody = table.querySelector('tbody');
+    if (table) {
+      const thead = table.querySelector('thead');
+      const tbody = table.querySelector('tbody');
 
-    thead.innerHTML = '';
-    tbody.innerHTML = '';
+      if (thead && tbody) {
+        thead.innerHTML = '';
+        tbody.innerHTML = '';
 
-    const headerRow = document.createElement('tr');
-    headers.forEach(header => {
-      const th = document.createElement('th');
-      th.textContent = header;
-      headerRow.appendChild(th);
-    });
-    thead.appendChild(headerRow);
+        const headerRow = document.createElement('tr');
+        headers.forEach(header => {
+          const th = document.createElement('th');
+          th.textContent = header;
+          headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
 
-    data.forEach(rowData => {
-      const row = document.createElement('tr');
-      rowData.forEach(cellText => {
-        const td = document.createElement('td');
-        td.textContent = cellText;
-        row.appendChild(td);
-      });
-      tbody.appendChild(row);
-    });
+        data.forEach(rowData => {
+          const row = document.createElement('tr');
+          rowData.forEach(cellText => {
+            const td = document.createElement('td');
+            td.textContent = cellText;
+            row.appendChild(td);
+          });
+          tbody.appendChild(row);
+        });
+      }
+    }
 
     if (loader) loader.style.display = 'none';
     if (errorEl) errorEl.style.display = 'none';
-    if (tableWrap) tableWrap.style.display = 'block';
+    if (tableWrap && table) tableWrap.style.display = 'block';
   }
 
   function normalizeValue(value) {
@@ -2172,10 +2179,18 @@
       errorEl.textContent = '';
     }
 
-    fetch('resources/roadmap_sheet.csv')
-      .then(response => {
-        if (!response.ok) throw new Error('Unable to fetch spreadsheet CSV.');
-        return response.text();
+    const loadCsv = async (url) => {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Unable to fetch spreadsheet CSV from ${url}`);
+      }
+      return response.text();
+    };
+
+    loadCsv(REMOTE_SHEET_CSV_URL)
+      .catch(remoteError => {
+        console.warn('Remote sheet fetch failed, falling back to local sheet', remoteError);
+        return loadCsv(LOCAL_SHEET_CSV_URL);
       })
       .then(text => {
         renderLeadSheet(parseCsv(text));
@@ -2188,7 +2203,7 @@
         if (loader) loader.style.display = 'none';
         if (errorEl) {
           errorEl.style.display = 'block';
-          errorEl.textContent = 'Could not load spreadsheet data. Make sure resources/roadmap_sheet.csv is present.';
+          errorEl.textContent = 'Could not load spreadsheet data. Booking will still work, but lead details may not be available.';
         }
         console.error(error);
       });
@@ -2248,6 +2263,7 @@
     const opsModal = document.getElementById('opsModal');
     const opsModalClose = document.getElementById('opsModalClose');
     const opsSubmit = document.getElementById('opsSubmit');
+    const opsLeadRestore = document.getElementById('opsLeadRestore');
 
     if (opsScheduleBtn && opsModal) {
       opsScheduleBtn.addEventListener('click', event => {
@@ -2284,12 +2300,7 @@
           return;
         }
 
-        if (!leadSheetLoaded) {
-          alert('Please wait one moment while booking data loads, then try again.');
-          return;
-        }
-
-        const matchedLead = findLeadEntry(email, phone);
+        const matchedLead = leadSheetLoaded ? findLeadEntry(email, phone) : null;
         const leadDetails = formatLeadDetails(matchedLead);
         openLeadNotificationEmail(leadDetails, { name, email, phone, bottleneck });
 

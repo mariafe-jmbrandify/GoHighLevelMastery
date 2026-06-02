@@ -1946,6 +1946,8 @@
   let checkboxes = [];
   let leadSheetHeaders = [];
   let leadSheetData = [];
+  let leadSheetLoaded = false;
+  let leadSheetError = null;
   const progressPct = document.getElementById('progressPct');
   const progressFill = document.getElementById('progressFill');
   const storageKey = 'ghlRoadmapProgress';
@@ -2103,19 +2105,28 @@
     if (tableWrap) tableWrap.style.display = 'block';
   }
 
+  function normalizeValue(value) {
+    return String(value || '').trim().toLowerCase();
+  }
+
+  function normalizePhone(value) {
+    return String(value || '').replace(/\D/g, '');
+  }
+
   function findLeadEntry(email, phone) {
-    const clean = value => String(value || '').trim().toLowerCase();
-    const targetEmail = clean(email);
-    const targetPhone = clean(phone);
+    const targetEmail = normalizeValue(email);
+    const targetPhone = normalizePhone(phone);
     const emailIndex = leadSheetHeaders.indexOf('Email');
     const phoneIndex = leadSheetHeaders.indexOf('Phone Number');
 
     if (emailIndex < 0 && phoneIndex < 0) return null;
 
     return leadSheetData.find(row => {
-      const rowEmail = clean(row[emailIndex] || '');
-      const rowPhone = clean(row[phoneIndex] || '');
-      return (targetEmail && rowEmail === targetEmail) || (targetPhone && rowPhone === targetPhone);
+      const rowEmail = normalizeValue(row[emailIndex] || '');
+      const rowPhone = normalizePhone(row[phoneIndex] || '');
+      const emailMatches = targetEmail && rowEmail === targetEmail;
+      const phoneMatches = targetPhone && rowPhone === targetPhone;
+      return emailMatches || phoneMatches;
     }) || null;
   }
 
@@ -2166,8 +2177,14 @@
         if (!response.ok) throw new Error('Unable to fetch spreadsheet CSV.');
         return response.text();
       })
-      .then(text => renderLeadSheet(parseCsv(text)))
+      .then(text => {
+        renderLeadSheet(parseCsv(text));
+        leadSheetLoaded = true;
+        leadSheetError = null;
+      })
       .catch(error => {
+        leadSheetLoaded = false;
+        leadSheetError = error;
         if (loader) loader.style.display = 'none';
         if (errorEl) {
           errorEl.style.display = 'block';
@@ -2264,6 +2281,11 @@
 
         if (!name || !email || !phone || !bottleneck) {
           alert('Please complete all fields before continuing to booking.');
+          return;
+        }
+
+        if (!leadSheetLoaded) {
+          alert('Please wait one moment while booking data loads, then try again.');
           return;
         }
 

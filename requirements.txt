@@ -1,0 +1,7 @@
+# Python dependencies for certification automation and PDF handling
+# Install with: pip install -r requirements.txt
+
+Flask>=2.0.0
+PyPDF2>=3.0.0
+reportlab>=4.0.0
+python-dotenv>=1.0.0

@@ -83,6 +83,16 @@ The `resources/certificates/` folder now includes certification management asset
 - `JMBrandify_GHL Practitioner_Certificate.pdf` — updated practitioner certificate with visible Certificate ID and Verification Reference
 - `JMBrandify_OperationsArchitect_Certificate.pdf` — updated operations architect certificate with visible Certificate ID and Verification Reference
 
+To use the certification automation scripts, install the Python dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Then run `scripts/send_cert_emails.py` with `--dry-run` first to verify behavior.
+
+A webhook stub is also available at `scripts/webhook_stub.py` for payment and enrollment automation. It can run as a local Flask endpoint or process a sample webhook payload from disk.
+
 ## Scheduling Notifications
 
 When the schedule form is submitted, the page looks up the lead in `resources/roadmap_sheet.csv` and restores the lead details from the spreadsheet. It also opens an email draft addressed to `maria@jmbrandify.com` so the owner can be notified right away about the new lead.

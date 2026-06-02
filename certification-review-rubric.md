@@ -2,6 +2,10 @@
 
 This document is for internal reviewer and AI-assisted evaluation use only. It should not be displayed on the public roadmap page.
 
+For the full scored scorecard, see `resources/certificates/certification-review-scorecard.md`.
+
+A short reference to certification resources is also included in `README.md` under the Certification Resources section.
+
 ## CRM Foundation — 20 pts
 Criteria:
 - Business profile configured

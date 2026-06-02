@@ -74,6 +74,15 @@ A new script, `scripts/fetch_spreadsheet.py`, downloads your shared Google Sheet
 
 The current spreadsheet source is `1vfGGbV2wOdOCqrp0W_02poc6df7aNq1eXRpo_k63s5s`, and the schedule button uses the booking destination `https://calendar.app.google/f9rWn4rqWSkt83v66`.
 
+## Certification Resources
+
+The `resources/certificates/` folder now includes certification management assets:
+- `certification-review-scorecard.md` — scored reviewer scorecard for certification submissions
+- `certification_email_template.md` — email template for issued certifications
+- `certification_followup_template.md` — follow-up email template for failed or revision-needed reviews
+- `JMBrandify_GHL Practitioner_Certificate.pdf` — updated practitioner certificate with visible Certificate ID and Verification Reference
+- `JMBrandify_OperationsArchitect_Certificate.pdf` — updated operations architect certificate with visible Certificate ID and Verification Reference
+
 ## Scheduling Notifications
 
 When the schedule form is submitted, the page looks up the lead in `resources/roadmap_sheet.csv` and restores the lead details from the spreadsheet. It also opens an email draft addressed to `maria@jmbrandify.com` so the owner can be notified right away about the new lead.

@@ -2200,6 +2200,7 @@
     checkboxes.forEach(cb => computeKeyForCheckbox(cb));
 
     loadProgress();
+    loadLeadSheet();
 
     const resetBtn = document.getElementById('resetProgressBtn');
     if (resetBtn) {
@@ -2265,6 +2266,10 @@
           alert('Please complete all fields before continuing to booking.');
           return;
         }
+
+        const matchedLead = findLeadEntry(email, phone);
+        const leadDetails = formatLeadDetails(matchedLead);
+        openLeadNotificationEmail(leadDetails, { name, email, phone, bottleneck });
 
         if (opsForm && opsConfirmation) {
           opsForm.style.display = 'none';

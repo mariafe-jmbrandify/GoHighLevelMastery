@@ -1,2 +1,2 @@
 Name,Email,Phone Number,Primary Bottle Neck,Date Scheduled,Source,Status,Days/Time Until Call,certificate_id,verification_reference,email_sent,graduate_status,followup_sent
-John,john@gmail.com,(098) 055-5555,Lead Generation,6/2/2026 1:00 PM,Facebook,New,"1 days, 16 hrs 19 min",,,,Failed,ERROR: [Errno -5] No address associated with hostname
+John,john@gmail.com,(098) 055-5555,Lead Generation,6/2/2026 1:00 PM,Facebook,New,"1 days, 16 hrs 19 min",,,,Failed,

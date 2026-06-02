@@ -1532,7 +1532,7 @@
       <div style="margin-top:10px; padding:12px 14px; border-radius:10px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); color:var(--muted); font-size:13px; line-height:1.6;">
         Booking link: <a href="https://calendar.app.google/f9rWn4rqWSkt83v66" target="_blank" style="color:var(--cyan); text-decoration:underline;">https://calendar.app.google/f9rWn4rqWSkt83v66</a>
       </div>
-      <div id="opsConfirmation" style="display:none; margin-top:14px; padding:14px 16px; border-radius:10px; background:rgba(41,182,246,.1); color:var(--cyan); font-size:14px; text-align:center; border:1px solid rgba(41,182,246,.25);">Thanks! Your booking page is opening now. If it does not open, <a href="https://calendar.app.google/f9rWn4rqWSkt83v66" target="_blank" style="color:var(--white); text-decoration:underline;">click here</a>.</div>
+      <div id="opsConfirmation" style="display:none; margin-top:14px; padding:14px 16px; border-radius:10px; background:rgba(41,182,246,.1); color:var(--cyan); font-size:14px; text-align:center; border:1px solid rgba(41,182,246,.25);">Thanks! Your booking page is opening now and a confirmation email is being prepared for both you and the admin. If the page does not open, <a href="https://calendar.app.google/f9rWn4rqWSkt83v66" target="_blank" style="color:var(--white); text-decoration:underline;">click here</a>.</div>
       <div id="opsLeadRestore" style="display:none; margin-top:14px; padding:14px 16px; border-radius:10px; background:rgba(255,255,255,.05); color:var(--text); font-size:13px; line-height:1.55; border:1px solid rgba(255,255,255,.08);">
         <strong>Restored lead details from spreadsheet:</strong>
         <div id="opsLeadRestoreContent" style="margin-top:10px; white-space:pre-wrap; word-break:break-word;"></div>
@@ -2125,23 +2125,26 @@
   }
 
   function openLeadNotificationEmail(details, formFields) {
-    const subject = encodeURIComponent('New lead scheduled from GHL Mastery');
+    const subject = encodeURIComponent('Booking confirmation: Operations Architecture Call');
     const lines = [
-      'A new scheduling lead has been submitted.',
+      `Hello ${formFields.name},`,
       '',
-      'Submitted form values:',
+      'Your Operations Architecture Call request has been received.',
+      'The booking page is opening now and both you and the admin team are being notified.',
+      '',
+      'Booking details:',
       `Name: ${formFields.name}`,
       `Email: ${formFields.email}`,
       `Phone: ${formFields.phone}`,
       `Primary Operational Bottleneck: ${formFields.bottleneck}`,
       '',
-      'Spreadsheet lead details:',
+      'Admin note:',
       details || 'No matching spreadsheet lead found.',
       '',
       'Please follow up with the lead as soon as possible.'
     ];
     const body = encodeURIComponent(lines.join('\n'));
-    const mailto = `mailto:maria@jmbrandify.com?subject=${subject}&body=${body}`;
+    const mailto = `mailto:${encodeURIComponent(formFields.email)}?cc=${encodeURIComponent('maria@jmbrandify.com')}&subject=${subject}&body=${body}`;
     window.open(mailto, '_blank');
   }
 
@@ -2262,8 +2265,6 @@
           alert('Please complete all fields before continuing to booking.');
           return;
         }
-
-        openLeadNotificationEmail('', { name, email, phone, bottleneck });
 
         if (opsForm && opsConfirmation) {
           opsForm.style.display = 'none';

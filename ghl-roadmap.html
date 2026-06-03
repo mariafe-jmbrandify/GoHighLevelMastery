@@ -1532,7 +1532,7 @@
       <div style="margin-top:10px; padding:12px 14px; border-radius:10px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); color:var(--muted); font-size:13px; line-height:1.6;">
         Booking link: <a href="https://calendar.app.google/f9rWn4rqWSkt83v66" target="_blank" style="color:var(--cyan); text-decoration:underline;">https://calendar.app.google/f9rWn4rqWSkt83v66</a>
       </div>
-      <div id="opsConfirmation" style="display:none; margin-top:14px; padding:14px 16px; border-radius:10px; background:rgba(41,182,246,.1); color:var(--cyan); font-size:14px; text-align:center; border:1px solid rgba(41,182,246,.25);">Thanks! Your booking page is opening now and a confirmation email is being prepared for both you and the admin. If the page does not open, <a href="https://calendar.app.google/f9rWn4rqWSkt83v66" target="_blank" style="color:var(--white); text-decoration:underline;">click here</a>.</div>
+      <div id="opsConfirmation" style="display:none; margin-top:14px; padding:14px 16px; border-radius:10px; background:rgba(41,182,246,.1); color:var(--cyan); font-size:14px; text-align:center; border:1px solid rgba(41,182,246,.25);">Thanks! First the calendar page opens, then your email client will be prepared with booking details and admin notification. If the page does not open, <a href="https://calendar.app.google/f9rWn4rqWSkt83v66" target="_blank" style="color:var(--white); text-decoration:underline;">click here</a>.</div>
       <div id="opsLeadRestore" style="display:none; margin-top:14px; padding:14px 16px; border-radius:10px; background:rgba(255,255,255,.05); color:var(--text); font-size:13px; line-height:1.55; border:1px solid rgba(255,255,255,.08);">
         <strong>Restored lead details from spreadsheet:</strong>
         <div id="opsLeadRestoreContent" style="margin-top:10px; white-space:pre-wrap; word-break:break-word;"></div>
@@ -2148,7 +2148,7 @@
       `Hello ${formFields.name},`,
       '',
       'Your Operations Architecture Call request has been received.',
-      'The booking page is opening now and both you and the admin team are being notified.',
+      'The calendar booking page will open first, and then this email draft will be prepared for you and the admin.',
       '',
       'Booking details:',
       `Name: ${formFields.name}`,
@@ -2302,14 +2302,18 @@
 
         const matchedLead = leadSheetLoaded ? findLeadEntry(email, phone) : null;
         const leadDetails = formatLeadDetails(matchedLead);
-        openLeadNotificationEmail(leadDetails, { name, email, phone, bottleneck });
+        const bookingUrl = 'https://calendar.app.google/f9rWn4rqWSkt83v66';
+
+        window.open(bookingUrl, '_blank');
+        setTimeout(() => {
+          openLeadNotificationEmail(leadDetails, { name, email, phone, bottleneck });
+        }, 100);
 
         if (opsForm && opsConfirmation) {
           opsForm.style.display = 'none';
           opsConfirmation.style.display = 'block';
         }
 
-        window.open('https://calendar.app.google/f9rWn4rqWSkt83v66', '_blank');
         setTimeout(() => {
           opsModal.style.display = 'none';
           if (opsForm && opsConfirmation) {

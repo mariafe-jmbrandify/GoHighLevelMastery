@@ -663,7 +663,7 @@
       <div class="phase-title">The Automation Engine</div>
     </div>
     <div class="phase-weeks">🔵 Advanced</div>
-  </div>D
+  </div>
   <div class="phase-objective">Master GHL Workflows — the absolute core of the platform.</div>
   <div class="pro-tip"><strong>Pro-Tip:</strong> If you don't have an account yet, you can use <a href="https://www.gohighlevel.com/?fp_ref=va-logistics45" target="_blank"><strong>this link to get a 14-Day Free Trial</strong></a>. This gives you full access to a sandbox sub-account so you can build out the funnels and workflows in Phase 2 and Phase 3!</div>
   <div class="phase-content">
@@ -706,7 +706,7 @@
       <div class="card-body">
         <div class="topic-item"><div class="checkbox" data-key="reporting-attribution::opportunity-reporting" onclick="toggleCheck(this)"></div><span>Opportunity reporting</span></div>
         <div class="topic-item"><div class="checkbox" data-key="reporting-attribution::attribution-reports" onclick="toggleCheck(this)"></div><span>Attribution reports</span></div>
-        <div class="topic-item"><div class="checkbox" data-key="reporting-attribution::conversion-tracking" onclick="toggleCheck(this)"></div><span>Conversion tracking</span></div>
+        <div class="topic-item"><div class="checkbox" datatoggleCheck-key="reporting-attribution::conversion-tracking" onclick="toggleCheck(this)"></div><span>Conversion tracking</span></div>
         <div class="topic-item"><div class="checkbox" data-key="reporting-attribution::funnel-analytics" onclick="toggleCheck(this)"></div><span>Funnel analytics</span></div>
         <div class="topic-item"><div class="checkbox" data-key="reporting-attribution::dashboard-metrics" onclick="toggleCheck(this)"></div><span>Dashboard metrics</span></div>
         <div class="topic-item"><div class="checkbox" data-key="reporting-attribution::client-kpi-dashboard" onclick="toggleCheck(this)"></div><span>Client KPI dashboard</span></div>
@@ -2287,7 +2287,7 @@
     }
 
     if (opsSubmit) {
-      opsSubmit.addEventListener('click', () => {
+      opsSubmit.addEventListener('click', async () => {
         const name = document.getElementById('opsName').value.trim();
         const email = document.getElementById('opsEmail').value.trim();
         const phone = document.getElementById('opsPhone').value.trim();
@@ -2299,6 +2299,21 @@
           alert('Please complete all fields before continuing to booking.');
           return;
         }
+try {
+  await fetch('https://script.google.com/macros/s/AKfycbwYCMa97iOcrc439DxYR3OrGPNo6WJKqIuBaNzvvzn5NezyKbxC_TP7GLzPx3pm8sKIIg/exec', {
+    method: 'POST',
+    body: JSON.stringify({
+      name,
+      email,
+      phone,
+      bottleneck,
+      source: 'Operations Architecture Call',
+      status: 'Pending Booking'
+    })
+  
+} catch (error) {
+  console.error('Could not save lead to Google Sheet:', error);
+}
 
         const matchedLead = leadSheetLoaded ? findLeadEntry(email, phone) : null;
         const leadDetails = formatLeadDetails(matchedLead);

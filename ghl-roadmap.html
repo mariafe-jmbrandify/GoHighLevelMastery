@@ -2317,21 +2317,21 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
 
     // Save to Google Sheet
     try {
-      await fetch('https://script.google.com/macros/s/AKfycbx98UK-_FgQqOv_9yri5MS33WSn0u783zsxdmtX5VQm9WX00CbBlLPszTzvgoUO-zg_Ng/exec', {
-  method: 'POST',
-  mode: 'no-cors',
-  headers: { 'Content-Type': 'text/plain' },
-  body: JSON.stringify({ 
-    name, 
-    email, 
-    phone, 
-    bottleneck, 
-    dateScheduled: new Date().toLocaleString(),
-    source: 'Website', 
-    status: 'New' 
-  })
-});
-    } catch(err) { console.warn('Sheet save failed:', err); }
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('email', email);
+  formData.append('phone', phone);
+  formData.append('bottleneck', bottleneck);
+  formData.append('dateScheduled', new Date().toLocaleString());
+  formData.append('source', 'Website');
+  formData.append('status', 'New');
+
+  await fetch('https://script.google.com/macros/s/AKfycbx98UK-_FgQqOv_9yri5MS33WSn0u783zsxdmtX5VQm9WX00CbBlLPszTzvgoUO-zg_Ng/exec', {
+    method: 'POST',
+    mode: 'no-cors',
+    body: formData
+  });
+} catch(err) { console.warn('Sheet save failed:', err); }
 
     window.open('https://calendar.app.google/f9rWn4rqWSkt83v66', '_blank');
     document.getElementById('opsConfirmation').style.display = 'block';

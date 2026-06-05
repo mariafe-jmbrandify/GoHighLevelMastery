@@ -2319,6 +2319,8 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
     try {
       await fetch('https://script.google.com/macros/s/AKfycbx98UK-_FgQqOv_9yri5MS33WSn0u783zsxdmtX5VQm9WX00CbBlLPszTzvgoUO-zg_Ng/exec', {
   method: 'POST',
+  mode: 'no-cors',
+  headers: { 'Content-Type': 'text/plain' },
   body: JSON.stringify({ 
     name, 
     email, 

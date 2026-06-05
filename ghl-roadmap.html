@@ -2303,40 +2303,29 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
       });
     }
 
-    if (opsSubmit) {
+   if (opsSubmit) {
   opsSubmit.addEventListener('click', async () => {
     const name = document.getElementById('opsName').value.trim();
     const email = document.getElementById('opsEmail').value.trim();
     const phone = document.getElementById('opsPhone').value.trim();
     const bottleneck = document.getElementById('opsBottleneck').value.trim();
-    const opsConfirmation = document.getElementById('opsConfirmation');
 
     if (!name || !email || !phone || !bottleneck) {
-      alert('Please complete all fields before continuing to booking.');
+      alert('Please complete all fields before continuing.');
       return;
     }
 
-    // Save to Google Sheet via Apps Script
+    // Save to Google Sheet
     try {
       await fetch('https://script.google.com/macros/s/AKfycbwYCMa97iOcrc439DxYR3OrGPNo6WJKqIuBaNzvvzn5NezyKbxC_TP7GLzPx3pm8sKIIg/exec', {
         method: 'POST',
-        body: JSON.stringify({
-          name, email, phone, bottleneck,
-          source: 'Operations Architecture Call',
-          status: 'Pending Booking'
-        })
+        body: JSON.stringify({ name, email, phone, bottleneck, source: 'Ops Call', status: 'Pending' })
       });
-    } catch (err) {
-      console.warn('Sheet save failed, continuing anyway:', err);
-    }
+    } catch(err) { console.warn('Sheet save failed:', err); }
 
-    // Open calendar and show confirmation
     window.open('https://calendar.app.google/f9rWn4rqWSkt83v66', '_blank');
-    if (opsConfirmation) opsConfirmation.style.display = 'block';
-
-    setTimeout(() => {
-      opsModal.style.display = 'none';
-    }, 2200);
+    document.getElementById('opsConfirmation').style.display = 'block';
+    setTimeout(() => { document.getElementById('opsModal').classList.remove('open'); }, 2200);
   });
 }
 
@@ -2454,11 +2443,11 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
       });
     }
 
-    if (certForm) {
-      certForm.addEventListener('submit', event => {
+  if (certForm) {
+      certForm.addEventListener('submit', async event => {
         event.preventDefault();
         if (!certPaymentStarted) {
-          alert('Please complete the payment before submitting your certification evidence.');
+          alert('Please complete the payment before submitting.');
           return;
         }
         const certName = document.getElementById('certName').value.trim();
@@ -2469,44 +2458,32 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
         const certChallenge = document.getElementById('certChallenge').value.trim();
         const certProud = document.getElementById('certProud').value.trim();
         const certAgreement = document.getElementById('certAgreement').checked;
-
         if (!certName || !certEmail || !certType || !certDriveLink || !certProblem || !certChallenge || !certProud || !certAgreement) {
-          alert('Please complete all required fields and agree to the certification terms before submitting.');
+          alert('Please complete all required fields before submitting.');
           return;
         }
-
+        try {
+          await fetch('https://script.google.com/macros/s/AKfycbwYCMa97iOcrc439DxYR3OrGPNo6WJKqIuBaNzvvzn5NezyKbxC_TP7GLzPx3pm8sKIIg/exec', {
+            method: 'POST',
+            body: JSON.stringify({ name: certName, email: certEmail, certType, driveLink: certDriveLink, problem: certProblem, source: 'Certification Submission', status: 'Pending Review' })
+          });
+        } catch(err) { console.warn('Sheet save failed:', err); }
         if (certForm && certConfirmation) {
           certForm.style.display = 'none';
           certConfirmation.style.display = 'block';
         }
-
         setTimeout(() => {
-          if (certModal) {
-            certModal.style.display = 'none';
-          }
-          if (certForm && certConfirmation) {
-            certForm.style.display = 'none';
-            certConfirmation.style.display = 'none';
-          }
+          if (certModal) certModal.classList.remove('open');
           certForm.reset();
-          if (certEmailInput) {
-            certEmailInput.value = '';
-          }
-          if (certSubmitButton) {
-            certSubmitButton.disabled = true;
-            certSubmitButton.style.opacity = '0.65';
-          }
-          if (certPaymentNotice) {
-            certPaymentNotice.textContent = 'Payment must be completed before you submit your certification evidence.';
-          }
-          if (certPaymentSuccess) {
-            certPaymentSuccess.style.display = 'none';
-          }
+          if (certEmailInput) certEmailInput.value = '';
+          if (certSubmitButton) { certSubmitButton.disabled = true; certSubmitButton.style.opacity = '0.65'; }
+          if (certPaymentNotice) certPaymentNotice.textContent = 'Payment must be completed before you submit.';
+          if (certPaymentSuccess) certPaymentSuccess.style.display = 'none';
           certPaymentStarted = false;
         }, 4000);
       });
     }
-
+    
     // re-bind click handlers in case any checkboxes were added dynamically
     checkboxes.forEach(cb => {
       cb.onclick = function(){ toggleCheck(cb); };

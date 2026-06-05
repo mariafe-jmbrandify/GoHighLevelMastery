@@ -23,6 +23,13 @@
     --green:     #4dd0e1;   /* repurposed cyan as "complete" color */
   }
 
+  .modal-overlay {
+    display: none;
+  }
+  .modal-overlay.open {
+    display: flex !important;
+  }
+
   * { margin:0; padding:0; box-sizing:border-box; }
 
   body {
@@ -1504,7 +1511,7 @@
       If you want help designing automations, workflows, sales pipelines, AI systems, and operational architecture that scales, schedule a consultation.
     </div>
     <a href="#" id="opsScheduleBtn" 
-   onclick="event.preventDefault(); document.getElementById('opsModal').style.display='flex';"
+onclick="event.preventDefault(); document.getElementById('opsModal').classList.add('open');"
    style="display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:14px 24px; border-radius:8px; background:linear-gradient(135deg, var(--cyan), var(--cyan2)); color:#000; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; text-decoration:none; transition:transform .18s ease, box-shadow .18s ease; letter-spacing:0.5px;"
    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 24px rgba(41,182,246,.3)';" 
    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
@@ -1516,7 +1523,7 @@
 <div id="opsModal" class="modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:9999; align-items:center; justify-content:center; padding:20px;">
   <div class="modal-content" style="background:var(--surface); border:1px solid rgba(255,255,255,.08); border-radius:16px; max-width:520px; width:100%; padding:28px; position:relative; box-shadow:0 24px 48px rgba(0,0,0,.45);">
 <button id="opsModalClose" 
-   onclick="document.getElementById('opsModal').style.display='none';"
+onclick="document.getElementById('opsModal').classList.remove('open');"
    style="position:absolute; top:16px; right:16px; width:34px; height:34px; border:none; border-radius:50%; background:rgba(255,255,255,.05); color:var(--text); font-size:18px; cursor:pointer;">×</button>    <div style="font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:1px; margin-bottom:12px; color:var(--white); text-align:center;">Operations Architecture Call</div>
     <p style="margin:0 0 20px; color:var(--muted); font-size:14px; line-height:1.7; text-align:center;">Tell us a bit about your biggest operations bottleneck before booking your call.</p>
     <form id="opsForm" style="display:grid; gap:14px;">
@@ -1551,7 +1558,7 @@
 <div id="certSubmissionModal" class="modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:9999; align-items:center; justify-content:center; padding:20px; overflow:auto;">
   <div class="modal-content" style="background:var(--surface); border:1px solid rgba(255,255,255,.08); border-radius:16px; max-width:760px; width:100%; padding:28px; position:relative; box-shadow:0 24px 48px rgba(0,0,0,.45);">
 <button id="certModalClose" 
-  onclick="document.getElementById('certSubmissionModal').style.display='none';"
+onclick="document.getElementById('certSubmissionModal').classList.remove('open');"
   style="position:absolute; top:16px; right:16px; width:34px; height:34px; border:none; border-radius:50%; background:rgba(255,255,255,.05); color:var(--text); font-size:18px; cursor:pointer;">×</button>    <div style="font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:1px; margin-bottom:12px; color:var(--white); text-align:center;">JM Brandify Certification Submission</div>
     <p style="margin:0 0 20px; color:var(--muted); font-size:14px; line-height:1.7; text-align:center;">Complete the payment requirement below, then submit your evidence for review.</p>
     <div style="margin-bottom:18px; padding:18px; border:1px solid rgba(255,255,255,.12); border-radius:16px; background:rgba(255,255,255,.04);">
@@ -1711,8 +1718,7 @@
       </ul>
       <div class="program-price" style="margin-top:0;">$9 Founding Member</div>
       <a class="program-button cert-submission-trigger" href="#"
-        onclick="event.preventDefault(); document.getElementById('certSubmissionModal').style.display='flex';"
-        style="justify-content:center;">Submit Portfolio</a>
+onclick="event.preventDefault(); document.getElementById('certSubmissionModal').classList.add('open');"        style="justify-content:center;">Submit Portfolio</a>
     </div>
     <div class="cert-card" style="display:flex; flex-direction:column; gap:16px;">
       <h4 style="margin:0;">🏗️ Operations Architect Certification</h4>
@@ -1724,7 +1730,7 @@
       </ul>
       <div class="program-price" style="margin-top:0;">$49 Founding Member</div>
       <a class="program-button cert-submission-trigger" href="#"
-        onclick="event.preventDefault(); document.getElementById('certSubmissionModal').style.display='flex';"
+onclick="event.preventDefault(); document.getElementById('certSubmissionModal').classList.add('open');"
         style="justify-content:center;">Submit Portfolio</a>
     </div>
   </div>
@@ -1820,7 +1826,7 @@
           <li>Submit screenshots and documentation</li>
         </ul>
 <a class="pricing-cta cert-submission-trigger" href="#"
-  onclick="event.preventDefault(); document.getElementById('certSubmissionModal').style.display='flex';">Become a Founding Member</a>      </div>
+  onclick="event.preventDefault(); document.getElementById('certSubmissionModal').classList.add('open');">Become a Founding Member</a>      </div>
 
       <div class="cert-card pricing-card">
         <div class="pricing-card-header">
@@ -1847,8 +1853,7 @@
           <li>Submit screenshots and documentation</li>
         </ul>
 <a class="pricing-cta cert-submission-trigger" href="#"
-  onclick="event.preventDefault(); document.getElementById('certSubmissionModal').style.display='flex';">Apply for Architect Certification</a>      </div>
-    </div>
+onclick="event.preventDefault(); document.getElementById('certSubmissionModal').classList.add('open');">Apply for Architect Certification    </div>
 
     <div class="value-strip">
       <div class="value-pill">Lifetime Access</div>

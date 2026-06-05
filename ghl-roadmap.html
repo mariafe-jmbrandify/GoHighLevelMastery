@@ -2287,60 +2287,41 @@
     }
 
     if (opsSubmit) {
-      opsSubmit.addEventListener('click', async () => {
-        const name = document.getElementById('opsName').value.trim();
-        const email = document.getElementById('opsEmail').value.trim();
-        const phone = document.getElementById('opsPhone').value.trim();
-        const bottleneck = document.getElementById('opsBottleneck').value.trim();
-        const opsForm = document.getElementById('opsForm');
-        const opsConfirmation = document.getElementById('opsConfirmation');
+  opsSubmit.addEventListener('click', async () => {
+    const name = document.getElementById('opsName').value.trim();
+    const email = document.getElementById('opsEmail').value.trim();
+    const phone = document.getElementById('opsPhone').value.trim();
+    const bottleneck = document.getElementById('opsBottleneck').value.trim();
+    const opsConfirmation = document.getElementById('opsConfirmation');
 
-        if (!name || !email || !phone || !bottleneck) {
-          alert('Please complete all fields before continuing to booking.');
-          return;
-        }
-try {
-  await fetch('https://script.google.com/macros/s/AKfycbwYCMa97iOcrc439DxYR3OrGPNo6WJKqIuBaNzvvzn5NezyKbxC_TP7GLzPx3pm8sKIIg/exec', {
-    method: 'POST',
-    body: JSON.stringify({
-      name,
-      email,
-      phone,
-      bottleneck,
-      source: 'Operations Architecture Call',
-      status: 'Pending Booking'
-    })
-  
-} catch (error) {
-  console.error('Could not save lead to Google Sheet:', error);
-}
-
-        const matchedLead = leadSheetLoaded ? findLeadEntry(email, phone) : null;
-        const leadDetails = formatLeadDetails(matchedLead);
-        const bookingUrl = 'https://calendar.app.google/f9rWn4rqWSkt83v66';
-
-        window.open(bookingUrl, '_blank');
-        setTimeout(() => {
-          openLeadNotificationEmail(leadDetails, { name, email, phone, bottleneck });
-        }, 100);
-
-        if (opsForm && opsConfirmation) {
-          opsForm.style.display = 'none';
-          opsConfirmation.style.display = 'block';
-        }
-
-        setTimeout(() => {
-          opsModal.style.display = 'none';
-          if (opsForm && opsConfirmation) {
-            opsForm.style.display = 'grid';
-            opsConfirmation.style.display = 'none';
-          }
-          if (opsLeadRestore) {
-            opsLeadRestore.style.display = 'none';
-          }
-        }, 2200);
-      });
+    if (!name || !email || !phone || !bottleneck) {
+      alert('Please complete all fields before continuing to booking.');
+      return;
     }
+
+    // Save to Google Sheet via Apps Script
+    try {
+      await fetch('https://script.google.com/macros/s/AKfycbwYCMa97iOcrc439DxYR3OrGPNo6WJKqIuBaNzvvzn5NezyKbxC_TP7GLzPx3pm8sKIIg/exec', {
+        method: 'POST',
+        body: JSON.stringify({
+          name, email, phone, bottleneck,
+          source: 'Operations Architecture Call',
+          status: 'Pending Booking'
+        })
+      });
+    } catch (err) {
+      console.warn('Sheet save failed, continuing anyway:', err);
+    }
+
+    // Open calendar and show confirmation
+    window.open('https://calendar.app.google/f9rWn4rqWSkt83v66', '_blank');
+    if (opsConfirmation) opsConfirmation.style.display = 'block';
+
+    setTimeout(() => {
+      opsModal.style.display = 'none';
+    }, 2200);
+  });
+}
 
     const certTriggers = document.querySelectorAll('.cert-submission-trigger');
     const certModal = document.getElementById('certSubmissionModal');

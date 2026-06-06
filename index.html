@@ -373,8 +373,8 @@
 
 .value-strip {
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(130px, 1fr));
+  display: flex;
+  grid-template-columns: repeat(3,1fr);
   gap: 12px;
   margin-top: 22px;
   margin-bottom: 18px;
@@ -404,12 +404,12 @@
 
 .founding-microcopy {
   display: block;
-  width: 100%;
+  max-width:1080px; 
   clear: both;
-  margin: 0 0 22px 0;
-  padding-top: 0;
-  text-align: center;
+  margin:0 auto 18px; 
+  padding:0 24px 12px;
   position: relative;
+  z-index:1; 
 }
 
 @media (max-width: 900px) {

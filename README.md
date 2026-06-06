@@ -1,45 +1,71 @@
 # GoHighLevelMastery
-A comprehensive, step-by-step learning path to mastering GoHighLevel (GHL) from scratch. This repository tracks my technical progression through sub-account architectures, custom landing page builds, advanced Zapier automations, and scalable snapshot deployments."
-> 💡 **Pro-Tip:** If you don't have an account yet, you can use [**this link to get a 14-Day Free Trial**](https://www.gohighlevel.com?fp_ref=va-logistics45). This gives you full access to a sandbox sub-account so you can build out the funnels and workflows in Phase 2 and Phase 3!
-## 🗺️ The 12-Week Roadmap Breakdown
 
-### 📍 Phase 1: Interface & Contacts Setup
- * **The Goal:** Master the core infrastructure of GoHighLevel. 
- * **Overview:** Learn how to comfortably navigate the agency dashboard versus sub-account views. You will master contact management, smart lists, importing/exporting lead data, and configuring essential compliance settings so your data stays organized from day one.
+A launch-ready GoHighLevel learning roadmap by JM Brandify. The site includes a phase-by-phase mastery path, resource downloads, certification offers, scheduling forms, PayPal payment entry points, and Google Sheet lead capture hooks.
 
-### 📍 Phase 2: Funnels, Pipelines & Calendars
- * **The Goal:** Build the customer-facing frontend and sales tracking backend.
- * **Overview:** Dive into the drag-and-drop page builder to create high-converting landing pages and lead forms. You'll also learn how to map out visual sales pipelines to track deals, and set up automated team calendars that eliminate back-and-forth scheduling emails.
+## Launch Files
 
-### 📍 Phase 3: Workflows & Automation Logic ⚡
- * **The Goal:** Eliminate repetitive tasks and build hands-free business operations.
- * **Overview:** This is the heart of RevOps. You will learn to use the GHL Workflow Builder to create automated text/email follow-ups, set up conditional "if/then" logic, assign leads to team members automatically, and build triggers based on customer actions.
+- `index.html` - main public launch page
+- `ghl-roadmap.html` - older backup roadmap page
+- `resources/` - downloadable PDFs and CSV fallback data
+- `.github/workflows/pages.yml` - GitHub Pages deployment workflow
 
-### 📍 Phase 4: Snapshots, SaaS Mode & Scaling
- * **The Goal:** Productize your setups and turn GHL into a scalable business model.
- * **Overview:** Learn how to bundle your entire sub-account setup (funnels, workflows, and pipelines) into a "Snapshot" that you can clone for new clients in seconds. You'll also explore SaaS Mode architecture to automatically provision accounts and resell the software.
+## Local Preview
 
-### 📍 Phase 5: API v2, Webhooks & Custom Integrations
- * **The Goal:** Break past GHL's boundaries and connect with the external tech stack.
- * **Overview:** Transition into advanced automation by learning how to use webhooks to push data out of GHL, catch data coming from external apps, and utilize GHL’s API v2 alongside platforms like Zapier to create complex, multi-platform software ecosystems.
----
+Run a local web server from the repository root so CSV loading and browser APIs behave like production:
 
-## 👩‍💻 About the Author
+```bash
+python -m http.server 8000
+```
 
-<table>
-  <tr>
-    <td width="150px">
-      <!-- This line pulls your uploaded profile photo and displays it as a clean circle -->
-      <img src="Maria.png" width="150px" style="border-radius: 50%;" alt="Maria Fe Blanca"/>
-    </td>
-    <td>
-      <strong>Maria Fe Blanca</strong><br/>
-      <em>Operations & Automation Specialist & Logistics Coordinator</em><br/><br/>
-      I am a professional with over 8 years of experience helping businesses run smoothly by keeping projects on schedule, tracking vital documents, and managing remote teams.<br/><br/>
-      I specialize in technical automation and no-code workflows. I design lead funnels, build custom CRM integrations, and deploy scalable systems using platforms like <strong>GoHighLevel</strong>, <strong>Zapier</strong>, and <strong>HubSpot</strong> to cut down office delays, eliminate messy paperwork, and ensure zero dropped balls.
-    </td>
-  </tr>
-</table>
+Then open:
 
-* 💼 **Connect with me on LinkedIn:** [Maria Fe Blanca](https://www.linkedin.com/in/maria-fe-blanca-754a1a267)
-* 📬 **Work Inquiries:** [maria@jmbrandify.com](mailto:maria@jmbrandify.com)
+```text
+http://localhost:8000
+```
+
+## Pre-Launch Checklist
+
+- Confirm `index.html` loads as the homepage.
+- Confirm mobile layout for the hero, roadmap cards, pricing cards, and modals.
+- Click several checklist items and confirm progress saves after refresh.
+- Test the reset progress button.
+- Confirm all PDF download links in `resources/` work.
+- Confirm `resources/roadmap_sheet.csv` loads as a fallback if the live Google Sheet is unavailable.
+- Submit the Operations Architecture Call form with a test lead.
+- Confirm the Google Apps Script receives that lead.
+- Confirm the calendar link opens correctly.
+- Test both PayPal certification selections.
+- Confirm the certification form unlocks after the payment flow starts/completes.
+- Submit a certification test entry and confirm the Apps Script receives it.
+
+## GitHub Pages Launch
+
+1. Push the repo to GitHub.
+2. In GitHub, open **Settings > Pages**.
+3. Set the source to **GitHub Actions**.
+4. Push to `main` or run the `GitHub Pages` workflow manually.
+5. Open the published Pages URL and run the pre-launch checklist again.
+
+## Live Integrations To Verify
+
+The launch page currently references:
+
+- Google Sheet CSV source: `1vfGGbV2wOdOCqrp0W_02poc6df7aNq1eXRpo_k63s5s`
+- Booking calendar: `https://calendar.app.google/f9rWn4rqWSkt83v66`
+- Operations lead Google Apps Script endpoint
+- Certification submission Google Apps Script endpoint
+- PayPal hosted buttons for GHL Mastery Practitioner and Operations Architect Certification
+
+Keep those URLs current before launch.
+
+## Privacy Note
+
+The page collects names, emails, phone numbers, payment-related certification intent, and portfolio submission details. Before public launch, add a clear privacy/contact note and make sure your Google Sheet, Apps Script, and PayPal settings are configured for production use.
+
+## Author
+
+Maria Fe Blanca  
+Operations & Automation Specialist and Logistics Coordinator
+
+- LinkedIn: [Maria Fe Blanca](https://www.linkedin.com/in/maria-fe-blanca-754a1a267)
+- Work inquiries: [maria@jmbrandify.com](mailto:maria@jmbrandify.com)

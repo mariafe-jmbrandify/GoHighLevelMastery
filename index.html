@@ -1537,7 +1537,33 @@ onclick="document.getElementById('opsModal').classList.remove('open');"
         <input id="opsPhone" type="tel" placeholder="(123) 456-7890" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
       </label>
       <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">What is your primary operational bottleneck?
-        <textarea id="opsBottleneck" rows="4" placeholder="Describe your main challenge" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px; resize:vertical;" required></textarea>
+        <select id="opsBottleneck" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
+          <option value="">Select bottleneck</option>
+          <option value="Lead Generation">Lead Generation</option>
+          <option value="Lead Follow-Up">Lead Follow-Up</option>
+          <option value="Sales Process">Sales Process</option>
+          <option value="CRM Organization">CRM Organization</option>
+          <option value="Pipeline Management">Pipeline Management</option>
+          <option value="Automation">Automation</option>
+          <option value="Appointment Setting">Appointment Setting</option>
+          <option value="Client Onboarding">Client Onboarding</option>
+          <option value="Reporting">Reporting</option>
+          <option value="Team Accountability">Team Accountability</option>
+        </select>
+      </label>
+      <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">How did you find us?
+        <select id="opsSource" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
+          <option value="">Select source</option>
+          <option value="Facebook">Facebook</option>
+          <option value="Instagram">Instagram</option>
+          <option value="Website">Website</option>
+          <option value="Referral">Referral</option>
+          <option value="Google Search">Google Search</option>
+          <option value="LinkedIn">LinkedIn</option>
+          <option value="YouTube">YouTube</option>
+          <option value="Email Campaign">Email Campaign</option>
+          <option value="Cold Outreach">Cold Outreach</option>
+        </select>
       </label>
       <div style="display:grid; gap:12px;">
         <button type="button" id="opsSubmit" style="width:100%; padding:14px 16px; border:none; border-radius:10px; background:linear-gradient(135deg, var(--cyan), var(--cyan2)); color:#000; font-weight:700; cursor:pointer;">Continue to Booking</button>
@@ -2309,27 +2335,29 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
     const email = document.getElementById('opsEmail').value.trim();
     const phone = document.getElementById('opsPhone').value.trim();
     const bottleneck = document.getElementById('opsBottleneck').value.trim();
+    const source = document.getElementById('opsSource').value.trim();
 
-    if (!name || !email || !phone || !bottleneck) {
+    if (!name || !email || !phone || !bottleneck || !source) {
       alert('Please complete all fields before continuing.');
       return;
     }
 
-    // Save to Google Sheet
+    // Save the booking request before sending the visitor to Google Calendar.
     try {
-  const formData = new FormData();
-  formData.append('name', name);
-  formData.append('email', email);
-  formData.append('phone', phone);
-  formData.append('bottleneck', bottleneck);
-  formData.append('dateScheduled', new Date().toLocaleString());
-  formData.append('source', 'Website');
-  formData.append('status', 'New');
-
   await fetch('https://script.google.com/macros/s/AKfycbx98UK-_FgQqOv_9yri5MS33WSn0u783zsxdmtX5VQm9WX00CbBlLPszTzvgoUO-zg_Ng/exec', {
     method: 'POST',
     mode: 'no-cors',
-    body: formData
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({
+      type: 'booking',
+      name,
+      email,
+      phone,
+      bottleneck,
+      dateScheduled: new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }),
+      source,
+      status: 'New'
+    })
   });
 } catch(err) { console.warn('Sheet save failed:', err); }
 

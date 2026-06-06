@@ -366,6 +366,53 @@
     .phase-objective,.phase-content{margin-left:60px}
     .brand-logo{flex-wrap:wrap;justify-content:center}
   }
+/* Fix founding offer value strip overlap */
+.founding-offer {
+  overflow: hidden;
+}
+
+.value-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(130px, 1fr));
+  gap: 12px;
+  margin-top: 22px;
+  margin-bottom: 18px;
+}
+
+.value-pill {
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px 14px;
+  white-space: normal;
+}
+
+.urgency-bar {
+  width: 100%;
+  display: block;
+  margin: 0 0 18px 0;
+  text-align: center;
+  padding: 14px 18px;
+  box-sizing: border-box;
+}
+
+.founding-microcopy {
+  clear: both;
+}
+
+@media (max-width: 900px) {
+  .value-strip {
+    grid-template-columns: repeat(2, minmax(130px, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .value-strip {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
 <body>

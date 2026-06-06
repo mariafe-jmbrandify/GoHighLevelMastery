@@ -1551,6 +1551,9 @@ onclick="document.getElementById('opsModal').classList.remove('open');"
           <option value="Team Accountability">Team Accountability</option>
         </select>
       </label>
+      <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">Tell us more about the bottleneck:
+        <textarea id="opsBottleneckDetails" rows="4" placeholder="Briefly describe what is happening, what is stuck, or what you want to improve." style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px; resize:vertical;" required></textarea>
+      </label>
       <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">How did you find us?
         <select id="opsSource" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
           <option value="">Select source</option>
@@ -2335,9 +2338,10 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
     const email = document.getElementById('opsEmail').value.trim();
     const phone = document.getElementById('opsPhone').value.trim();
     const bottleneck = document.getElementById('opsBottleneck').value.trim();
+    const bottleneckDetails = document.getElementById('opsBottleneckDetails').value.trim();
     const source = document.getElementById('opsSource').value.trim();
 
-    if (!name || !email || !phone || !bottleneck || !source) {
+    if (!name || !email || !phone || !bottleneck || !bottleneckDetails || !source) {
       alert('Please complete all fields before continuing.');
       return;
     }
@@ -2354,6 +2358,7 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
       email,
       phone,
       bottleneck,
+      bottleneckDetails,
       dateScheduled: new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }),
       source,
       status: 'New'

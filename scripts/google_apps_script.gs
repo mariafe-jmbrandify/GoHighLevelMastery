@@ -4,7 +4,7 @@
 // - Who has access: Anyone
 //
 // Sheet columns expected:
-// Name | Email | Phone Number | Primary Bottle Neck | Date Scheduled | Source | Status
+// Name | Email | Phone Number | Primary Bottle Neck | Bottleneck Details | Date Scheduled | Source | Status
 
 const SHEET_ID = '1vfGGbV2wOdOCqrp0W_02poc6df7aNq1eXRpo_k63s5s';
 const SHEET_NAME = 'Schedule Booked';
@@ -18,15 +18,20 @@ function doPost(e) {
       return json_({ success: false, error: `Sheet not found: ${SHEET_NAME}` });
     }
 
-    sheet.appendRow([
-      payload.name || '',
-      payload.email || '',
-      payload.phone || '',
-      payload.bottleneck || payload.primaryBottleneck || '',
-      payload.dateScheduled || nowEastern_(),
-      payload.source || 'Website',
-      payload.status || 'New'
-    ]);
+    ensureBookingHeaders_(sheet);
+
+    const row = buildHeaderMappedRow_(sheet, {
+      'Name': payload.name || '',
+      'Email': payload.email || '',
+      'Phone Number': payload.phone || '',
+      'Primary Bottle Neck': payload.bottleneck || payload.primaryBottleneck || '',
+      'Bottleneck Details': payload.bottleneckDetails || payload.bottleneckIssueDetails || '',
+      'Date Scheduled': payload.dateScheduled || nowEastern_(),
+      'Source': payload.source || 'Website',
+      'Status': payload.status || 'New'
+    });
+
+    sheet.appendRow(row);
 
     return json_({
       success: true,
@@ -62,6 +67,43 @@ function parsePayload_(e) {
 
 function nowEastern_() {
   return Utilities.formatDate(new Date(), 'America/New_York', 'M/d/yyyy h:mm:ss a');
+}
+
+function ensureBookingHeaders_(sheet) {
+  const requiredHeaders = [
+    'Name',
+    'Email',
+    'Phone Number',
+    'Primary Bottle Neck',
+    'Bottleneck Details',
+    'Date Scheduled',
+    'Source',
+    'Status'
+  ];
+  const existingHeaders = getHeaders_(sheet);
+
+  if (!existingHeaders.length) {
+    sheet.getRange(1, 1, 1, requiredHeaders.length).setValues([requiredHeaders]);
+    return;
+  }
+
+  if (!existingHeaders.includes('Bottleneck Details')) {
+    const bottleneckIndex = existingHeaders.indexOf('Primary Bottle Neck');
+    const insertAfter = bottleneckIndex >= 0 ? bottleneckIndex + 1 : 4;
+    sheet.insertColumnAfter(insertAfter);
+    sheet.getRange(1, insertAfter + 1).setValue('Bottleneck Details');
+  }
+}
+
+function buildHeaderMappedRow_(sheet, valuesByHeader) {
+  const headers = getHeaders_(sheet);
+  return headers.map(header => valuesByHeader[header] || '');
+}
+
+function getHeaders_(sheet) {
+  const lastColumn = sheet.getLastColumn();
+  if (!lastColumn) return [];
+  return sheet.getRange(1, 1, 1, lastColumn).getValues()[0].map(value => String(value).trim());
 }
 
 function json_(value) {

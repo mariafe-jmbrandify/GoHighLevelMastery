@@ -373,10 +373,10 @@
 
 .value-strip {
   display: grid;
-  grid-template-columns: repeat(4, minmax(130px, 1fr));
+  grid-template-columns: repeat(5, minmax(130px, 1fr));
   gap: 12px;
   margin-top: 22px;
-  margin-bottom: 8px;
+  margin-bottom: 18px;
   align-items: stretch;
 }
 
@@ -391,13 +391,20 @@
 }
 
 .urgency-bar {
-  width: 100%;
-  display: block;
-  grid-column: 1 / -1;
-  margin: 0 0 10px 0;
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 24px 28px;
-  box-sizing: border-box;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(255, 193, 7, .08);
+  border: 1px solid rgba(255, 193, 7, .35);
+  color: #ffd54f;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .5px;
 }
 
 .founding-microcopy {
@@ -1940,9 +1947,9 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
       <div class="value-pill">Toolkit Additions</div>
       <div class="value-pill">Certification Review</div>
       <div class="value-pill">Founding Member Recognition</div>
+      <div class="urgency-bar">Limited to the First 20 Graduates</div>
     </div>
 
-    <div class="urgency-bar">Limited to the First 20 Graduates</div>
     <div class="founding-microcopy">You are certified for building working GoHighLevel systems, not just watching lessons.</div>
   </div>
 

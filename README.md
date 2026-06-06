@@ -1,4 +1,4 @@
-# GoHighLevelMastery
+﻿# GoHighLevelMastery
 
 A launch-ready GoHighLevel learning roadmap by JM Brandify. The site includes a phase-by-phase mastery path, resource downloads, certification offers, scheduling forms, PayPal payment entry points, and Google Sheet lead capture hooks.
 

@@ -1,4 +1,4 @@
-# Certification Follow-Up Template
+﻿# Certification Follow-Up Template
 
 Subject: Your JM Brandify certification submission needs revisions
 

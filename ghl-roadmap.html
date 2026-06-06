@@ -23,6 +23,13 @@
     --green:     #4dd0e1;   /* repurposed cyan as "complete" color */
   }
 
+  .modal-overlay {
+    display: none;
+  }
+  .modal-overlay.open {
+    display: flex !important;
+  }
+
   * { margin:0; padding:0; box-sizing:border-box; }
 
   body {
@@ -130,11 +137,11 @@
 
   /* ── PROGRESS ── */
   .progress-section { position:relative; z-index:1; max-width:1080px; margin:0 auto; padding:0 24px 44px; }
-  .progress-bar-wrap { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:22px 26px; }
-  .progress-label { display:flex; justify-content:space-between; margin-bottom:10px; }
+  .progress-bar-wrap { display:flex; flex-direction:column; align-items:flex-end; gap:14px; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:22px 26px; }
+  .progress-label { display:flex; justify-content:space-between; width:100%; margin-bottom:10px; }
   .progress-label span { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
   .progress-label .pct { color:var(--cyan); }
-  .progress-track { height:5px; background:var(--border); border-radius:99px; overflow:hidden; }
+  .progress-track { width:100%; height:5px; background:var(--border); border-radius:99px; overflow:hidden; }
   .progress-fill { height:100%; background:linear-gradient(90deg, var(--navy2), var(--cyan)); border-radius:99px; width:0%; transition:width .8s cubic-bezier(.22,1,.36,1); }
 
   /* ── PHASES ── */
@@ -218,19 +225,132 @@
 
   .cert-card { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:18px; display:flex; gap:14px; align-items:flex-start; transition:border-color .2s,transform .2s; }
   .cert-card:hover { border-color:rgba(41,182,246,.35); transform:translateY(-2px); }
+  .program-cards { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:24px; }
+  .program-card { display:flex; flex-direction:column; gap:16px; }
+  .program-card-title { font-size:20px; font-weight:700; color:var(--white); margin-bottom:6px; }
+  .program-price { font-size:32px; font-family:'Bebas Neue',sans-serif; color:var(--cyan); line-height:1; }
+  .program-regular { font-size:12px; color:var(--muted); text-decoration:line-through; margin-top:4px; }
+  .program-description { color:var(--text); font-size:13px; line-height:1.75; }
+  .program-list { list-style:none; margin:0; padding:0; display:grid; gap:10px; color:#a8b8d8; font-size:13px; }
+  .program-list li { display:flex; align-items:flex-start; gap:10px; }
+  .program-list li::before { content:'✓'; color:var(--cyan); flex-shrink:0; }
+  .program-best-for { font-size:13px; color:var(--muted); line-height:1.7; }
+  .program-button { display:inline-flex; align-items:center; justify-content:center; padding:14px 16px; border-radius:10px; background:linear-gradient(135deg, var(--cyan), var(--cyan2)); color:#000; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; text-decoration:none; transition:transform .18s ease, box-shadow .18s ease; }
+  .program-button:hover { transform:translateY(-1px); box-shadow:0 10px 24px rgba(41,182,246,.18); }
+  .program-summary { display:grid; grid-template-columns:repeat(2,minmax(280px,1fr)); gap:14px; margin-top:20px; }
+  .cert-two-column { display:grid; grid-template-columns:repeat(2,minmax(300px,1fr)); gap:12px; margin-top:16px; }
+  @media(max-width:900px){ .cert-two-column { grid-template-columns:1fr; } }
+  .program-summary-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:20px; }
+  .program-summary-card h4 { margin:0 0 10px; font-size:16px; color:var(--white); }
+  .program-summary-card p { margin:0 0 16px; color:var(--muted); font-size:13px; line-height:1.7; }
+  .program-summary-list { list-style:none; margin:0; padding:0; display:grid; gap:10px; color:#a8b8d8; font-size:13px; }
+  .program-summary-list li { display:flex; align-items:flex-start; gap:10px; }
+  .program-summary-list li::before { content:'•'; color:var(--cyan); line-height:1.3; }
+  .program-label { font-size:11px; color:var(--cyan2); letter-spacing:1.5px; text-transform:uppercase; margin-top:-2px; }
+  .founding-offer { background:linear-gradient(180deg, rgba(10,13,32,.95), rgba(10,13,32,.99)); border:1px solid rgba(77,208,225,.25); border-radius:18px; padding:28px; margin-bottom:28px; box-shadow:0 18px 40px rgba(41,182,246,.08); }
+  .founding-offer-header { display:flex; flex-direction:column; gap:10px; text-align:center; max-width:820px; margin:0 auto 24px; }
+  .founding-offer-title { font-family:'Bebas Neue',sans-serif; font-size:34px; letter-spacing:1px; color:var(--white); margin:0; }
+  .founding-offer-subtitle { color:var(--muted); font-size:15px; line-height:1.8; max-width:760px; margin:0 auto; }
+  .founding-badge { display:inline-flex; align-items:center; justify-content:center; margin:0 auto; padding:10px 18px; border-radius:999px; background:linear-gradient(135deg, rgba(255,215,140,.12), rgba(255,215,140,.04)); border:1px solid rgba(255,215,140,.25); color:#ffd96f; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1px; text-transform:uppercase; }
+  .pricing-grid { display:grid; grid-template-columns:repeat(2,minmax(260px,1fr)); gap:18px; margin-bottom:18px; }
+  .pricing-card { background:linear-gradient(180deg, rgba(10,13,32,.92), rgba(10,13,32,.99)); border:1px solid rgba(41,182,246,.22); border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:18px; }
+  .pricing-card:hover { border-color:rgba(77,208,225,.35); box-shadow:0 16px 32px rgba(41,182,246,.15); transform:translateY(-2px); }
+  .pricing-card-header { display:flex; flex-direction:column; gap:6px; }
+  .pricing-card-title { font-size:22px; font-family:'Bebas Neue',sans-serif; color:var(--white); margin:0; }
+  .pricing-price { font-size:40px; font-family:'Bebas Neue',sans-serif; color:var(--cyan); line-height:1; margin:0; }
+  .pricing-regular { font-size:12px; color:var(--muted); text-decoration:line-through; margin:0; }
+  .pricing-description { color:var(--text); font-size:13px; line-height:1.8; margin:0; }
+  .pricing-list { list-style:none; margin:0; padding:0; display:grid; gap:10px; color:#a8b8d8; font-size:13px; }
+  .pricing-list li { display:flex; align-items:flex-start; gap:10px; }
+  .pricing-list li::before { content:'✓'; color:var(--cyan); flex-shrink:0; margin-top:3px; }
+  .pricing-cta { display:inline-flex; align-items:center; justify-content:center; padding:14px 16px; border-radius:12px; background:linear-gradient(135deg, var(--cyan), var(--cyan2)); color:#000; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; text-decoration:none; transition:transform .18s ease, box-shadow .18s ease; }
+  .pricing-cta:hover { transform:translateY(-1px); box-shadow:0 14px 30px rgba(41,182,246,.18); }
+  .value-strip { display:grid; grid-template-columns:repeat(4,minmax(140px,1fr)); gap:12px; margin-bottom:18px; }
+  .value-pill { padding:12px 14px; border-radius:12px; background:rgba(41,182,246,.08); border:1px solid rgba(41,182,246,.18); color:var(--cyan2); font-size:12px; text-align:center; font-family:'DM Mono',monospace; text-transform:uppercase; letter-spacing:1px; }
+  .urgency-bar { background:rgba(255,215,140,.08); border:1px solid rgba(255,215,140,.25); color:#ffd96f; padding:14px 18px; border-radius:12px; font-family:'DM Sans',sans-serif; font-weight:700; text-align:center; letter-spacing:0.5px; }
+  .founding-microcopy { color:var(--muted); font-size:12px; line-height:1.75; text-align:center; margin-top:14px; }
+  .workflow-section { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px; margin-top:24px; }
+  .workflow-section h4 { margin:0 0 16px; font-size:20px; color:var(--white); font-family:'Bebas Neue',sans-serif; }
+  .workflow-step { display:grid; gap:10px; margin-top:16px; }
+  .workflow-step-title { font-size:15px; font-weight:700; color:var(--white); }
+  .workflow-step-copy { color:var(--muted); font-size:13px; line-height:1.8; }
+  .workflow-note { margin-top:18px; color:var(--cyan2); font-size:13px; line-height:1.7; }
+  .bonus-phase-grid { display:grid; grid-template-columns:repeat(2,minmax(295px,1fr)); gap:14px; margin-top:12px; }
+  .capstone-card { background:linear-gradient(180deg, rgba(10,13,32,.95), rgba(10,13,32,.99)); border:1px solid rgba(41,182,246,.24); border-radius:16px; padding:24px; margin-top:24px; box-shadow:0 18px 40px rgba(41,182,246,.08); }
+  .capstone-card h4 { margin:0 0 10px; font-size:22px; color:var(--white); }
+  .capstone-card p { margin:0 0 16px; color:var(--muted); font-size:14px; line-height:1.8; }
+  .capstone-list { list-style:none; margin:0; padding:0; display:grid; gap:10px; color:#a8b8d8; font-size:13px; }
+  .capstone-list li { display:flex; align-items:flex-start; gap:10px; }
+  .capstone-list li::before { content:'✓'; color:var(--cyan); margin-top:3px; }
+  .capstone-deliverable { margin-top:16px; font-size:13px; color:var(--text); line-height:1.8; }
+  .career-paths { margin-top:28px; }
+  .career-grid { display:grid; grid-template-columns:repeat(4,minmax(200px,1fr)); gap:14px; margin-top:16px; }
+  .career-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px; display:flex; flex-direction:column; gap:12px; }
+  .career-card-title { font-size:16px; font-weight:700; color:var(--white); margin:0; }
+  .career-card-section { display:grid; gap:8px; }
+  .career-card-section span { display:inline-flex; align-items:center; gap:8px; font-size:13px; color:#a8b8d8; }
+  .career-card-section span::before { content:'•'; color:var(--cyan); }
+  .resource-links-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:20px; }
+  .resource-link-item { background:rgba(41,182,246,.05); border:1px solid rgba(41,182,246,.18); border-radius:12px; padding:18px; color:var(--text); }
+  .resource-link-item h4 { margin:0 0 8px; font-size:14px; color:var(--white); }
+  .resource-link-item p { margin:0; color:var(--muted); font-size:12px; line-height:1.7; }
+  .cert-connection { background:rgba(41,182,246,.08); border:1px solid rgba(41,182,246,.24); border-radius:14px; padding:20px; margin-top:22px; color:var(--cyan2); font-size:14px; line-height:1.8; }
+  .cert-connection strong { color:var(--white); }
+  @media(max-width:900px){ .pricing-grid, .career-grid, .resource-links-grid, .bonus-phase-grid { grid-template-columns:1fr; } }
+  .founding-note { background:rgba(41,182,246,.08); border:1px solid rgba(41,182,246,.22); border-radius:12px; padding:20px; color:var(--cyan2); font-size:13px; line-height:1.8; margin-top:24px; }
+  .founding-note strong { display:block; color:var(--white); margin-bottom:8px; }
+  .founding-note ul { list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+  .founding-note li { display:flex; align-items:flex-start; gap:10px; }
+  .founding-note li::before { content:'•'; color:var(--cyan); line-height:1.3; }
+  .cert-statement { background:rgba(26,35,126,.16); border:1px solid rgba(41,182,246,.18); border-radius:12px; padding:20px; color:var(--text); font-size:13px; line-height:1.75; text-align:center; margin-top:18px; }
+  @media(max-width:900px){ .program-cards, .program-summary { grid-template-columns:1fr; } }
+  .cert-card:hover { border-color:rgba(41,182,246,.35); transform:translateY(-2px); }
   .cert-num { font-family:'Bebas Neue',sans-serif; font-size:30px; line-height:1; flex-shrink:0;
     background:linear-gradient(135deg, var(--navy3), var(--cyan));
     -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
   }
-  .cert-info h4 { font-size:14px; font-weight:600; margin-bottom:4px; color:var(--white); }
+  .cert-info h4 { font-size:14px; font-weight:600; margin-bottom:4px; color:var(--white); display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .pdf-badge { display:inline-flex; align-items:center; justify-content:center; padding:2px 6px; background:rgba(41,182,246,.12); border:1px solid rgba(41,182,246,.22); color:var(--cyan); font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1px; border-radius:999px; text-transform:uppercase; }
   .cert-info p { font-size:12px; color:var(--muted); line-height:1.5; }
   .cert-tag { display:inline-block; margin-top:7px; background:rgba(41,182,246,.1); border:1px solid rgba(41,182,246,.25); color:var(--cyan); font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1px; padding:2px 7px; border-radius:2px; text-transform:uppercase; }
   .cert-res { margin-top:10px; display:flex; flex-direction:column; gap:4px; }
 
+  .glossary-section { max-width:1080px; margin:0 auto 44px; padding:0 24px; }
+  .glossary-header { font-family:'Bebas Neue',sans-serif; font-size:32px; letter-spacing:1px; color:var(--white); margin-bottom:8px; text-align:center; }
+  .glossary-sub { text-align:center; color:var(--muted); font-size:13px; margin-bottom:20px; }
+  .glossary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+  .glossary-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px; cursor:pointer; transition:border-color .2s, box-shadow .2s, transform .2s; }
+  .glossary-card:hover { transform:translateY(-1px); border-color:rgba(41,182,246,.2); box-shadow:0 10px 26px rgba(0,0,0,.16); }
+  .glossary-card.active { border-color:rgba(41,182,246,.35); box-shadow:0 14px 34px rgba(41,182,246,.15); }
+  .glossary-term { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--cyan); margin-bottom:6px; cursor:pointer; }
+  .glossary-definition { display:none; color:var(--text); font-size:14px; line-height:1.6; margin-top:10px; }
+  .glossary-card.active .glossary-definition { display:block; }
+
+  .reset-btn { margin-top:14px; align-self:flex-end; padding:10px 14px; border:none; border-radius:8px; background:rgba(41,182,246,.16); color:var(--cyan); font-family:'DM Sans',sans-serif; font-size:12px; letter-spacing:.5px; cursor:pointer; transition:transform .15s ease, background .15s ease; }
+  .reset-btn:hover { background:rgba(41,182,246,.25); transform:translateY(-1px); }
+  .glossary-search { width:100%; max-width:420px; margin:0 auto 18px; padding:12px 14px; border:1px solid var(--border); border-radius:8px; background:var(--surface2); color:var(--text); font-family:'DM Sans',sans-serif; font-size:13px; }
+  .glossary-search:focus { outline:none; border-color:var(--cyan); box-shadow:0 0 0 3px rgba(41,182,246,.12); }
+  .glossary-group { margin-bottom:28px; }
+  .glossary-group-header { font-family:'DM Sans',sans-serif; font-size:13px; color:var(--cyan2); letter-spacing:1px; text-transform:uppercase; margin-bottom:12px; }
+  .affiliate-disclosure { max-width:1080px; margin:0 auto 24px; padding:12px 18px; border:1px solid rgba(41,182,246,.18); border-radius:10px; background:rgba(41,182,246,.06); color:var(--muted); font-size:12px; line-height:1.6; text-align:center; }
+
   /* ── FOOTER ── */
   .footer { position:relative; z-index:1; text-align:center; padding:32px 24px 48px; }
-  .footer-brand { font-family:'Great Vibes', cursive; font-size:22px; background:linear-gradient(135deg, var(--cyan) 0%, var(--cyan2) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:6px; }
+  .footer-brand { display:inline-flex; align-items:center; justify-content:center; margin-bottom:16px; gap:24px; }
+  .footer-brand .brand-divider { margin:0 12px; }
+  .footer-brand img.footer-logo { height:40px; width:auto; display:block; }
   .footer-tagline { font-size:11px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; font-family:'DM Mono',monospace; }
+
+  .top-bar { position:sticky; top:0; z-index:10; backdrop-filter:blur(16px); background:rgba(0,0,0,.82); border-bottom:1px solid rgba(255,255,255,.08); }
+  .top-bar-inner { max-width:1080px; margin:0 auto; padding:12px 24px; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .top-bar-copy { color:var(--cyan2); font-family:'DM Mono',monospace; font-size:13px; }
+  .top-bar-button { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:11px 18px; border-radius:999px; background:linear-gradient(135deg, var(--cyan), var(--cyan2)); color:#000; font-family:'DM Sans',sans-serif; font-size:12px; font-weight:700; text-decoration:none; transition:transform .18s ease, box-shadow .18s ease; }
+  .top-bar-button:hover { transform:translateY(-1px); box-shadow:0 18px 30px rgba(41,182,246,.22); }
+  .upgrade-note { margin:14px 18px 0; padding:13px 14px; border-radius:10px; background:rgba(41,182,246,.1); border:1px solid rgba(41,182,246,.24); color:var(--cyan2); font-size:13px; line-height:1.6; }
+  .upgrade-note a { color:var(--white); text-decoration:underline; }
+  .pro-tip { margin:16px 0 0 70px; padding:14px 16px; border-radius:10px; background:rgba(41,182,246,.08); border-left:3px solid var(--cyan); color:var(--text); font-size:13px; line-height:1.65; }
+  .pro-tip strong { color:var(--cyan2); }
+  .pro-tip a { color:var(--cyan2); text-decoration:underline; }
 
   /* ── DIVIDER ── */
   .divider { position:relative; z-index:1; max-width:1080px; margin:0 auto 44px; padding:0 24px; }
@@ -250,6 +370,13 @@
 </head>
 <body>
 
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <div class="top-bar-copy">Need advanced access for SaaS mode and API workflows?</div>
+    <a class="top-bar-button" href="https://www.gohighlevel.com?fp_ref=va-logistics45" target="_blank">🚀 Upgrade to Pro Sandbox Access</a>
+  </div>
+</div>
+
 <!-- HERO -->
 <section class="hero">
   <div class="brand-logo">
@@ -257,7 +384,7 @@
     <div class="brand-divider"></div>
     <div class="brand-name">Brandify</div>
     <div class="brand-divider"></div>
-    <div class="brand-tagline">Systems that flow.<br>Designs that connect.</div>
+    <div class="brand-tagline">Automate the Noise. Lead the Mission.<br>We don't guess. We engineer.</div>
   </div>
   <div class="badge">Complete Learning Path · 2026 Edition</div>
   <h1>GoHighLevel<br>Mastery</h1>
@@ -265,7 +392,8 @@
   <div class="stats-row">
     <div class="stat"><div class="stat-num">5</div><div class="stat-label">Phases</div></div>
     <div class="stat"><div class="stat-num">12+</div><div class="stat-label">Weeks</div></div>
-    <div class="stat"><div class="stat-num">3</div><div class="stat-label">Certifications</div></div>
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">Capstones</div></div>
+    <div class="stat"><div class="stat-num">2</div><div class="stat-label">Certifications</div></div>
     <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Video Guides</div></div>
   </div>
 </section>
@@ -278,6 +406,7 @@
       <span class="pct" id="progressPct">0%</span>
     </div>
     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <button class="reset-btn" id="resetProgressBtn" type="button">Reset Progress</button>
   </div>
 </div>
 
@@ -295,6 +424,7 @@
     <div class="phase-weeks">🔷 Beginner</div>
   </div>
   <div class="phase-objective">Understand the ecosystem, terminology, and how information moves within a single sub-account.</div>
+  <div class="pro-tip"><strong>Pro-Tip:</strong> If you don't have an account yet, you can use <a href="https://www.gohighlevel.com/?fp_ref=va-logistics45" target="_blank"><strong>this link to get a 14-Day Free Trial</strong></a>. This gives you full access to a sandbox sub-account so you can build out the funnels and workflows in Phase 2 and Phase 3!</div>
   <div class="phase-content">
 
     <div class="module-card">
@@ -309,7 +439,9 @@
         <div class="res-label">📺 Tutorials & Docs</div>
         <a class="res-link yt" href="https://www.youtube.com/watch?v=x-R0Z4qA_Wc" target="_blank"><div class="res-icon">▶</div><span>GHL Full Beginner Course 2026</span></a>
         <a class="res-link yt" href="https://www.youtube.com/watch?v=YMHJ9jvoKjY" target="_blank"><div class="res-icon">▶</div><span>How to Use GHL Step-by-Step (2026)</span></a>
-        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48001214749" target="_blank"><div class="res-icon">📄</div><span>Official: Getting Started with HighLevel</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48001184920-saas-mode-full-setup-guide-faq" target="_blank"><div class="res-icon">📄</div><span>HighLevel SaaS Mode Setup Guide for Agencies</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48001184431-saas-user-level-permissions-vs-sub-account-level-permissions" target="_blank"><div class="res-icon">📄</div><span>SaaS User Level Permissions Vs Sub-Account Level Permissions</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/155000005058-getting-started-setup-email-phone-and-sms" target="_blank"><div class="res-icon">📄</div><span>Getting Started: Setup Email, Phone & SMS in HighLevel</span></a>
       </div>
     </div>
 
@@ -330,6 +462,63 @@
       </div>
     </div>
 
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">💬</div><div class="card-title">Conversations & Unified Inbox</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" data-key="conversations::sms-conversations" onclick="toggleCheck(this)"></div><span>SMS conversations</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="conversations::email-conversations" onclick="toggleCheck(this)"></div><span>Email conversations</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="conversations::facebook-messenger-integration" onclick="toggleCheck(this)"></div><span>Facebook Messenger integration</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="conversations::instagram-dm-integration" onclick="toggleCheck(this)"></div><span>Instagram DM integration</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="conversations::internal-notes" onclick="toggleCheck(this)"></div><span>Internal notes</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="conversations::manual-vs-automated-communication" onclick="toggleCheck(this)"></div><span>Manual vs automated communication</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/results?search_query=gohighlevel+conversations+inbox" target="_blank"><div class="res-icon">▶</div><span>GHL Conversations & Inbox Walkthrough</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48001185313-conversations-and-inbox" target="_blank"><div class="res-icon">📄</div><span>Official: Conversations & Unified Inbox</span></a>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">📱</div><div class="card-title">Mobile App Operations</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" data-key="mobile-app::lead-management-via-mobile" onclick="toggleCheck(this)"></div><span>Lead management via mobile</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="mobile-app::conversations-on-mobile" onclick="toggleCheck(this)"></div><span>Conversations on mobile</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="mobile-app::opportunities-on-mobile" onclick="toggleCheck(this)"></div><span>Opportunities on mobile</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="mobile-app::calendar-access" onclick="toggleCheck(this)"></div><span>Calendar access</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="mobile-app::push-notifications" onclick="toggleCheck(this)"></div><span>Push notifications</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/results?search_query=gohighlevel+mobile+app" target="_blank"><div class="res-icon">▶</div><span>Mobile App: Lead & Conversations</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48001185324-mobile-app-overview" target="_blank"><div class="res-icon">📄</div><span>Official: HighLevel Mobile App Guide</span></a>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">🏁</div><div class="card-title">CAPSTONE PROJECT — Build a CRM Foundation</div></div>
+      <div class="card-body">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:8px;"><strong>Objective:</strong> Create a fully configured sub-account with business settings, contact structure, communication channels, and user permissions.</div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Configure Business Profile</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Connect Domain</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Configure LC Phone/Twilio</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Setup Mailgun/LeadConnector Email</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Create Custom Fields</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Create Smart Lists</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Add Team Users & Permissions</span></div>
+        <div style="margin-top:10px;color:var(--muted);font-size:13px;"><strong>Success Criteria:</strong> CRM ready for client operations · Email & SMS functional · Contact database organized</div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=x-R0Z4qA_Wc" target="_blank"><div class="res-icon">▶</div><span>GoHighLevel Beginner Setup</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=YMHJ9jvoKjY" target="_blank"><div class="res-icon">▶</div><span>Agency Setup Walkthrough</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/results?search_query=contacts+custom+fields+gohighlevel" target="_blank"><div class="res-icon">▶</div><span>Contacts & Custom Fields</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/155000000204" target="_blank"><div class="res-icon">📄</div><span>Getting Started with HighLevel</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/en/support/solutions/articles/155000006504" target="_blank"><div class="res-icon">📄</div><span>Contacts Overview</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/155000005058-getting-started-setup-email-phone-and-sms" target="_blank"><div class="res-icon">📄</div><span>Business Profile & Communication Setup</span></a>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -344,6 +533,7 @@
     <div class="phase-weeks">🔷 Intermediate</div>
   </div>
   <div class="phase-objective">Build user-facing assets and manage active sales pipelines.</div>
+  <div class="pro-tip"><strong>Pro-Tip:</strong> If you don't have an account yet, you can use <a href="https://www.gohighlevel.com/?fp_ref=va-logistics45" target="_blank"><strong>this link to get a 14-Day Free Trial</strong></a>. This gives you full access to a sandbox sub-account so you can build out the funnels and workflows in Phase 2 and Phase 3!</div>
   <div class="phase-content">
 
     <div class="module-card">
@@ -373,7 +563,7 @@
       <div class="card-resources">
         <div class="res-label">📺 Tutorials & Docs</div>
         <a class="res-link yt" href="https://www.youtube.com/watch?v=YD393RZhkHw" target="_blank"><div class="res-icon">▶</div><span>How to Create a GHL Pipeline (2025)</span></a>
-        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48000983090" target="_blank"><div class="res-icon">📄</div><span>Official: Pipelines & Opportunities Overview</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/155000001985-step-by-step-guide-creating-pipelines" target="_blank"><div class="res-icon">📄</div><span>Official: Step-by-step Guide — Creating Pipelines</span></a>
       </div>
     </div>
 
@@ -392,6 +582,82 @@
       </div>
     </div>
 
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">⭐</div><div class="card-title">Reputation Management</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" data-key="reputation-management::review-request-campaigns" onclick="toggleCheck(this)"></div><span>Review request campaigns</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="reputation-management::google-review-automation" onclick="toggleCheck(this)"></div><span>Google review automation</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="reputation-management::reputation-dashboard" onclick="toggleCheck(this)"></div><span>Reputation dashboard</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="reputation-management::negative-review-escalation" onclick="toggleCheck(this)"></div><span>Negative review escalation</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="reputation-management::review-follow-up-workflow" onclick="toggleCheck(this)"></div><span>Review follow-up workflow</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/results?search_query=gohighlevel+reputation+management" target="_blank"><div class="res-icon">▶</div><span>Reputation Management Tutorials</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/results?search_query=gohighlevel+reviews+automation" target="_blank"><div class="res-icon">▶</div><span>Review Automation Guides</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/search?query=reputation" target="_blank"><div class="res-icon">📄</div><span>Official: Reputation & Reviews (Help Center)</span></a>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">💳</div><div class="card-title">Payments & Commerce</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" data-key="payments-commerce::stripe-integration" onclick="toggleCheck(this)"></div><span>Stripe integration</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="payments-commerce::products-and-services" onclick="toggleCheck(this)"></div><span>Products and services</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="payments-commerce::payment-links" onclick="toggleCheck(this)"></div><span>Payment links</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="payments-commerce::invoices" onclick="toggleCheck(this)"></div><span>Invoices</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="payments-commerce::order-forms" onclick="toggleCheck(this)"></div><span>Order forms</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="payments-commerce::subscription-products" onclick="toggleCheck(this)"></div><span>Subscription products</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/results?search_query=gohighlevel+payments+stripe" target="_blank"><div class="res-icon">▶</div><span>Payments & Stripe Integration</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/results?search_query=gohighlevel+payment+links+invoices" target="_blank"><div class="res-icon">▶</div><span>Payment Links & Invoices</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/search?query=payments" target="_blank"><div class="res-icon">📄</div><span>Official: Payments & Commerce (Help Center)</span></a>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">📂</div><div class="card-title">Memberships & Client Portals</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" data-key="memberships-client-portals::course-creation" onclick="toggleCheck(this)"></div><span>Course creation</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="memberships-client-portals::membership-products" onclick="toggleCheck(this)"></div><span>Membership products</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="memberships-client-portals::user-access" onclick="toggleCheck(this)"></div><span>User access</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="memberships-client-portals::lesson-structure" onclick="toggleCheck(this)"></div><span>Lesson structure</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="memberships-client-portals::content-dripping" onclick="toggleCheck(this)"></div><span>Content dripping</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="memberships-client-portals::client-portal-usage" onclick="toggleCheck(this)"></div><span>Client portal usage</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/results?search_query=gohighlevel+memberships" target="_blank"><div class="res-icon">▶</div><span>Memberships & Client Portal Tutorials</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/results?search_query=gohighlevel+courses+memberships" target="_blank"><div class="res-icon">▶</div><span>Create Courses in GHL</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/search?query=memberships" target="_blank"><div class="res-icon">📄</div><span>Official: Memberships & Lessons (Help Center)</span></a>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">🏁</div><div class="card-title">CAPSTONE PROJECT — Build a Lead Capture Funnel</div></div>
+      <div class="card-body">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:8px;"><strong>Objective:</strong> Build a complete lead generation system that captures and qualifies prospects.</div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Create Landing Page</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Build Lead Capture Form</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Configure Thank You Page</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Setup Opportunity Pipeline</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Connect Form Submission Workflow</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Add Calendar Booking</span></div>
+        <div style="margin-top:10px;color:var(--muted);font-size:13px;"><strong>Success Criteria:</strong> Lead enters CRM automatically · Opportunity created · Appointment booking works</div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=o2pzSlBoPsk" target="_blank"><div class="res-icon">▶</div><span>Funnel Builder Tutorial</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=YD393RZhkHw" target="_blank"><div class="res-icon">▶</div><span>Pipeline Setup Tutorial</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=gsCRM4Hqc20" target="_blank"><div class="res-icon">▶</div><span>Calendar Booking Setup</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/155000005057-getting-started-launch-a-funnel" target="_blank"><div class="res-icon">📄</div><span>Funnels Overview</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/155000005058-getting-started-setup-email-phone-and-sms" target="_blank"><div class="res-icon">📄</div><span>Forms Builder</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48000982605" target="_blank"><div class="res-icon">📄</div><span>Calendars Overview</span></a>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -404,8 +670,9 @@
       <div class="phase-title">The Automation Engine</div>
     </div>
     <div class="phase-weeks">🔵 Advanced</div>
-  </div>D
+  </div>
   <div class="phase-objective">Master GHL Workflows — the absolute core of the platform.</div>
+  <div class="pro-tip"><strong>Pro-Tip:</strong> If you don't have an account yet, you can use <a href="https://www.gohighlevel.com/?fp_ref=va-logistics45" target="_blank"><strong>this link to get a 14-Day Free Trial</strong></a>. This gives you full access to a sandbox sub-account so you can build out the funnels and workflows in Phase 2 and Phase 3!</div>
   <div class="phase-content">
 
     <div class="module-card">
@@ -441,6 +708,47 @@
       </div>
     </div>
 
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">📈</div><div class="card-title">Reporting & Attribution</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" data-key="reporting-attribution::opportunity-reporting" onclick="toggleCheck(this)"></div><span>Opportunity reporting</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="reporting-attribution::attribution-reports" onclick="toggleCheck(this)"></div><span>Attribution reports</span></div>
+        <div class="topic-item"><div class="checkbox" datatoggleCheck-key="reporting-attribution::conversion-tracking" onclick="toggleCheck(this)"></div><span>Conversion tracking</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="reporting-attribution::funnel-analytics" onclick="toggleCheck(this)"></div><span>Funnel analytics</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="reporting-attribution::dashboard-metrics" onclick="toggleCheck(this)"></div><span>Dashboard metrics</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="reporting-attribution::client-kpi-dashboard" onclick="toggleCheck(this)"></div><span>Client KPI dashboard</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/results?search_query=gohighlevel+reporting" target="_blank"><div class="res-icon">▶</div><span>GHL Reporting Tutorials</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/results?search_query=gohighlevel+attribution+tracking" target="_blank"><div class="res-icon">▶</div><span>Attribution & Tracking Guides</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/search?query=reporting" target="_blank"><div class="res-icon">📄</div><span>Official: Reporting & Analytics (Help Center)</span></a>
+        <a class="res-link doc" href="https://developers.gohighlevel.com" target="_blank"><div class="res-icon">📄</div><span>Developer Portal — Advanced Integrations</span></a>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">🏁</div><div class="card-title">CAPSTONE PROJECT — Build a Lead Nurture System</div></div>
+      <div class="card-body">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:8px;"><strong>Objective:</strong> Create an automated follow-up system that converts leads into appointments.</div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Create Workflow Trigger</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Build Email Sequence</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Build SMS Sequence</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Create If/Else Logic</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Configure Internal Notifications</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Create Re-engagement Campaign</span></div>
+        <div style="margin-top:10px;color:var(--muted);font-size:13px;"><strong>Success Criteria:</strong> Leads receive automated follow-up · Team receives notifications · Pipeline updates automatically</div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=pgKCulPwEqg" target="_blank"><div class="res-icon">▶</div><span>Workflow Beginner to Advanced</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=Rmk5uFcob9Q" target="_blank"><div class="res-icon">▶</div><span>Automation Builder</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=V1jqch0ii1U" target="_blank"><div class="res-icon">▶</div><span>Workflow AI</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/155000002288-getting-started-with-workflows" target="_blank"><div class="res-icon">📄</div><span>Workflows Overview</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/155000002445-introduction-to-workflows-and-automations" target="_blank"><div class="res-icon">📄</div><span>Workflow Triggers & Conditional Logic</span></a>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -455,6 +763,7 @@
     <div class="phase-weeks">🩵 Expert</div>
   </div>
   <div class="phase-objective">Build systems that can be duplicated and scaled across multiple client accounts.</div>
+  <div class="pro-tip"><strong>Pro-Tip:</strong> If you don't have an account yet, you can use <a href="https://www.gohighlevel.com/?fp_ref=va-logistics45" target="_blank"><strong>this link to get a 14-Day Free Trial</strong></a>. This gives you full access to a sandbox sub-account so you can build out the funnels and workflows in Phase 2 and Phase 3!</div>
   <div class="phase-content">
 
     <div class="module-card">
@@ -479,11 +788,89 @@
         <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Re-billing: automated wallet for SMS/email/AI</span></div>
         <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>White-label branding setup for your agency</span></div>
       </div>
+      <div class="upgrade-note">Note: These advanced workflows perform best with an upgraded GoHighLevel SaaS / Pro Plan. <a href="https://www.gohighlevel.com?fp_ref=va-logistics45" target="_blank">Unlock advanced automation</a>.</div>
       <div class="card-resources">
         <div class="res-label">📺 Tutorials & Docs</div>
         <a class="res-link yt" href="https://www.youtube.com/watch?v=pPQAL1b18yM" target="_blank"><div class="res-icon">▶</div><span>How to Set Up SaaS Mode (2026)</span></a>
         <a class="res-link yt" href="https://www.youtube.com/watch?v=AmhNPpfEclA" target="_blank"><div class="res-icon">▶</div><span>GHL SaaS Full Walkthrough 2025</span></a>
         <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48001184920-saas-mode-full-setup-guide-faq" target="_blank"><div class="res-icon">📄</div><span>Official: SaaS Mode Full Setup Guide</span></a>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">🤖</div><div class="card-title">AI Tools & Conversational AI</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" data-key="ai-tools::ai-employee" onclick="toggleCheck(this)"></div><span>AI Employee</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="ai-tools::ai-voice-agents" onclick="toggleCheck(this)"></div><span>AI Voice Agents</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="ai-tools::ai-appointment-booking" onclick="toggleCheck(this)"></div><span>AI Appointment Booking</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="ai-tools::ai-sms-assistants" onclick="toggleCheck(this)"></div><span>AI SMS Assistants</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="ai-tools::prompt-engineering" onclick="toggleCheck(this)"></div><span>Prompt engineering</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="ai-tools::human-in-the-loop" onclick="toggleCheck(this)"></div><span>Human-in-the-loop escalation</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/results?search_query=gohighlevel+ai+tools" target="_blank"><div class="res-icon">▶</div><span>GHL AI Tools Tutorials</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/results?search_query=gohighlevel+ai+appointment+booking" target="_blank"><div class="res-icon">▶</div><span>AI Appointment Booking</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/search?query=ai" target="_blank"><div class="res-icon">📄</div><span>Official: AI & Automation Docs</span></a>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">🧭</div><div class="card-title">Snapshot Deployment Framework</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" data-key="snapshot-deployment::snapshot-qa" onclick="toggleCheck(this)"></div><span>Snapshot QA</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="snapshot-deployment::client-setup-checklist" onclick="toggleCheck(this)"></div><span>Client setup checklist</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="snapshot-deployment::custom-values" onclick="toggleCheck(this)"></div><span>Custom values</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="snapshot-deployment::domain-mapping" onclick="toggleCheck(this)"></div><span>Domain mapping</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="snapshot-deployment::email-setup" onclick="toggleCheck(this)"></div><span>Email setup</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="snapshot-deployment::phone-setup" onclick="toggleCheck(this)"></div><span>Phone setup</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=Dx4Tf2VX21I" target="_blank"><div class="res-icon">▶</div><span>How to Use GHL Snapshots (Complete Guide)</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=AmhNPpfEclA" target="_blank"><div class="res-icon">▶</div><span>SaaS Snapshot Deployment Workflow</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48000982511-snapshots-overview" target="_blank"><div class="res-icon">📄</div><span>Official: Snapshots Overview</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48000982513-how-to-share-snapshots" target="_blank"><div class="res-icon">📄</div><span>Official: Sharing & Deployment</span></a>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">💼</div><div class="card-title">Agency Systems</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" data-key="agency-systems::client-onboarding" onclick="toggleCheck(this)"></div><span>Client onboarding</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="agency-systems::user-permissions" onclick="toggleCheck(this)"></div><span>User permissions</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="agency-systems::team-management" onclick="toggleCheck(this)"></div><span>Team management</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="agency-systems::white-label-setup" onclick="toggleCheck(this)"></div><span>White label setup</span></div>
+        <div class="topic-item"><div class="checkbox" data-key="agency-systems::agency-dashboard" onclick="toggleCheck(this)"></div><span>Agency dashboard</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/results?search_query=gohighlevel+agency+setup" target="_blank"><div class="res-icon">▶</div><span>GHL Agency Setup & Team Management</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/results?search_query=gohighlevel+white+label+branding" target="_blank"><div class="res-icon">▶</div><span>White Label Branding Tutorial</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48000953559-managing-your-sub-accounts" target="_blank"><div class="res-icon">📄</div><span>Official: Managing Sub-Accounts</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/search?query=white+label" target="_blank"><div class="res-icon">📄</div><span>Official: White Label Setup</span></a>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">🏁</div><div class="card-title">CAPSTONE PROJECT — Build a Client Provisioning System</div></div>
+      <div class="card-body">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:8px;"><strong>Objective:</strong> Build & deploy an end-to-end client onboarding system using snapshots and automation.</div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Design Client Snapshot Architecture</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Create & Bundle Snapshot</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Build Provisioning Workflow</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Setup Custom Values & Domain Mapping</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Test Deployment to New Client Account</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Document Deployment SOP</span></div>
+        <div style="margin-top:10px;color:var(--muted);font-size:13px;"><strong>Success Criteria:</strong> Client account provisioned in < 30 mins · All systems activated · Team notifications configured · Ready for handoff</div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=pPQAL1b18yM" target="_blank"><div class="res-icon">▶</div><span>SaaS Snapshot Setup</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/watch?v=AmhNPpfEclA" target="_blank"><div class="res-icon">▶</div><span>Snapshot Management</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48000982511-snapshots-overview" target="_blank"><div class="res-icon">📄</div><span>Snapshots Overview</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48001184920-saas-mode-full-setup-guide-faq" target="_blank"><div class="res-icon">📄</div><span>SaaS Mode Setup</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48000982513-how-to-share-snapshots" target="_blank"><div class="res-icon">📄</div><span>Snapshot Sharing</span></a>
       </div>
     </div>
 
@@ -501,6 +888,7 @@
     <div class="phase-weeks">🩵 Master</div>
   </div>
   <div class="phase-objective">Connect GHL to the wider world through custom code, webhooks, and complex integrations.</div>
+  <div class="pro-tip"><strong>Pro-Tip:</strong> If you don't have an account yet, you can use <a href="https://www.gohighlevel.com/?fp_ref=va-logistics45" target="_blank"><strong>this link to get a 14-Day Free Trial</strong></a>. This gives you full access to a sandbox sub-account so you can build out the funnels and workflows in Phase 2 and Phase 3!</div>
   <div class="phase-content">
 
     <div class="module-card">
@@ -526,11 +914,35 @@
         <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>GHL API v2: custom apps & marketplace integrations</span></div>
         <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Capstone: API-driven client onboarding system</span></div>
       </div>
+      <div class="upgrade-note">Note: For advanced API and webhook integrations, an upgraded GoHighLevel SaaS / Pro Plan is recommended. <a href="https://www.gohighlevel.com?fp_ref=va-logistics45" target="_blank">Upgrade your account structure</a>.</div>
       <div class="card-resources">
         <div class="res-label">📺 Tutorials & Docs</div>
         <a class="res-link yt" href="https://www.youtube.com/watch?v=YMHJ9jvoKjY" target="_blank"><div class="res-icon">▶</div><span>GHL Advanced Features Deep-Dive (2026)</span></a>
         <a class="res-link doc" href="https://developers.gohighlevel.com" target="_blank"><div class="res-icon">📄</div><span>Official: GHL API v2 Developer Docs</span></a>
-        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48001219543" target="_blank"><div class="res-icon">📄</div><span>Official: Custom Values & Variables</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/155000000521-how-to-use-custom-fields-for-opportunities" target="_blank"><div class="res-icon">📄</div><span>Official: How to Use Custom Fields for Opportunities</span></a>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">🏁</div><div class="card-title">CAPSTONE PROJECT — Build a Client Provisioning System</div></div>
+      <div class="card-body">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:8px;"><strong>Objective:</strong> Create a complete onboarding and fulfillment system for new clients.</div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Client Intake Form</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Onboarding Workflow</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Internal Task Creation</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Welcome Email Sequence</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Client Portal Setup</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Automation Audit Checklist</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Provisioning SOP</span></div>
+        <div style="margin-top:10px;color:var(--muted);font-size:13px;"><strong>Success Criteria:</strong> New clients onboard automatically · Internal team notified · Fulfillment process standardized</div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">📺 Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/results?search_query=client+onboarding+workflow+gohighlevel" target="_blank"><div class="res-icon">▶</div><span>Client Onboarding Workflow</span></a>
+        <a class="res-link yt" href="https://www.youtube.com/results?search_query=saas+client+provisioning+gohighlevel" target="_blank"><div class="res-icon">▶</div><span>SaaS Client Provisioning</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/155000002288-getting-started-with-workflows" target="_blank"><div class="res-icon">📄</div><span>Workflow Builder</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/48001184431-saas-user-level-permissions-vs-sub-account-level-permissions" target="_blank"><div class="res-icon">📄</div><span>User Management</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/support/solutions/articles/155000000521-how-to-use-custom-fields-for-opportunities" target="_blank"><div class="res-icon">📄</div><span>Custom Values & Variables</span></a>
       </div>
     </div>
 
@@ -540,12 +952,407 @@
 </div><!-- /phases -->
 </div><!-- /container -->
 
+<!-- ═══ RESOURCE VAULT ═══ -->
+<div class="container">
+  <div style="position:relative; z-index:1; max-width:1080px; margin:0 auto; padding:0 24px 52px;">
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:34px; letter-spacing:2px; text-align:center; margin-bottom:6px; color:var(--white);">🎁 Resource Vault</div>
+    <div style="text-align:center; color:var(--muted); font-size:13px; margin-bottom:28px;">Free tools, templates, and resources curated for your GHL journey.</div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px;">
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px; transition:transform .2s, border-color .2s;">
+        <div style="font-size:16px; color:var(--cyan2); font-weight:600; margin-bottom:8px;">📊 GHL Templates Library</div>
+        <div style="color:var(--muted); font-size:12px; line-height:1.6; margin-bottom:12px;">Ready-made funnels, workflows, and snapshots for agencies.</div>
+        <a href="https://university.gohighlevel.com" target="_blank" style="color:var(--cyan); text-decoration:underline; font-size:12px;">Access Templates →</a>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px; transition:transform .2s, border-color .2s;">
+        <div style="font-size:16px; color:var(--cyan2); font-weight:600; margin-bottom:8px;">🎓 GHL University</div>
+        <div style="color:var(--muted); font-size:12px; line-height:1.6; margin-bottom:12px;">Official free certifications and structured training courses.</div>
+        <a href="https://university.gohighlevel.com" target="_blank" style="color:var(--cyan); text-decoration:underline; font-size:12px;">Explore Courses →</a>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px; transition:transform .2s, border-color .2s;">
+        <div style="font-size:16px; color:var(--cyan2); font-weight:600; margin-bottom:8px;">💻 GHL Developer Portal</div>
+        <div style="color:var(--muted); font-size:12px; line-height:1.6; margin-bottom:12px;">API documentation, webhooks, and custom app development guides.</div>
+        <a href="https://developers.gohighlevel.com" target="_blank" style="color:var(--cyan); text-decoration:underline; font-size:12px;">View Docs →</a>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px; transition:transform .2s, border-color .2s;">
+        <div style="font-size:16px; color:var(--cyan2); font-weight:600; margin-bottom:8px;">🛠️ Zapier Integration Hub</div>
+        <div style="color:var(--muted); font-size:12px; line-height:1.6; margin-bottom:12px;">Connect GHL to 1000+ apps without custom code.</div>
+        <a href="https://zapier.com/apps/gohighlevel" target="_blank" style="color:var(--cyan); text-decoration:underline; font-size:12px;">Browse Integrations →</a>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px; transition:transform .2s, border-color .2s;">
+        <div style="font-size:16px; color:var(--cyan2); font-weight:600; margin-bottom:8px;">📖 GHL Support Portal</div>
+        <div style="color:var(--muted); font-size:12px; line-height:1.6; margin-bottom:12px;">Searchable knowledge base with thousands of articles.</div>
+        <a href="https://help.gohighlevel.com" target="_blank" style="color:var(--cyan); text-decoration:underline; font-size:12px;">Search Help →</a>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px; transition:transform .2s, border-color .2s;">
+        <div style="font-size:16px; color:var(--cyan2); font-weight:600; margin-bottom:8px;">🎬 YouTube Playlist</div>
+        <div style="color:var(--muted); font-size:12px; line-height:1.6; margin-bottom:12px;">Curated video tutorials for every phase of the roadmap.</div>
+        <a href="https://www.youtube.com/results?search_query=gohighlevel+tutorials" target="_blank" style="color:var(--cyan); text-decoration:underline; font-size:12px;">Watch Videos →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ GRADUATION REQUIREMENTS ═══ -->
+<div class="container">
+  <div style="position:relative; z-index:1; max-width:1080px; margin:0 auto; padding:0 24px 52px;">
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:34px; letter-spacing:2px; text-align:center; margin-bottom:6px; color:var(--white);">✨ Graduation Requirements</div>
+    <div style="text-align:center; color:var(--muted); font-size:13px; margin-bottom:28px;">Complete these steps to graduate from the GoHighLevel Mastery Roadmap.</div>
+    <div style="display:grid; grid-template-columns:1fr; gap:14px; max-width:700px; margin:0 auto;">
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px;">
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <div style="width:24px; height:24px; border-radius:3px; background:rgba(41,182,246,.2); border:1.5px solid var(--cyan); display:flex; align-items:center; justify-content:center; color:var(--cyan); flex-shrink:0; font-weight:600;">1</div>
+          <div>
+            <div style="font-weight:600; color:var(--white); margin-bottom:4px;">Complete All 5 Phases</div>
+            <div style="color:var(--muted); font-size:12px;">Work through every module card and capstone project from Phase 1 through Phase 5.</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px;">
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <div style="width:24px; height:24px; border-radius:3px; background:rgba(41,182,246,.2); border:1.5px solid var(--cyan); display:flex; align-items:center; justify-content:center; color:var(--cyan); flex-shrink:0; font-weight:600;">2</div>
+          <div>
+            <div style="font-weight:600; color:var(--white); margin-bottom:4px;">Build 5 Capstone Projects</div>
+            <div style="color:var(--muted); font-size:12px;">Complete one capstone from each phase: CRM Foundation, Lead Funnel, Lead Nurture, SaaS Snapshot, and Provisioning System.</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px;">
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <div style="width:24px; height:24px; border-radius:3px; background:rgba(41,182,246,.2); border:1.5px solid var(--cyan); display:flex; align-items:center; justify-content:center; color:var(--cyan); flex-shrink:0; font-weight:600;">3</div>
+          <div>
+            <div style="font-weight:600; color:var(--white); margin-bottom:4px;">Earn GHL University Certifications</div>
+            <div style="color:var(--muted); font-size:12px;">Complete at least 2 official certifications: Foundations, Admin, or Automation Specialist.</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px;">
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <div style="width:24px; height:24px; border-radius:3px; background:rgba(41,182,246,.2); border:1.5px solid var(--cyan); display:flex; align-items:center; justify-content:center; color:var(--cyan); flex-shrink:0; font-weight:600;">4</div>
+          <div>
+            <div style="font-weight:600; color:var(--white); margin-bottom:4px;">Build Your First Production System</div>
+            <div style="color:var(--muted); font-size:12px;">Apply everything to a real client or business use case. Document the workflows and outcomes.</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px;">
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <div style="width:24px; height:24px; border-radius:3px; background:rgba(41,182,246,.2); border:1.5px solid var(--cyan); display:flex; align-items:center; justify-content:center; color:var(--cyan); flex-shrink:0; font-weight:600;">5</div>
+          <div>
+            <div style="font-weight:600; color:var(--white); margin-bottom:4px;">Document Your Systems & Processes</div>
+            <div style="color:var(--muted); font-size:12px;">Create a playbook or SOP guide for your snapshot, agency systems, or client delivery framework.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BONUS PHASE: BECOMING A GHL SPECIALIST ═══ -->
+<div class="phase" style="position:relative; z-index:1; max-width:1080px; margin:44px auto 52px; padding:0 24px;">
+  <div class="phase-header">
+    <div class="phase-dot" style="background:rgba(77,208,225,.15); border-color:var(--cyan2); color:var(--cyan2); box-shadow:0 0 24px rgba(77,208,225,.3);">🚀</div>
+    <div class="phase-title-wrap">
+      <div class="phase-label">Bonus Phase · Ongoing</div>
+      <div class="phase-title">Becoming a GoHighLevel Specialist</div>
+    </div>
+    <div class="phase-weeks" style="background:rgba(77,208,225,.15); border-color:rgba(77,208,225,.4); color:var(--cyan2);">✨ Master</div>
+  </div>
+  <div class="phase-objective">This bridges the gap between learning GHL and getting paid for GHL.</div>
+  <div class="phase-resources" style="margin-top:20px; padding:18px; border:1px solid var(--border); border-radius:12px; background:rgba(255,255,255,.02); display:grid; gap:10px;">
+    <div class="res-label" style="color:var(--muted);">Specialist Tutorials & Docs</div>
+    <a class="res-link yt" href="https://www.youtube.com/results?search_query=gohighlevel+specialist+fundamentals" target="_blank"><div class="res-icon">▶</div><span>Specialist Fundamentals Walkthrough</span></a>
+    <a class="res-link doc" href="https://help.gohighlevel.com/search?query=specialist+fundamentals" target="_blank"><div class="res-icon">📄</div><span>Specialist Fundamentals Documentation</span></a>
+    <a class="res-link doc" href="https://help.gohighlevel.com/search?query=client+onboarding+workflow" target="_blank"><div class="res-icon">📄</div><span>Client Onboarding Workflow Guide</span></a>
+  </div>
+  <div class="phase-content">
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">🧭</div><div class="card-title">Specialist Fundamentals</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Client Discovery Calls</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Requirement Gathering</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Automation Audits</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Workflow Mapping</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Pricing Your Services</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Client Handover</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>SOP Documentation</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">Tutorials & Docs</div>
+        <a class="res-link yt" href="https://www.youtube.com/results?search_query=client+discovery+call+gohighlevel" target="_blank"><div class="res-icon">▶</div><span>Client Discovery Call Process</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/search?query=requirement+gathering" target="_blank"><div class="res-icon">📄</div><span>Requirement Gathering Best Practices</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/search?query=workflow+audit" target="_blank"><div class="res-icon">📄</div><span>Automation Audit Checklist</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/search?query=sop+documentation" target="_blank"><div class="res-icon">📄</div><span>SOP Documentation Template</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/search?query=pricing+services" target="_blank"><div class="res-icon">📄</div><span>Pricing Services Guide</span></a>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">📋</div><div class="card-title">Client Delivery & Operations</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Client Onboarding</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Vendor Onboarding</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Property Manager Onboarding</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Project Scoping</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Timeline Planning</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Quality Assurance</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Launch Management</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">Tutorials & Docs</div>
+        <div class="res-link"><div class="res-icon">🎥</div><span>Client Onboarding Workflow Template</span></div>
+        <div class="res-link"><div class="res-icon">🎥</div><span>How to Run Discovery Calls</span></div>
+        <div class="res-link"><div class="res-icon">🎥</div><span>Automation Audit Walkthrough</span></div>
+        <div class="res-link"><div class="res-icon">📄</div><span>Client Success Playbook</span></div>
+        <div class="res-link"><div class="res-icon">📄</div><span>Agency Onboarding Checklist</span></div>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="card-header"><div class="card-icon">💰</div><div class="card-title">Monetization & Service Packaging</div></div>
+      <div class="card-body">
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Productized Services</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Proposal Creation</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Pricing Models</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Scope of Work Creation</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Upsell Strategy</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Retainer Packaging</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Client Reporting</span></div>
+      </div>
+      <div class="card-resources">
+        <div class="res-label">Tutorials & Docs</div>
+        <a class="res-link yt" href="https://help.gohighlevel.com/search?query=pricing+services" target="_blank"><div class="res-icon">🎥</div><span>How to Price GHL Services</span></a>
+        <a class="res-link yt" href="https://help.gohighlevel.com/search?query=productized+services" target="_blank"><div class="res-icon">🎥</div><span>Productized Service Offers</span></a>
+        <a class="res-link yt" href="https://help.gohighlevel.com/search?query=proposal+creation" target="_blank"><div class="res-icon">🎥</div><span>Proposal Creation Framework</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/search?query=scope+of+work+template" target="_blank"><div class="res-icon">📄</div><span>Scope of Work Template</span></a>
+        <a class="res-link doc" href="https://help.gohighlevel.com/search?query=service+packaging" target="_blank"><div class="res-icon">📄</div><span>Service Packaging Guide</span></a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="capstone-card">
+    <h4>🏆 Bonus Phase Capstone</h4>
+    <p>Build and document a complete client delivery system.</p>
+    <ul class="capstone-list">
+      <li>Discovery Call Framework</li>
+      <li>Automation Audit</li>
+      <li>Workflow Map</li>
+      <li>SOP Documentation</li>
+      <li>Client Onboarding Process</li>
+      <li>Service Proposal</li>
+    </ul>
+    <div class="capstone-deliverable"><strong>Deliverable:</strong> Submit a complete client implementation package.</div>
+  </div>
+
+  <div class="career-paths">
+    <div class="section-header">🚀 Career Paths After Certification</div>
+    <div class="career-grid">
+      <div class="career-card">
+        <div class="career-card-title">GHL Administrator</div>
+        <div class="career-card-section">
+          <span>Skills: CRM Management</span>
+          <span>Contact Organization</span>
+          <span>Data Structure</span>
+        </div>
+        <div class="career-card-section">
+          <span>Opportunities: Virtual Assistant</span>
+          <span>CRM Administrator</span>
+        </div>
+      </div>
+      <div class="career-card">
+        <div class="career-card-title">Automation Specialist</div>
+        <div class="career-card-section">
+          <span>Skills: Workflow Building</span>
+          <span>SMS Automation</span>
+          <span>Email Automation</span>
+        </div>
+        <div class="career-card-section">
+          <span>Opportunities: Automation Consultant</span>
+          <span>Workflow Specialist</span>
+        </div>
+      </div>
+      <div class="career-card">
+        <div class="career-card-title">SaaS Agency Owner</div>
+        <div class="career-card-section">
+          <span>Skills: SaaS Configuration</span>
+          <span>Client Provisioning</span>
+          <span>White Label Setup</span>
+        </div>
+        <div class="career-card-section">
+          <span>Opportunities: Agency Owner</span>
+          <span>SaaS Entrepreneur</span>
+        </div>
+      </div>
+      <div class="career-card">
+        <div class="career-card-title">Systems Architect</div>
+        <div class="career-card-section">
+          <span>Skills: Process Mapping</span>
+          <span>Automation Strategy</span>
+          <span>Operational Design</span>
+        </div>
+        <div class="career-card-section">
+          <span>Opportunities: Operations Consultant</span>
+          <span>Systems Architect</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="resource-links-grid">
+    <div class="resource-link-item">
+      <h4>📄 Discovery Call Template</h4>
+      <p>Standardize client intake and qualification using a proven field guide.</p>
+    </div>
+    <div class="resource-link-item">
+      <h4>📄 Automation Audit Worksheet</h4>
+      <p>Capture workflow gaps, automation opportunities, and optimization actions.</p>
+    </div>
+    <div class="resource-link-item">
+      <h4>📄 Workflow Mapping Template</h4>
+      <p>Document system flows, handoffs, and rules for reliable automation delivery.</p>
+    </div>
+    <div class="resource-link-item">
+      <h4>📄 SOP Documentation Template</h4>
+      <p>Build repeatable operational procedures for handoffs, launches, and delivery.</p>
+    </div>
+    <div class="resource-link-item">
+      <h4>📄 Client Handover Checklist</h4>
+      <p>Ensure every implementation is delivered with clarity, quality, and client readiness.</p>
+    </div>
+  </div>
+
+  <div class="cert-connection">This bonus phase is required for Operations Architect Certification. Students who complete all deliverables and pass review qualify for the JM Brandify Operations Architect designation.</div>
+
+</div>
+
 <div class="divider"><hr class="divider-line"></div>
+
+<!-- GLOSSARY -->
+<div class="glossary-section">
+  <div class="glossary-header">📚 GoHighLevel Glossary</div>
+  <div class="glossary-sub">An expanded reference for key CRM, automation, sales and operations terms.</div>
+  <input class="glossary-search" type="search" placeholder="Search glossary..." aria-label="Search glossary">
+
+  <div class="glossary-group">
+    <div class="glossary-group-header">GoHighLevel CRM Terms</div>
+    <div class="glossary-grid">
+      <div class="glossary-card"><div class="glossary-term">Contact</div><div class="glossary-definition">A person or business record stored in GoHighLevel used for messaging, tracking, and sales activity.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Lead</div><div class="glossary-definition">A contact that has shown interest and is being tracked for follow-up by sales or marketing workflows.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Opportunity</div><div class="glossary-definition">A sales deal record that tracks potential revenue and client progress through pipeline stages.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Pipeline</div><div class="glossary-definition">A visual board of opportunity stages used to manage and forecast sales progress.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Pipeline Stage</div><div class="glossary-definition">A step inside a pipeline that shows where a deal currently stands, such as Qualified or Won.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Conversation</div><div class="glossary-definition">A message thread that brings together SMS, email, and social inbox messages for a contact.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Tag</div><div class="glossary-definition">A label applied to contacts or opportunities to organize, filter, and trigger automations.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Smart List</div><div class="glossary-definition">A saved contact view that automatically updates when records match the chosen filters and rules.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Custom Field</div><div class="glossary-definition">A user-created data field for storing unique client, lead, or opportunity details.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Custom Value</div><div class="glossary-definition">A reusable variable used in templates, funnels, and workflows to personalize automation content.</div></div>
+    </div>
+  </div>
+
+  <div class="glossary-group">
+    <div class="glossary-group-header">Automation Terms</div>
+    <div class="glossary-grid">
+      <div class="glossary-card"><div class="glossary-term">Workflow</div><div class="glossary-definition">A sequence of actions that runs automatically when a trigger condition is met.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Trigger</div><div class="glossary-definition">An event that starts a workflow, such as a form submission, tag added, or appointment booked.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Action</div><div class="glossary-definition">A task performed inside a workflow, like sending a message, updating a field, or creating a task.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Wait Step</div><div class="glossary-definition">A delay inside a workflow that pauses the automation until a set time or event happens.</div></div>
+      <div class="glossary-card"><div class="glossary-term">If/Else Branch</div><div class="glossary-definition">A workflow split that routes contacts down different paths based on specific conditions.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Campaign</div><div class="glossary-definition">A group of marketing messages and automation steps sent to contacts over time.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Nurture Sequence</div><div class="glossary-definition">A planned series of messages designed to build trust and move leads toward a sale.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Missed Call Text Back</div><div class="glossary-definition">An automated SMS reply sent when a lead misses a phone call to keep the conversation active.</div></div>
+    </div>
+  </div>
+
+  <div class="glossary-group">
+    <div class="glossary-group-header">Sales & Client Operations Terms</div>
+    <div class="glossary-grid">
+      <div class="glossary-card"><div class="glossary-term">Discovery Call</div><div class="glossary-definition">The first call to learn about a prospect's needs and qualify them for your service.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Proposal</div><div class="glossary-definition">A formal offer that outlines the project scope, pricing, and deliverables for a client.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Quote</div><div class="glossary-definition">A documented price estimate for services or products shared with a prospect.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Work Order</div><div class="glossary-definition">A task or job assignment used to organize delivery details and track completion.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Client Onboarding</div><div class="glossary-definition">The process of bringing a new client into your systems and setting expectations for delivery.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Vendor Onboarding</div><div class="glossary-definition">The process of adding a new partner or supplier to your operational workflows.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Property Manager Onboarding</div><div class="glossary-definition">A tailored onboarding process for clients who manage rentals, facilities, or real estate portfolios.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Job Completion</div><div class="glossary-definition">The final stage when a service or project is finished and the client is ready for follow-up.</div></div>
+    </div>
+  </div>
+
+  <div class="glossary-group">
+    <div class="glossary-group-header">Operations Architect Terms</div>
+    <div class="glossary-grid">
+      <div class="glossary-card"><div class="glossary-term">Digital Friction</div><div class="glossary-definition">Any process or tool that slows down customer interactions or internal workflows.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Inbox Blizzard</div><div class="glossary-definition">A flooded inbox of messages and tasks that makes it hard to prioritize real work.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Silent Architecture</div><div class="glossary-definition">An automation foundation that runs reliably behind the scenes so users don't have to manage every detail.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Load-Bearing System</div><div class="glossary-definition">A core process or tool that supports the entire business operation.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Digital Debt</div><div class="glossary-definition">The cost of outdated or poorly documented systems that slow down future growth.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Human-in-the-Loop</div><div class="glossary-definition">A process where automation hands off decisions to a person for review or escalation.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Single Source of Truth</div><div class="glossary-definition">The central system where the most accurate and up-to-date data lives for the entire team.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Lead-to-Revenue Workflow</div><div class="glossary-definition">The connected process from lead capture through nurturing to final payment and reporting.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS METRICS -->
+<div class="cert-section">
+  <div class="section-header">📈 What You'll Be Able To Build</div>
+  <div class="section-sub">Real systems and infrastructure you can deploy for clients or your own business.</div>
+  <div class="cert-cards">
+    <div class="cert-card">
+      <div class="cert-num">01</div>
+      <div class="cert-info">
+        <h4>Lead Generation Systems</h4>
+        <p>Funnels, forms, calendars, and automated follow-up to capture and qualify leads at scale.</p>
+        <span class="cert-tag">Phase 2</span>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-num">02</div>
+      <div class="cert-info">
+        <h4>Sales Pipelines</h4>
+        <p>Track leads from inquiry through stages, forecast revenue, and monitor deal velocity.</p>
+        <span class="cert-tag">Phase 2</span>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-num">03</div>
+      <div class="cert-info">
+        <h4>Client Onboarding Systems</h4>
+        <p>Automated workflows that reduce manual work and scale your delivery process.</p>
+        <span class="cert-tag">Phase 3</span>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-num">04</div>
+      <div class="cert-info">
+        <h4>SaaS Infrastructure</h4>
+        <p>Deploy repeatable systems across multiple sub-accounts with white-label branding.</p>
+        <span class="cert-tag">Phase 4</span>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-num">05</div>
+      <div class="cert-info">
+        <h4>AI-Assisted Workflows</h4>
+        <p>Conversational AI, human-in-the-loop automation, and intelligent lead routing.</p>
+        <span class="cert-tag">Phase 4</span>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-num">06</div>
+      <div class="cert-info">
+        <h4>Business Dashboards</h4>
+        <p>Track revenue, opportunities, conversions, and operational performance in real time.</p>
+        <span class="cert-tag">Phase 3</span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- CERTIFICATIONS -->
 <div class="cert-section">
-  <div class="section-header">🏆 Certification Path</div>
-  <div class="section-sub">Official free courses inside GoHighLevel University — take them in order</div>
+  <div class="section-header">🏆 Certification & Career Path</div>
+  <div class="section-sub">Follow the recommended learning path, earn certifications, and choose your professional specialization.</div>
   <div class="cert-cards">
     <div class="cert-card">
       <div class="cert-num">01</div>
@@ -586,22 +1393,1187 @@
   </div>
 </div>
 
+<!-- CAREER PATHS -->
+<div class="cert-section">
+  <div class="section-header">🚀 Career Paths After Certification</div>
+  <div class="section-sub">Choose your specialization and build recurring revenue based on your expertise.</div>
+  <div class="cert-cards">
+    <div class="cert-card">
+      <div class="cert-num">A</div>
+      <div class="cert-info">
+        <h4>GHL Administrator</h4>
+        <p>Manage CRM systems, contacts, calendars, pipelines, and client accounts for agencies.</p>
+        <div style="margin-top:10px; font-size:11px; color:var(--muted); line-height:1.6;">
+          <strong>Skills:</strong><br>CRM Management • Contact Organization • Calendar & Scheduling • User Permissions • Data Structure<br><br>
+          <strong>Opportunities:</strong><br>Virtual Assistant • CRM Administrator • Operations Support • Account Manager
+        </div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-num">B</div>
+      <div class="cert-info">
+        <h4>Automation Specialist</h4>
+        <p>Build workflows, automations, lead nurture systems, and client processes.</p>
+        <div style="margin-top:10px; font-size:11px; color:var(--muted); line-height:1.6;">
+          <strong>Skills:</strong><br>Workflow Building • SMS Automation • Email Automation • Opportunity Automation • Snapshot Creation<br><br>
+          <strong>Opportunities:</strong><br>Automation Consultant • Workflow Specialist • GHL Freelancer • Sales Engineer
+        </div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-num">C</div>
+      <div class="cert-info">
+        <h4>SaaS Agency Owner</h4>
+        <p>Package GoHighLevel as a white-label SaaS product and build recurring revenue.</p>
+        <div style="margin-top:10px; font-size:11px; color:var(--muted); line-height:1.6;">
+          <strong>Skills:</strong><br>SaaS Configuration • Client Provisioning • Snapshot Deployment • White Label Branding<br><br>
+          <strong>Opportunities:</strong><br>Agency Owner • SaaS Entrepreneur • Recurring Revenue Business • Multi-Client Operator
+        </div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-num">D</div>
+      <div class="cert-info">
+        <h4>Systems Architect</h4>
+        <p>Design business infrastructure, customer journeys, and operational workflows at scale.</p>
+        <div style="margin-top:10px; font-size:11px; color:var(--muted); line-height:1.6;">
+          <strong>Skills:</strong><br>Process Mapping • Automation Strategy • Revenue Operations • Business Infrastructure Design<br><br>
+          <strong>Opportunities:</strong><br>Operations Consultant • Systems Architect • Fractional COO • Operations Director
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESOURCE VAULT -->
+<div class="cert-section">
+  <div class="section-header">📦 Resource Vault</div>
+  <div class="section-sub">Templates, worksheets, and planning tools to accelerate your implementation.</div>
+  <div class="cert-cards" style="grid-template-columns:repeat(3,1fr);">
+    <div class="cert-card" style="display:flex; flex-direction:column; gap:12px;">
+      <div style="display:flex; gap:10px; align-items:center;">
+        <div style="font-size:24px;">📋</div>
+        <h4 style="margin:0;">Workflow Planning Template</h4>
+      </div>
+      <p style="margin:0; font-size:12px; color:var(--muted);">Map triggers, actions, and conditions before building.</p>
+      <a href="#" target="_blank" style="color:var(--cyan); text-decoration:none; font-size:12px; font-weight:600; margin-top:auto;">↓ Download →</a>
+    </div>
+    <div class="cert-card" style="display:flex; flex-direction:column; gap:12px;">
+      <div style="display:flex; gap:10px; align-items:center;">
+        <div style="font-size:24px;">🎯</div>
+        <h4 style="margin:0;">Funnel Planning Worksheet</h4>
+      </div>
+      <p style="margin:0; font-size:12px; color:var(--muted);">Design lead capture funnels with conversion paths.</p>
+      <a href="#" target="_blank" style="color:var(--cyan); text-decoration:none; font-size:12px; font-weight:600; margin-top:auto;">↓ Download →</a>
+    </div>
+    <div class="cert-card" style="display:flex; flex-direction:column; gap:12px;">
+      <div style="display:flex; gap:10px; align-items:center;">
+        <div style="font-size:24px;">☎️</div>
+        <h4 style="margin:0;">Discovery Call Template</h4>
+      </div>
+      <p style="margin:0; font-size:12px; color:var(--muted);">Questions to uncover client needs and pain points.</p>
+      <a href="#" target="_blank" style="color:var(--cyan); text-decoration:none; font-size:12px; font-weight:600; margin-top:auto;">↓ Download →</a>
+    </div>
+    <div class="cert-card" style="display:flex; flex-direction:column; gap:12px;">
+      <div style="display:flex; gap:10px; align-items:center;">
+        <div style="font-size:24px;">✅</div>
+        <h4 style="margin:0;">Client Onboarding Checklist</h4>
+      </div>
+      <p style="margin:0; font-size:12px; color:var(--muted);">Step-by-step checklist for smooth client setup.</p>
+      <a href="#" target="_blank" style="color:var(--cyan); text-decoration:none; font-size:12px; font-weight:600; margin-top:auto;">↓ Download →</a>
+    </div>
+    <div class="cert-card" style="display:flex; flex-direction:column; gap:12px;">
+      <div style="display:flex; gap:10px; align-items:center;">
+        <div style="font-size:24px;">🔍</div>
+        <h4 style="margin:0;">Automation Audit Worksheet</h4>
+      </div>
+      <p style="margin:0; font-size:12px; color:var(--muted);">Identify automation opportunities in existing systems.</p>
+      <a href="#" target="_blank" style="color:var(--cyan); text-decoration:none; font-size:12px; font-weight:600; margin-top:auto;">↓ Download →</a>
+    </div>
+    <div class="cert-card" style="display:flex; flex-direction:column; gap:12px;">
+      <div style="display:flex; gap:10px; align-items:center;">
+        <div style="font-size:24px;">🏗️</div>
+        <h4 style="margin:0;">Pipeline Blueprint Template</h4>
+      </div>
+      <p style="margin:0; font-size:12px; color:var(--muted);">Design multi-stage sales pipelines for any industry.</p>
+      <a href="#" target="_blank" style="color:var(--cyan); text-decoration:none; font-size:12px; font-weight:600; margin-top:auto;">↓ Download →</a>
+    </div>
+  </div>
+</div>
+
+<!-- OPERATIONS ARCHITECT CTA -->
+<div style="position:relative; z-index:1; max-width:1080px; margin:52px auto 44px; padding:0 24px;">
+  <div style="background:linear-gradient(135deg, rgba(26,35,126,.25) 0%, rgba(41,182,246,.12) 100%); border:1px solid rgba(41,182,246,.2); border-radius:12px; padding:40px; text-align:center;">
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:1.5px; margin-bottom:12px; color:var(--white);">Need Help Implementing This?</div>
+    <div style="max-width:600px; margin:0 auto 24px; color:var(--muted); font-size:14px; line-height:1.8;">
+      <strong>Learning GoHighLevel is one thing.</strong><br>
+      <strong>Building a load-bearing business infrastructure is another.</strong><br><br>
+      If you want help designing automations, workflows, sales pipelines, AI systems, and operational architecture that scales, schedule a consultation.
+    </div>
+    <a href="#" id="opsScheduleBtn" 
+onclick="event.preventDefault(); document.getElementById('opsModal').classList.add('open');"
+   style="display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:14px 24px; border-radius:8px; background:linear-gradient(135deg, var(--cyan), var(--cyan2)); color:#000; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; text-decoration:none; transition:transform .18s ease, box-shadow .18s ease; letter-spacing:0.5px;"
+   onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 24px rgba(41,182,246,.3)';" 
+   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+  🚀 Schedule an Operations Architecture Call
+</a>
+  </div>
+</div>
+
+<div id="opsModal" class="modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:9999; align-items:center; justify-content:center; padding:20px;">
+  <div class="modal-content" style="background:var(--surface); border:1px solid rgba(255,255,255,.08); border-radius:16px; max-width:520px; width:100%; padding:28px; position:relative; box-shadow:0 24px 48px rgba(0,0,0,.45);">
+<button id="opsModalClose" 
+onclick="document.getElementById('opsModal').classList.remove('open');"
+   style="position:absolute; top:16px; right:16px; width:34px; height:34px; border:none; border-radius:50%; background:rgba(255,255,255,.05); color:var(--text); font-size:18px; cursor:pointer;">×</button>    <div style="font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:1px; margin-bottom:12px; color:var(--white); text-align:center;">Operations Architecture Call</div>
+    <p style="margin:0 0 20px; color:var(--muted); font-size:14px; line-height:1.7; text-align:center;">Tell us a bit about your biggest operations bottleneck before booking your call.</p>
+    <form id="opsForm" style="display:grid; gap:14px;">
+      <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">Name:
+        <input id="opsName" type="text" placeholder="Your full name" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
+      </label>
+      <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">Email:
+        <input id="opsEmail" type="email" placeholder="you@example.com" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
+      </label>
+      <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">Phone number:
+        <input id="opsPhone" type="tel" placeholder="(123) 456-7890" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
+      </label>
+      <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">What is your primary operational bottleneck?
+        <textarea id="opsBottleneck" rows="4" placeholder="Describe your main challenge" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px; resize:vertical;" required></textarea>
+      </label>
+      <div style="display:grid; gap:12px;">
+        <button type="button" id="opsSubmit" style="width:100%; padding:14px 16px; border:none; border-radius:10px; background:linear-gradient(135deg, var(--cyan), var(--cyan2)); color:#000; font-weight:700; cursor:pointer;">Continue to Booking</button>
+        <a href="https://calendar.app.google/f9rWn4rqWSkt83v66" target="_blank" style="display:inline-flex; justify-content:center; padding:14px 16px; border-radius:10px; background:rgba(255,255,255,.05); color:var(--cyan); font-weight:700; text-decoration:none;">Or open calendar directly</a>
+      </div>
+      <div style="margin-top:10px; padding:12px 14px; border-radius:10px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); color:var(--muted); font-size:13px; line-height:1.6;">
+        Booking link: <a href="https://calendar.app.google/f9rWn4rqWSkt83v66" target="_blank" style="color:var(--cyan); text-decoration:underline;">https://calendar.app.google/f9rWn4rqWSkt83v66</a>
+      </div>
+      <div id="opsConfirmation" style="display:none; margin-top:14px; padding:14px 16px; border-radius:10px; background:rgba(41,182,246,.1); color:var(--cyan); font-size:14px; text-align:center; border:1px solid rgba(41,182,246,.25);">Thanks! First the calendar page opens, then your email client will be prepared with booking details and admin notification. If the page does not open, <a href="https://calendar.app.google/f9rWn4rqWSkt83v66" target="_blank" style="color:var(--white); text-decoration:underline;">click here</a>.</div>
+      <div id="opsLeadRestore" style="display:none; margin-top:14px; padding:14px 16px; border-radius:10px; background:rgba(255,255,255,.05); color:var(--text); font-size:13px; line-height:1.55; border:1px solid rgba(255,255,255,.08);">
+        <strong>Restored lead details from spreadsheet:</strong>
+        <div id="opsLeadRestoreContent" style="margin-top:10px; white-space:pre-wrap; word-break:break-word;"></div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="certSubmissionModal" class="modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:9999; align-items:center; justify-content:center; padding:20px; overflow:auto;">
+  <div class="modal-content" style="background:var(--surface); border:1px solid rgba(255,255,255,.08); border-radius:16px; max-width:760px; width:100%; padding:28px; position:relative; box-shadow:0 24px 48px rgba(0,0,0,.45);">
+<button id="certModalClose" 
+onclick="document.getElementById('certSubmissionModal').classList.remove('open');"
+  style="position:absolute; top:16px; right:16px; width:34px; height:34px; border:none; border-radius:50%; background:rgba(255,255,255,.05); color:var(--text); font-size:18px; cursor:pointer;">×</button>    <div style="font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:1px; margin-bottom:12px; color:var(--white); text-align:center;">JM Brandify Certification Submission</div>
+    <p style="margin:0 0 20px; color:var(--muted); font-size:14px; line-height:1.7; text-align:center;">Complete the payment requirement below, then submit your evidence for review.</p>
+    <div style="margin-bottom:18px; padding:18px; border:1px solid rgba(255,255,255,.12); border-radius:16px; background:rgba(255,255,255,.04);">
+      <div style="font-weight:700; color:var(--white); margin-bottom:8px;">Payment Required Before Submission</div>
+      <p style="margin:0 0 12px; color:var(--muted); font-size:13px; line-height:1.6;">Enter your email to receive a payment confirmation, then click the button below to begin checkout. After payment is started, the submission form will appear.</p>
+      <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px; margin-bottom:12px;">Email Address for Payment Confirmation *
+        <input id="certEmail" type="email" placeholder="you@example.com" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
+      </label>
+      <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px; margin-bottom:12px;">Certification Payment *
+        <select id="certPaymentType" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
+          <option value="">Select Certification</option>
+          <option value="GHL Mastery Practitioner">GHL Mastery Practitioner</option>
+          <option value="Operations Architect Certification">Operations Architect Certification</option>
+        </select>
+      </label>
+      <div id="paypal-container-cert" style="margin-top:10px;"></div>
+      <div style="margin-top:10px; color:var(--muted); font-size:13px;">Pay with PayPal to start the submission payment. Your purchase confirmation will be sent to the email above.</div>
+      <div id="certPaymentFallback" style="margin-top:14px;"><a id="certPaymentFallbackButton" href="#" style="display:inline-flex; align-items:center; justify-content:center; padding:12px 16px; border-radius:12px; background:linear-gradient(135deg, var(--cyan), var(--cyan2)); color:#000; font-weight:700; text-decoration:none;">Pay with PayPal</a></div>
+      <div id="certPaymentNotice" style="margin-top:10px; color:var(--muted); font-size:13px;">Wait for PayPal to start your payment before you submit your evidence.</div>
+      <div id="certPaymentSuccess" style="display:none; margin-top:10px; color:var(--cyan); font-size:13px;">Payment started. A confirmation email will be sent once your transaction completes.</div>
+    </div>
+    <form id="certSubmissionForm" style="display:none; gap:14px;">
+      <div style="display:grid; gap:10px;">
+        <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">Full Name *
+          <input id="certName" type="text" placeholder="Your full name" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
+        </label>
+        <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">LinkedIn Profile
+          <input id="certLinkedIn" type="url" placeholder="https://linkedin.com/in/yourname" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;">
+        </label>
+        <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">Certification Applying For *
+          <select id="certType" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
+            <option value="">Select Certification</option>
+            <option value="GHL Mastery Practitioner">GHL Mastery Practitioner</option>
+            <option value="Operations Architect Certification">Operations Architect Certification</option>
+          </select>
+        </label>
+      </div>
+      <div style="display:grid; gap:10px; margin-top:10px;">
+        <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">Google Drive Folder Link *
+          <input id="certDriveLink" type="url" placeholder="https://drive.google.com/drive/folders/..." style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
+        </label>
+        <p style="margin:0; color:var(--muted); font-size:13px;">Instructions: Upload all screenshots, PDFs, SOPs, and supporting documents into a Google Drive folder and paste the share link here.</p>
+        <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">Funnel URL (if applicable)
+          <input id="certFunnelUrl" type="url" placeholder="https://" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;">
+        </label>
+        <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">Workflow Screenshot Folder
+          <input id="certWorkflowFolder" type="url" placeholder="https://drive.google.com/drive/folders/..." style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;">
+        </label>
+        <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">Snapshot Documentation
+          <textarea id="certSnapshotDoc" rows="3" placeholder="Describe your snapshot documentation" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px; resize:vertical;"></textarea>
+        </label>
+        <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">Loom Walkthrough Link (Optional)
+          <input id="certLoomLink" type="url" placeholder="https://www.loom.com/share/..." style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;">
+        </label>
+      </div>
+      <div style="display:grid; gap:10px; margin-top:10px;">
+        <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">Phase 1 CRM Foundation Completed? *
+          <select id="certPhase1" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
+            <option value="">Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </label>
+        <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">Phase 2 Lead Capture Funnel Completed? *
+          <select id="certPhase2" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
+            <option value="">Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </label>
+        <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">Phase 3 Lead Nurture System Completed? *
+          <select id="certPhase3" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
+            <option value="">Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </label>
+        <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">Phase 4 SaaS Snapshot Completed? *
+          <select id="certPhase4" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
+            <option value="">Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </label>
+        <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">Phase 5 Client Provisioning System Completed? *
+          <select id="certPhase5" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;" required>
+            <option value="">Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </label>
+        <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">Bonus Specialist Phase Completed?
+          <select id="certBonusPhase" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px;">
+            <option value="">Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </label>
+      </div>
+      <div style="display:grid; gap:10px; margin-top:10px;">
+        <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">Describe the business problem your implementation solves. *
+          <textarea id="certProblem" rows="3" placeholder="Describe the business problem" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px; resize:vertical;" required></textarea>
+        </label>
+        <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">What was the most challenging part of the project? *
+          <textarea id="certChallenge" rows="3" placeholder="Describe the challenge" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px; resize:vertical;" required></textarea>
+        </label>
+        <label style="display:flex; flex-direction:column; gap:6px; color:var(--white); font-size:13px;">What are you most proud of building? *
+          <textarea id="certProud" rows="3" placeholder="What are you most proud of?" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); font-size:14px; resize:vertical;" required></textarea>
+        </label>
+      </div>
+      <label style="display:flex; align-items:center; gap:10px; color:var(--white); font-size:13px; margin-top:10px;">
+        <input id="certAgreement" type="checkbox" style="width:16px; height:16px; accent-color:var(--cyan);" required>
+        <span>I confirm that all submitted work is my own implementation and may be reviewed for certification purposes.</span>
+      </label>
+      <button type="submit" id="certSubmitButton" disabled style="width:100%; padding:14px 16px; border:none; border-radius:12px; background:linear-gradient(135deg, var(--cyan), var(--cyan2)); color:#000; font-weight:700; cursor:pointer; opacity:0.65;">Submit Portfolio</button>
+      <div id="certSubmissionConfirmation" style="display:none; margin-top:14px; padding:14px 16px; border-radius:10px; background:rgba(41,182,246,.1); color:var(--cyan); font-size:14px; text-align:center; border:1px solid rgba(41,182,246,.25);">Thank you for submitting your output. Our team will review it and send you feedback once completed.</div>
+    </form>
+  </div>
+</div>
+
+<!-- COMPLETION CERTIFICATE -->
+<div class="container">
+  <div style="position:relative; z-index:1; max-width:960px; margin:24px auto 28px; padding:0 24px;">
+    <div class="section-header">🏆 Earn Your JM Brandify Certification</div>
+    <div class="section-sub">Complete these steps to earn your JM Brandify certification.</div>
+    <div class="cert-two-column">
+      <div class="cert-card" style="display:flex; flex-direction:column; gap:12px;">
+        <div style="font-weight:700; color:var(--white);">Checklist</div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>All modules completed</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>All capstones completed</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Build 1 live account</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Complete 1 workflow</span></div>
+        <div class="topic-item"><div class="checkbox" onclick="toggleCheck(this)"></div><span>Deploy 1 funnel</span></div>
+      </div>
+      <div class="cert-card" style="display:flex; flex-direction:column; gap:12px;">
+        <div style="font-weight:700; color:var(--white);">Certification Benefits</div>
+        <ul class="program-summary-list">
+          <li>Official Certificate</li>
+          <li>LinkedIn Badge</li>
+          <li>Portfolio Proof</li>
+          <li>Review Scorecard</li>
+          <li>Founding Member Status</li>
+          <li>Lifetime Roadmap Updates</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;">
+  <div class="section-header" style="font-size:28px; margin-bottom:14px;">Available Certifications</div>
+  <div class="cert-cards" style="grid-template-columns:repeat(2,minmax(280px,1fr)); gap:14px; margin-top:12px;">
+    <div class="cert-card" style="display:flex; flex-direction:column; gap:16px;">
+      <h4 style="margin:0;">🥉 GHL Mastery Practitioner</h4>
+      <ul class="program-summary-list">
+        <li>Complete roadmap</li>
+        <li>Complete capstones</li>
+        <li>Submit screenshots and documentation</li>
+      </ul>
+      <div class="program-price" style="margin-top:0;">$9 Founding Member</div>
+      <a class="program-button cert-submission-trigger" href="#"
+onclick="event.preventDefault(); document.getElementById('certSubmissionModal').classList.add('open');"        style="justify-content:center;">Submit Portfolio</a>
+    </div>
+    <div class="cert-card" style="display:flex; flex-direction:column; gap:16px;">
+      <h4 style="margin:0;">🏗️ Operations Architect Certification</h4>
+      <ul class="program-summary-list">
+        <li>Complete roadmap</li>
+        <li>Complete capstones</li>
+        <li>Complete Bonus Specialist Phase</li>
+        <li>Submit portfolio</li>
+      </ul>
+      <div class="program-price" style="margin-top:0;">$49 Founding Member</div>
+      <a class="program-button cert-submission-trigger" href="#"
+onclick="event.preventDefault(); document.getElementById('certSubmissionModal').classList.add('open');"
+        style="justify-content:center;">Submit Portfolio</a>
+    </div>
+  </div>
+</div>
+
+    <div class="cert-card" style="display:flex; flex-direction:column; gap:14px; margin-top:24px;">
+      <div style="font-weight:700; color:var(--white); font-size:22px;">🏆 Certification Outcome</div>
+      <p style="margin:0; color:var(--muted); font-size:14px; line-height:1.8;">Earn a JM Brandify credential that validates your ability to build:</p>
+      <ul class="program-summary-list">
+        <li>CRM Systems</li>
+        <li>Funnels</li>
+        <li>Workflows</li>
+        <li>SaaS Snapshots</li>
+        <li>Client Operations Systems</li>
+      </ul>
+      <p class="founding-microcopy">This certification is awarded based on implementation and proof of work.</p>
+    </div>
+  </div>
+</div>
+
+<!-- RESOURCE VAULT (footer) -->
+<div class="container">
+  <div style="position:relative; z-index:1; max-width:1080px; margin:0 auto 18px; padding:0 24px 12px;">
+    <div class="section-header">📦 Resource Vault</div>
+    <div class="section-sub">Downloadable templates to accelerate implementation.</div>
+    <div class="cert-cards" style="margin-top:12px; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px;">
+      <div class="cert-card" style="display:flex; flex-direction:column; gap:8px;">
+        <h4 style="margin:0;">Workflow Planning Template <span class="pdf-badge">PDF</span></h4>
+        <p style="margin:0; font-size:12px; color:var(--muted);">Map triggers, actions, and handoffs before building.</p>
+        <a href="resources/workflow-planning-template.pdf" download type="application/pdf" style="color:var(--cyan); font-weight:700; margin-top:auto;">↓ Download PDF</a>
+      </div>
+      <div class="cert-card" style="display:flex; flex-direction:column; gap:8px;">
+        <h4 style="margin:0;">Funnel Planning Worksheet <span class="pdf-badge">PDF</span></h4>
+        <p style="margin:0; font-size:12px; color:var(--muted);">Design conversion paths for your lead funnels.</p>
+        <a href="resources/funnel-planning-worksheet.pdf" download type="application/pdf" style="color:var(--cyan); font-weight:700; margin-top:auto;">↓ Download PDF</a>
+      </div>
+      <div class="cert-card" style="display:flex; flex-direction:column; gap:8px;">
+        <h4 style="margin:0;">Discovery Call Form <span class="pdf-badge">PDF</span></h4>
+        <p style="margin:0; font-size:12px; color:var(--muted);">Standardized intake form to capture client needs.</p>
+        <a href="resources/discovery-call-form.pdf" download type="application/pdf" style="color:var(--cyan); font-weight:700; margin-top:auto;">↓ Download PDF</a>
+      </div>
+      <div class="cert-card" style="display:flex; flex-direction:column; gap:8px;">
+        <h4 style="margin:0;">Pipeline Blueprint <span class="pdf-badge">PDF</span></h4>
+        <p style="margin:0; font-size:12px; color:var(--muted);">Template for multi-stage sales pipelines.</p>
+        <a href="resources/pipeline-blueprint-template.pdf" download type="application/pdf" style="color:var(--cyan); font-weight:700; margin-top:auto;">↓ Download PDF</a>
+      </div>
+      <div class="cert-card" style="display:flex; flex-direction:column; gap:8px;">
+        <h4 style="margin:0;">Client Onboarding Checklist <span class="pdf-badge">PDF</span></h4>
+        <p style="margin:0; font-size:12px; color:var(--muted);">Step-by-step checklist for client setups.</p>
+        <a href="resources/client-onboarding-checklist.pdf" download type="application/pdf" style="color:var(--cyan); font-weight:700; margin-top:auto;">↓ Download PDF</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cert-section">
+  <div class="section-header">🏆 JM Brandify Certification Program</div>
+  <div class="section-sub">Turn your learning into proof of skill.
+    Complete the capstone projects, submit your work for review, and earn a competency-based certification that validates your ability to build real GoHighLevel systems.</div>
+  <div style="display:flex; justify-content:center; margin-bottom:16px;">
+    <div style="background:rgba(41,182,246,.12); border:1px solid rgba(41,182,246,.24); border-radius:999px; padding:8px 16px; color:var(--cyan2); font-family:'DM Mono',monospace; font-size:12px; letter-spacing:1px;">🎉 Founding Member Launch — Limited to First 20 Graduates</div>
+  </div>
+
+  <div class="founding-offer">
+    <div class="founding-offer-header">
+      <div class="founding-badge">Limited to First 20 Graduates</div>
+      <h3 class="founding-offer-title">🎉 Founding Member Offer</h3>
+      <p class="founding-offer-subtitle">The first 20 successful graduates receive lifetime access to roadmap updates, toolkit additions, and certification program enhancements.</p>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="cert-card pricing-card">
+        <div class="pricing-card-header">
+          <div class="program-label">Founding Member Price</div>
+          <div class="pricing-card-title">🥉 GHL Mastery Practitioner</div>
+          <div class="pricing-price">$9</div>
+          <div class="pricing-regular">Regular Price: $49</div>
+        </div>
+        <p class="pricing-description">Perfect for beginners, VAs, freelancers, and aspiring GoHighLevel specialists who want to validate their implementation skills.</p>
+        <ul class="pricing-list">
+          <li>Full roadmap access</li>
+          <li>Resource Vault access</li>
+          <li>Portfolio submission</li>
+          <li>Capstone review</li>
+          <li>Certification review</li>
+          <li>JM Brandify Certificate (PDF)</li>
+          <li>LinkedIn-ready badge</li>
+        </ul>
+        <div class="program-label">Requirements</div>
+        <ul class="pricing-list">
+          <li>Complete roadmap phases</li>
+          <li>Complete capstones</li>
+          <li>Submit screenshots and documentation</li>
+        </ul>
+<a class="pricing-cta cert-submission-trigger" href="#"
+  onclick="event.preventDefault(); document.getElementById('certSubmissionModal').classList.add('open');">Become a Founding Member</a>      </div>
+
+      <div class="cert-card pricing-card">
+        <div class="pricing-card-header">
+          <div class="program-label">Founding Member Price</div>
+          <div class="pricing-card-title">🏗️ Operations Architect Certification</div>
+          <div class="pricing-price">$49</div>
+          <div class="pricing-regular">Regular Price: $149</div>
+        </div>
+        <p class="pricing-description">For freelancers, consultants, agency owners, and systems builders who want to demonstrate operational architecture expertise. Optional Loom walkthrough for bonus review feedback.</p>
+        <ul class="pricing-list">
+          <li>Everything in Practitioner</li>
+          <li>Bonus Specialist Phase Review</li>
+          <li>Personalized feedback</li>
+          <li>Workflow & systems assessment</li>
+          <li>Operations Architect Certificate</li>
+          <li>LinkedIn-ready badge</li>
+          <li>Founding Member recognition</li>
+        </ul>
+        <div class="program-label">Requirements</div>
+        <ul class="pricing-list">
+          <li>Complete roadmap phases</li>
+          <li>Complete capstones</li>
+          <li>Complete Bonus Specialist Phase</li>
+          <li>Submit screenshots and documentation</li>
+        </ul>
+<a class="pricing-cta cert-submission-trigger" href="#"
+onclick="event.preventDefault(); document.getElementById('certSubmissionModal').classList.add('open');">Apply for Architect Certification    </div>
+
+    <div class="value-strip">
+      <div class="value-pill">Lifetime Access</div>
+      <div class="value-pill">Toolkit Additions</div>
+      <div class="value-pill">Certification Review</div>
+      <div class="value-pill">Founding Member Recognition</div>
+    </div>
+
+    <div class="urgency-bar">Limited to the First 20 Graduates</div>
+    <div class="founding-microcopy">You are certified for building working GoHighLevel systems, not just watching lessons.</div>
+  </div>
+
+  <div class="program-summary">
+    <div class="program-summary-card">
+      <h4>📂 Certification Submission Requirements</h4>
+      <p>Certification is earned through verified implementation. Submit proof of your completed builds for review.</p>
+      <ul class="program-summary-list">
+        <li>Phase 1 CRM Foundation screenshots</li>
+        <li>Phase 2 Lead Capture Funnel URL and screenshot</li>
+        <li>Phase 3 Workflow & Nurture System screenshots</li>
+        <li>Phase 4 SaaS Snapshot documentation</li>
+        <li>Phase 5 Client Provisioning System screenshots</li>
+        <li>Bonus Phase deliverables</li>
+        <li>Discovery Call Template</li>
+        <li>Automation Audit</li>
+        <li>Workflow Map</li>
+        <li>SOP Documentation</li>
+      </ul>
+      <p class="founding-microcopy">No exams required. No lengthy recordings required. Simply submit proof that your systems work.</p>
+    </div>
+    <div class="program-summary-card">
+      <h4>🎁 Certification Review Package</h4>
+      <p>After review, you’ll receive a clear evaluation, implementation feedback, and certification assets if approved.</p>
+      <ul class="program-summary-list">
+        <li>Review scorecard</li>
+        <li>Pass / Revision Needed evaluation</li>
+        <li>Personalized recommendations</li>
+        <li>Official JM Brandify Certificate</li>
+        <li>LinkedIn-ready badge</li>
+        <li>Certificate ID</li>
+        <li>Founding Member recognition</li>
+        <li>Portfolio-ready proof of work</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="workflow-section">
+    <h4>📤 How Certification Submission Works</h4>
+    <p class="workflow-step-copy">Once payment is processed successfully, students are redirected to the submission environment where they upload output and receive confirmation.</p>
+    <div class="workflow-step">
+      <div class="workflow-step-title">Payment Completed</div>
+      <div class="workflow-step-copy">The student completes payment and is routed to the certification submission form.</div>
+    </div>
+    <div class="workflow-step">
+      <div class="workflow-step-title">Redirect to Submission Form</div>
+      <div class="workflow-step-copy">Students are sent to a GoHighLevel form or funnel built for submission intake.</div>
+    </div>
+    <div class="workflow-step">
+      <div class="workflow-step-title">Student Uploads Evidence</div>
+      <div class="workflow-step-copy">Students submit folder links, screenshots, URLs, and documentation for review.</div>
+    </div>
+    <div class="workflow-step">
+      <div class="workflow-step-title">Google Sheet Records Submission</div>
+      <div class="workflow-step-copy">A connected Google Sheet logs each submission with tracking fields.</div>
+    </div>
+    <div class="workflow-step">
+      <div class="workflow-step-title">Confirmation Message</div>
+      <div class="workflow-step-copy">A thank-you confirmation appears after submission, reassuring students that review is next.</div>
+    </div>
+    <div class="workflow-step">
+      <div class="workflow-step-title">AI Review</div>
+      <div class="workflow-step-copy">An AI-assisted evaluation checks evidence completeness and workflow structure.</div>
+    </div>
+    <div class="workflow-step">
+      <div class="workflow-step-title">Human Verification</div>
+      <div class="workflow-step-copy">A human reviewer verifies the AI findings and confirms the final outcome.</div>
+    </div>
+    <div class="workflow-step">
+      <div class="workflow-step-title">Pass / Revision Needed</div>
+      <div class="workflow-step-copy">The submission is marked as Passed or Revision Needed based on evidence quality.</div>
+    </div>
+    <div class="workflow-step">
+      <div class="workflow-step-title">Certificate Issued</div>
+      <div class="workflow-step-copy">A certificate is issued once the student meets the criteria.</div>
+    </div>
+
+    <!-- Certification submission details are handled by the hidden popup form and internal tracking logic. Visible raw requirements have been removed from the browser page. -->
+  </div>
+
+  <div class="cert-statement">This is a competency-based certification. You are not certified for watching videos. You are certified for building, documenting, and implementing working GoHighLevel systems.</div>
+</div>
+
+<div class="affiliate-disclosure">Disclosure: Some links on this page may be affiliate links. If you purchase through them, we may earn a commission at no additional cost to you.</div>
+
 <!-- FOOTER -->
 <div class="footer">
-  <div class="footer-brand">Brandify</div>
-  <div class="footer-tagline">Systems that flow. Designs that connect.</div>
+  <div class="footer-brand">
+    <div class="brand-jm">JM</div>
+    <div class="brand-divider"></div>
+    <div class="brand-name">Brandify</div>
+  </div>
+  <div class="footer-tagline">Automate the Noise. Lead the Mission.</div>
+  <div style="font-size:10px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; font-family:'DM Mono',monospace; margin-top:6px;">We don't guess. We engineer.</div>
 </div>
 
 <script>
-  const total = document.querySelectorAll('.checkbox').length;
+  let checkboxes = [];
+  let leadSheetHeaders = [];
+  let leadSheetData = [];
+  let leadSheetLoaded = false;
+  let leadSheetError = null;
+  const SHEET_ID = '1vfGGbV2wOdOCqrp0W_02poc6df7aNq1eXRpo_k63s5s';
+  const REMOTE_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
+  const LOCAL_SHEET_CSV_URL = 'resources/roadmap_sheet.csv';
+  const progressPct = document.getElementById('progressPct');
+  const progressFill = document.getElementById('progressFill');
+  const storageKey = 'ghlRoadmapProgress';
+
+  function slugify(str){
+    return String(str||'').toLowerCase().replace(/\s+/g,' ').trim().replace(/[^a-z0-9 -]/g,'').replace(/\s+/g,'-').slice(0,120);
+  }
+
+  function computeKeyForCheckbox(cb){
+    const existing = cb.getAttribute('data-key');
+    if (existing) return existing;
+    const card = cb.closest('.module-card');
+    const titleEl = card ? card.querySelector('.card-title') : null;
+    const title = titleEl ? titleEl.textContent.trim() : 'unknown-card';
+    const label = cb.nextElementSibling ? cb.nextElementSibling.textContent.trim() : 'item';
+    const key = slugify(title + '::' + label);
+    cb.setAttribute('data-key', key);
+    return key;
+  }
+
+  function updateProgress() {
+    if (!checkboxes.length) return;
+    const done = checkboxes.filter(checkbox => checkbox.classList.contains('checked')).length;
+    const pct = Math.round((done / checkboxes.length) * 100);
+    progressPct.textContent = pct + '%';
+    progressFill.style.width = pct + '%';
+  }
+
+  function saveProgress() {
+    const state = {};
+    checkboxes.forEach(cb => {
+      const key = computeKeyForCheckbox(cb);
+      state[key] = cb.classList.contains('checked');
+    });
+    localStorage.setItem(storageKey, JSON.stringify(state));
+  }
+
+  function loadProgress() {
+    try {
+      const raw = localStorage.getItem(storageKey);
+      const stored = raw ? JSON.parse(raw) : null;
+      // If legacy array found, try to apply by index
+      if (Array.isArray(stored)) {
+        checkboxes.forEach((checkbox, index) => {
+          if (stored[index]) {
+            checkbox.classList.add('checked');
+            checkbox.textContent = '✓';
+          } else {
+            checkbox.classList.remove('checked');
+            checkbox.textContent = '';
+          }
+        });
+      } else if (stored && typeof stored === 'object') {
+        checkboxes.forEach(checkbox => {
+          const key = computeKeyForCheckbox(checkbox);
+          if (stored[key]) {
+            checkbox.classList.add('checked');
+            checkbox.textContent = '✓';
+          } else {
+            checkbox.classList.remove('checked');
+            checkbox.textContent = '';
+          }
+        });
+      }
+    } catch (error) {
+      console.warn('Could not restore progress:', error);
+    }
+    updateProgress();
+  }
+
+  function parseCsv(text) {
+    const rows = [];
+    let row = [];
+    let field = '';
+    let inQuotes = false;
+
+    for (let i = 0; i < text.length; i += 1) {
+      const char = text[i];
+      if (char === '"') {
+        if (inQuotes && text[i + 1] === '"') {
+          field += '"';
+          i += 1;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (char === ',' && !inQuotes) {
+        row.push(field);
+        field = '';
+      } else if ((char === '\n' || char === '\r') && !inQuotes) {
+        if (char === '\r' && text[i + 1] === '\n') {
+          i += 1;
+        }
+        row.push(field);
+        field = '';
+        rows.push(row);
+        row = [];
+      } else {
+        field += char;
+      }
+    }
+
+    if (field !== '' || row.length > 0) {
+      row.push(field);
+      rows.push(row);
+    }
+
+    return rows.filter(r => r.length > 1 || (r.length === 1 && r[0].trim() !== ''));
+  }
+
+  function renderLeadSheet(rows) {
+    const loader = document.getElementById('leadSheetLoader');
+    const errorEl = document.getElementById('leadSheetError');
+    const tableWrap = document.getElementById('leadSheetTableWrap');
+    const table = document.getElementById('leadSheetTable');
+
+    if (!rows || rows.length < 2) {
+      if (loader) loader.style.display = 'none';
+      if (errorEl) {
+        errorEl.style.display = 'block';
+        errorEl.textContent = 'No lead rows were found in the spreadsheet.';
+      }
+      return;
+    }
+
+    const [headers, ...data] = rows;
+    leadSheetHeaders = headers;
+    leadSheetData = data;
+
+    if (table) {
+      const thead = table.querySelector('thead');
+      const tbody = table.querySelector('tbody');
+
+      if (thead && tbody) {
+        thead.innerHTML = '';
+        tbody.innerHTML = '';
+
+        const headerRow = document.createElement('tr');
+        headers.forEach(header => {
+          const th = document.createElement('th');
+          th.textContent = header;
+          headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+
+        data.forEach(rowData => {
+          const row = document.createElement('tr');
+          rowData.forEach(cellText => {
+            const td = document.createElement('td');
+            td.textContent = cellText;
+            row.appendChild(td);
+          });
+          tbody.appendChild(row);
+        });
+      }
+    }
+
+    if (loader) loader.style.display = 'none';
+    if (errorEl) errorEl.style.display = 'none';
+    if (tableWrap && table) tableWrap.style.display = 'block';
+  }
+
+  function normalizeValue(value) {
+    return String(value || '').trim().toLowerCase();
+  }
+
+  function normalizePhone(value) {
+    return String(value || '').replace(/\D/g, '');
+  }
+
+  function findLeadEntry(email, phone) {
+    const targetEmail = normalizeValue(email);
+    const targetPhone = normalizePhone(phone);
+    const emailIndex = leadSheetHeaders.indexOf('Email');
+    const phoneIndex = leadSheetHeaders.indexOf('Phone Number');
+
+    if (emailIndex < 0 && phoneIndex < 0) return null;
+
+    return leadSheetData.find(row => {
+      const rowEmail = normalizeValue(row[emailIndex] || '');
+      const rowPhone = normalizePhone(row[phoneIndex] || '');
+      const emailMatches = targetEmail && rowEmail === targetEmail;
+      const phoneMatches = targetPhone && rowPhone === targetPhone;
+      return emailMatches || phoneMatches;
+    }) || null;
+  }
+
+  function formatLeadDetails(row) {
+    if (!row || !leadSheetHeaders.length) return '';
+    return leadSheetHeaders.map((header, index) => `${header}: ${row[index] || ''}`).join('\n');
+  }
+
+  function openLeadNotificationEmail(details, formFields) {
+    const subject = encodeURIComponent('Booking confirmation: Operations Architecture Call');
+    const lines = [
+      `Hello ${formFields.name},`,
+      '',
+      'Your Operations Architecture Call request has been received.',
+      'The calendar booking page will open first, and then this email draft will be prepared for you and the admin.',
+      '',
+      'Booking details:',
+      `Name: ${formFields.name}`,
+      `Email: ${formFields.email}`,
+      `Phone: ${formFields.phone}`,
+      `Primary Operational Bottleneck: ${formFields.bottleneck}`,
+      '',
+      'Admin note:',
+      details || 'No matching spreadsheet lead found.',
+      '',
+      'Please follow up with the lead as soon as possible.'
+    ];
+    const body = encodeURIComponent(lines.join('\n'));
+    const mailto = `mailto:${encodeURIComponent(formFields.email)}?cc=${encodeURIComponent('maria@jmbrandify.com')}&subject=${subject}&body=${body}`;
+    window.open(mailto, '_blank');
+  }
+
+  function loadLeadSheet() {
+    const loader = document.getElementById('leadSheetLoader');
+    const errorEl = document.getElementById('leadSheetError');
+
+    if (loader) {
+      loader.style.display = 'block';
+      loader.textContent = 'Loading spreadsheet leads…';
+    }
+    if (errorEl) {
+      errorEl.style.display = 'none';
+      errorEl.textContent = '';
+    }
+
+    const loadCsv = async (url) => {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Unable to fetch spreadsheet CSV from ${url}`);
+      }
+      return response.text();
+    };
+
+    loadCsv(REMOTE_SHEET_CSV_URL)
+      .catch(remoteError => {
+        console.warn('Remote sheet fetch failed, falling back to local sheet', remoteError);
+        return loadCsv(LOCAL_SHEET_CSV_URL);
+      })
+      .then(text => {
+        renderLeadSheet(parseCsv(text));
+        leadSheetLoaded = true;
+        leadSheetError = null;
+      })
+      .catch(error => {
+        leadSheetLoaded = false;
+        leadSheetError = error;
+        if (loader) loader.style.display = 'none';
+        if (errorEl) {
+          errorEl.style.display = 'block';
+          errorEl.textContent = 'Could not load spreadsheet data. Booking will still work, but lead details may not be available.';
+        }
+        console.error(error);
+      });
+  }
+
   function toggleCheck(el){
     el.classList.toggle('checked');
     el.textContent = el.classList.contains('checked') ? '✓' : '';
-    const done = document.querySelectorAll('.checkbox.checked').length;
-    const pct = Math.round((done/total)*100);
-    document.getElementById('progressPct').textContent = pct+'%';
-    document.getElementById('progressFill').style.width = pct+'%';
+    updateProgress();
+    saveProgress();
   }
+
+  function resetProgress() {
+    checkboxes.forEach(checkbox => {
+      checkbox.classList.remove('checked');
+      checkbox.textContent = '';
+    });
+    updateProgress();
+    localStorage.removeItem(storageKey);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // collect checkboxes after DOM is ready
+    checkboxes = Array.from(document.querySelectorAll('.checkbox'));
+    // ensure each checkbox has a stable data-key
+    checkboxes.forEach(cb => computeKeyForCheckbox(cb));
+
+    loadProgress();
+    loadLeadSheet();
+
+    const resetBtn = document.getElementById('resetProgressBtn');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', resetProgress);
+    }
+    const glossarySearch = document.querySelector('.glossary-search');
+    if (glossarySearch) {
+      glossarySearch.addEventListener('input', event => {
+        const query = event.target.value.toLowerCase().trim();
+        document.querySelectorAll('.glossary-card').forEach(card => {
+          const term = card.querySelector('.glossary-term').textContent.toLowerCase();
+          const definition = card.querySelector('.glossary-definition').textContent.toLowerCase();
+          card.style.display = query ? (term.includes(query) || definition.includes(query) ? 'block' : 'none') : 'block';
+        });
+      });
+    }
+
+    document.querySelectorAll('.glossary-card').forEach(card => {
+      const term = card.querySelector('.glossary-term');
+      if (!term) return;
+      term.addEventListener('click', event => {
+        event.stopPropagation();
+        card.classList.toggle('active');
+      });
+    });
+
+    const opsScheduleBtn = document.getElementById('opsScheduleBtn');
+    const opsModal = document.getElementById('opsModal');
+    const opsModalClose = document.getElementById('opsModalClose');
+    const opsSubmit = document.getElementById('opsSubmit');
+    const opsLeadRestore = document.getElementById('opsLeadRestore');
+
+    if (opsScheduleBtn && opsModal) {
+      opsScheduleBtn.addEventListener('click', event => {
+        event.preventDefault();
+        opsModal.style.display = 'flex';
+      });
+    }
+
+    if (opsModalClose && opsModal) {
+      opsModalClose.addEventListener('click', () => {
+        opsModal.style.display = 'none';
+      });
+    }
+
+    if (opsModal) {
+      opsModal.addEventListener('click', event => {
+        if (event.target === opsModal) {
+          opsModal.style.display = 'none';
+        }
+      });
+    }
+
+   if (opsSubmit) {
+  opsSubmit.addEventListener('click', async () => {
+    const name = document.getElementById('opsName').value.trim();
+    const email = document.getElementById('opsEmail').value.trim();
+    const phone = document.getElementById('opsPhone').value.trim();
+    const bottleneck = document.getElementById('opsBottleneck').value.trim();
+
+    if (!name || !email || !phone || !bottleneck) {
+      alert('Please complete all fields before continuing.');
+      return;
+    }
+
+    // Save to Google Sheet
+    try {
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('email', email);
+  formData.append('phone', phone);
+  formData.append('bottleneck', bottleneck);
+  formData.append('dateScheduled', new Date().toLocaleString());
+  formData.append('source', 'Website');
+  formData.append('status', 'New');
+
+  await fetch('https://script.google.com/macros/s/AKfycbx98UK-_FgQqOv_9yri5MS33WSn0u783zsxdmtX5VQm9WX00CbBlLPszTzvgoUO-zg_Ng/exec', {
+    method: 'POST',
+    mode: 'no-cors',
+    body: formData
+  });
+} catch(err) { console.warn('Sheet save failed:', err); }
+
+    window.open('https://calendar.app.google/f9rWn4rqWSkt83v66', '_blank');
+    document.getElementById('opsConfirmation').style.display = 'block';
+    setTimeout(() => { document.getElementById('opsModal').classList.remove('open'); }, 2200);
+  });
+}
+
+    const certTriggers = document.querySelectorAll('.cert-submission-trigger');
+    const certModal = document.getElementById('certSubmissionModal');
+    const certModalClose = document.getElementById('certModalClose');
+    const certForm = document.getElementById('certSubmissionForm');
+    const certConfirmation = document.getElementById('certSubmissionConfirmation');
+    const certPaymentFallbackButton = document.getElementById('certPaymentFallbackButton');
+    const certPaymentNotice = document.getElementById('certPaymentNotice');
+    const certPaymentSuccess = document.getElementById('certPaymentSuccess');
+    const certSubmitButton = document.getElementById('certSubmitButton');
+    const certEmailInput = document.getElementById('certEmail');
+    const certPaymentTypeSelect = document.getElementById('certPaymentType');
+    const certTypeSelect = document.getElementById('certType');
+    window.certEmailInput = certEmailInput;
+    window.certPaymentNotice = certPaymentNotice;
+    window.certPaymentSuccess = certPaymentSuccess;
+    window.certSubmitButton = certSubmitButton;
+    let certPaymentStarted = false;
+    let certPaymentEmail = '';
+    window.certPaymentEmail = certPaymentEmail;
+
+    const certificationPaymentLinks = {
+      'GHL Mastery Practitioner': 'https://www.paypal.com/ncp/payment/68V7PVPBCV8Z2',
+      'Operations Architect Certification': 'https://www.paypal.com/ncp/payment/N9RV29QJ79JZA'
+    };
+
+    const getSelectedCertificationPaymentLink = () => {
+      const selectedCertification = certPaymentTypeSelect ? certPaymentTypeSelect.value : '';
+      return certificationPaymentLinks[selectedCertification] || '';
+    };
+
+    const showFormAfterSuccess = emailValue => {
+      certPaymentStarted = true;
+      certPaymentEmail = emailValue;
+      if (certForm) {
+        certForm.style.display = 'grid';
+      }
+      if (certTypeSelect && certPaymentTypeSelect) {
+        certTypeSelect.value = certPaymentTypeSelect.value;
+      }
+      if (certSubmitButton) {
+        certSubmitButton.disabled = false;
+        certSubmitButton.style.opacity = '1';
+      }
+      if (certPaymentNotice) {
+        certPaymentNotice.textContent = 'Payment complete. Your confirmation email is on the way and the submission form is now available.';
+      }
+      if (certPaymentSuccess) {
+        certPaymentSuccess.textContent = `Payment successful! A confirmation email will be sent to ${emailValue}.`;
+        certPaymentSuccess.style.display = 'block';
+      }
+    };
+    window.showFormAfterSuccess = showFormAfterSuccess;
+
+    if (certTriggers.length && certModal) {
+      certTriggers.forEach(trigger => {
+        trigger.addEventListener('click', event => {
+          event.preventDefault();
+          certModal.style.display = 'flex';
+          if (certForm) {
+            certForm.style.display = 'none';
+          }
+          if (certPaymentSuccess) {
+            certPaymentSuccess.style.display = 'none';
+          }
+          if (certSubmitButton) {
+            certSubmitButton.disabled = true;
+            certSubmitButton.style.opacity = '0.65';
+          }
+          certPaymentStarted = false;
+        });
+      });
+    }
+
+    if (certModalClose && certModal) {
+      certModalClose.addEventListener('click', () => {
+        certModal.style.display = 'none';
+      });
+    }
+
+    if (certModal) {
+      certModal.addEventListener('click', event => {
+        if (event.target === certModal) {
+          certModal.style.display = 'none';
+        }
+      });
+    }
+
+    if (certPaymentFallbackButton) {
+      certPaymentFallbackButton.addEventListener('click', event => {
+        event.preventDefault();
+        const emailValue = certEmailInput ? certEmailInput.value.trim() : '';
+        if (!emailValue) {
+          alert('Please enter your email address so we can send your payment confirmation.');
+          if (certEmailInput) {
+            certEmailInput.focus();
+          }
+          return;
+        }
+        if (certPaymentNotice) {
+          certPaymentNotice.textContent = 'Opening PayPal checkout...';
+        }
+        const paymentUrl = getSelectedCertificationPaymentLink();
+        if (!paymentUrl) {
+          alert('Please select the certification you are applying for before starting PayPal checkout.');
+          if (certTypeSelect) {
+            certTypeSelect.focus();
+          }
+          return;
+        }
+        window.open(paymentUrl, '_blank');
+        showFormAfterSuccess(emailValue);
+      });
+    }
+
+  if (certForm) {
+      certForm.addEventListener('submit', async event => {
+        event.preventDefault();
+        if (!certPaymentStarted) {
+          alert('Please complete the payment before submitting.');
+          return;
+        }
+        const certName = document.getElementById('certName').value.trim();
+        const certEmail = document.getElementById('certEmail').value.trim();
+        const certType = document.getElementById('certType').value;
+        const certDriveLink = document.getElementById('certDriveLink').value.trim();
+        const certProblem = document.getElementById('certProblem').value.trim();
+        const certChallenge = document.getElementById('certChallenge').value.trim();
+        const certProud = document.getElementById('certProud').value.trim();
+        const certAgreement = document.getElementById('certAgreement').checked;
+        if (!certName || !certEmail || !certType || !certDriveLink || !certProblem || !certChallenge || !certProud || !certAgreement) {
+          alert('Please complete all required fields before submitting.');
+          return;
+        }
+        try {
+          await fetch('https://script.google.com/macros/s/AKfycbwYCMa97iOcrc439DxYR3OrGPNo6WJKqIuBaNzvvzn5NezyKbxC_TP7GLzPx3pm8sKIIg/exec', {
+            method: 'POST',
+            body: JSON.stringify({ name: certName, email: certEmail, certType, driveLink: certDriveLink, problem: certProblem, source: 'Certification Submission', status: 'Pending Review' })
+          });
+        } catch(err) { console.warn('Sheet save failed:', err); }
+        if (certForm && certConfirmation) {
+          certForm.style.display = 'none';
+          certConfirmation.style.display = 'block';
+        }
+        setTimeout(() => {
+          if (certModal) certModal.classList.remove('open');
+          certForm.reset();
+          if (certEmailInput) certEmailInput.value = '';
+          if (certSubmitButton) { certSubmitButton.disabled = true; certSubmitButton.style.opacity = '0.65'; }
+          if (certPaymentNotice) certPaymentNotice.textContent = 'Payment must be completed before you submit.';
+          if (certPaymentSuccess) certPaymentSuccess.style.display = 'none';
+          certPaymentStarted = false;
+        }, 4000);
+      });
+    }
+
+    // re-bind click handlers in case any checkboxes were added dynamically
+    checkboxes.forEach(cb => {
+      cb.onclick = function(){ toggleCheck(cb); };
+    });
+  });
+</script>
+<script src="https://www.paypal.com/sdk/js?client-id=BAAD5UB-qdrBtNSVeVJISuQ1-LGkwgJXQidWGRgd603r3llj27nCcDUP-iPEWW6rAHkcF42cDR07K1fs0I&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
+<script>
+  const certificationHostedButtonIds = {
+    'GHL Mastery Practitioner': '68V7PVPBCV8Z2',
+    'Operations Architect Certification': 'N9RV29QJ79JZA'
+  };
+
+  const getSelectedCertificationHostedButtonId = () => {
+    const selectedCertification = document.getElementById('certPaymentType') ? document.getElementById('certPaymentType').value : '';
+    return certificationHostedButtonIds[selectedCertification] || '';
+  };
+
+  const renderPayPalButton = () => {
+    const buttonId = getSelectedCertificationHostedButtonId();
+    const container = document.getElementById('paypal-container-cert');
+
+    if (!container) {
+      return;
+    }
+    container.innerHTML = '';
+
+    if (!buttonId) {
+      container.innerHTML = '<div style="color:var(--muted); font-size:13px;">Select a certification above to load the PayPal button.</div>';
+      return;
+    }
+
+    paypal.HostedButtons({
+      hostedButtonId: buttonId,
+      onClick: function(data, actions) {
+        const emailValue = window.certEmailInput ? window.certEmailInput.value.trim() : '';
+        if (!emailValue) {
+          alert('Please enter your email address so we can send your payment confirmation.');
+          if (window.certEmailInput) {
+            window.certEmailInput.focus();
+          }
+          return actions.reject();
+        }
+        if (window.certPaymentNotice) {
+          window.certPaymentNotice.textContent = 'Opening PayPal checkout...';
+        }
+        window.certPaymentEmail = emailValue;
+        return actions.resolve();
+      },
+      onApprove: function(data, actions) {
+        const emailValue = window.certPaymentEmail || (window.certEmailInput ? window.certEmailInput.value.trim() : '');
+        if (window.showFormAfterSuccess) {
+          window.showFormAfterSuccess(emailValue);
+        }
+      },
+      onCancel: function(data) {
+        if (window.certPaymentNotice) {
+          window.certPaymentNotice.textContent = 'Payment was canceled. Please try again to submit your evidence.';
+        }
+      },
+      onError: function(err) {
+        if (window.certPaymentNotice) {
+          window.certPaymentNotice.textContent = 'There was an error with PayPal. Please refresh and try again.';
+        }
+        console.error('PayPal error', err);
+      }
+    }).render('#paypal-container-cert');
+  };
+
+  const certPaymentTypeSelect = document.getElementById('certPaymentType');
+  if (certPaymentTypeSelect) {
+    certPaymentTypeSelect.addEventListener('change', () => {
+      if (document.getElementById('certType')) {
+        document.getElementById('certType').value = certPaymentTypeSelect.value;
+      }
+      renderPayPalButton();
+    });
+  }
+
+  renderPayPalButton();
 </script>
 </body>
 </html>

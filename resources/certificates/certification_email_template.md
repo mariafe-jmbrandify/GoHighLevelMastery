@@ -1,4 +1,4 @@
-# Certification Email Template
+﻿# Certification Email Template
 
 Subject: Congratulations, your JM Brandify certification is approved
 

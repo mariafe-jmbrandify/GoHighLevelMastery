@@ -1,4 +1,4 @@
-# Certification Review Scorecard
+﻿# Certification Review Scorecard
 
 Use this scorecard to review portfolio submissions for the GHL Mastery Practitioner and Operations Architect certifications.
 

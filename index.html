@@ -374,16 +374,14 @@
 .value-strip {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   margin-top: 22px;
   margin-bottom: 18px;
-  align-items: stretch;
   clear: both;
 }
 
-.value-pill,
-.urgency-bar {
+.value-pill {
   width: 100%;
   min-height: 54px;
   display: flex;
@@ -395,6 +393,15 @@
 }
 
 .urgency-bar {
+  width: 100%;
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px 14px;
+  margin: 0 0 18px 0;
+  box-sizing: border-box;
   border-radius: 10px;
   background: rgba(255, 193, 7, .08);
   border: 1px solid rgba(255, 193, 7, .45);
@@ -408,17 +415,17 @@
 
 .founding-microcopy {
   display: block;
-  max-width:1080px; 
+  width: 100%;
   clear: both;
-  margin:0 auto 18px; 
-  padding:0 24px 12px;
+  margin: 0 0 28px 0;
+  text-align: center;
   position: relative;
-  z-index:1; 
+  z-index: 1;
 }
 
 @media (max-width: 900px) {
   .value-strip {
-    grid-template-columns: repeat(2, minmax(130px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -1952,8 +1959,9 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
   <div class="value-pill">Toolkit Additions</div>
   <div class="value-pill">Certification Review</div>
   <div class="value-pill">Founding Member Recognition</div>
-  <div class="urgency-bar">Limited to the First 20 Graduates</div>
 </div>
+
+<div class="urgency-bar">Limited to the First 20 Graduates</div>
 
 <div class="founding-microcopy">You are certified for building working GoHighLevel systems, not just watching lessons.</div>
   <div class="program-summary">

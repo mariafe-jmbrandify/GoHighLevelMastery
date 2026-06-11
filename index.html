@@ -464,6 +464,49 @@
   }
 }
 
+.benefits-area {
+  width: 100% !important;
+  display: block !important;
+  clear: both !important;
+}
+
+.benefits-area .value-strip {
+  width: 100% !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  margin: 22px 0 14px 0 !important;
+}
+
+.benefits-area .value-pill {
+  width: 100% !important;
+  min-height: 60px !important;
+}
+
+.benefits-area .urgency-bar {
+  width: 100% !important;
+  min-height: 60px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 0 18px 0 !important;
+}
+
+.benefits-area .founding-microcopy {
+  width: 100% !important;
+  display: block !important;
+  clear: both !important;
+  text-align: center !important;
+  margin: 0 0 28px 0 !important;
+}
+
+.program-summary,
+.workflow-section,
+.cert-statement {
+  width: 100% !important;
+  clear: both !important;
+}
+
 </style>
 </head>
 <body>
@@ -1979,22 +2022,25 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
           <li>Complete Bonus Specialist Phase</li>
           <li>Submit screenshots and documentation</li>
         </ul>
-<<a class="pricing-cta cert-submission-trigger" href="#"
+</div><a class="pricing-cta cert-submission-trigger" href="#"
 onclick="event.preventDefault(); document.getElementById('certSubmissionModal').classList.add('open');">Apply for Architect Certification</a>
 </div>
 </div>
 
-<div class="value-strip">
-  <div class="value-pill">Lifetime Access</div>
-  <div class="value-pill">Toolkit Additions</div>
-  <div class="value-pill">Certification Review</div>
-  <div class="value-pill">Founding Member Recognition</div>
+<div class="benefits-area">
+  <div class="value-strip">
+    <div class="value-pill">Lifetime Access</div>
+    <div class="value-pill">Toolkit Additions</div>
+    <div class="value-pill">Certification Review</div>
+    <div class="value-pill">Founding Member Recognition</div>
+  </div>
+
+  <div class="urgency-bar">Limited to the First 20 Graduates</div>
+
+  <div class="founding-microcopy">You are certified for building working GoHighLevel systems, not just watching lessons.</div>
 </div>
 
-<div class="urgency-bar">Limited to the First 20 Graduates</div>
-
-<div class="founding-microcopy">You are certified for building working GoHighLevel systems, not just watching lessons.</div>
-  <div class="program-summary">
+<div class="program-summary">
     <div class="program-summary-card">
       <h4>📂 Certification Submission Requirements</h4>
       <p>Certification is earned through verified implementation. Submit proof of your completed builds for review.</p>

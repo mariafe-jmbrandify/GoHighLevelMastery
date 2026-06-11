@@ -370,15 +370,18 @@
 .founding-offer {
   overflow: hidden;
 }
+/* FINAL certification section layout fix */
+.founding-offer {
+  width: 100% !important;
+  overflow: visible !important;
+}
 
-/* Final override: 4 benefits full row + limited full row */
 .value-strip {
   width: 100% !important;
   display: grid !important;
-  grid-template-columns: repeat(4, 1fr) !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   gap: 12px !important;
-  margin-top: 22px !important;
-  margin-bottom: 14px !important;
+  margin: 22px 0 14px 0 !important;
   clear: both !important;
 }
 
@@ -420,17 +423,44 @@
   clear: both !important;
   text-align: center !important;
   margin: 0 0 28px 0 !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.program-summary {
+  width: 100% !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+  margin-top: 24px !important;
+  clear: both !important;
+}
+
+.program-summary-card {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.workflow-section {
+  width: 100% !important;
+  display: block !important;
+  clear: both !important;
+  margin-top: 24px !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.cert-statement {
+  width: 100% !important;
+  display: block !important;
+  clear: both !important;
+  margin-top: 24px !important;
 }
 
 @media (max-width: 900px) {
-  .value-strip {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 560px) {
-  .value-strip {
-    grid-template-columns: 1fr;
+  .value-strip,
+  .program-summary {
+    grid-template-columns: 1fr !important;
   }
 }
 
@@ -1963,6 +1993,7 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
 <div class="urgency-bar">Limited to the First 20 Graduates</div>
 
 <div class="founding-microcopy">You are certified for building working GoHighLevel systems, not just watching lessons.</div>
+
   <div class="program-summary">
     <div class="program-summary-card">
       <h4>📂 Certification Submission Requirements</h4>

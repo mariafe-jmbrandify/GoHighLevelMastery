@@ -43,14 +43,16 @@ function doPost(e) {
       'Status': payload.status || 'New'
     });
 
-    const existingRow = findExistingBookingRow_(sheet, payload.email, payload.phone);
-    const targetRow = existingRow || findNextBookingRow_(sheet);
+    const existingRows = findExistingBookingRows_(sheet, payload.email, payload.phone);
+    const targetRow = existingRows.length ? existingRows[0] : findNextBookingRow_(sheet);
     sheet.getRange(targetRow, 1, 1, row.length).setValues([row]);
+    clearDuplicateBookingRows_(sheet, existingRows.slice(1), row.length);
 
     return json_({
       success: true,
-      message: existingRow ? 'Booking request updated successfully' : 'Booking request added successfully',
-      duplicatePrevented: Boolean(existingRow),
+      message: existingRows.length ? 'Booking request updated successfully' : 'Booking request added successfully',
+      duplicatePrevented: Boolean(existingRows.length),
+      duplicatesCleared: Math.max(existingRows.length - 1, 0),
       timestamp: nowEastern_()
     });
   } catch (error) {
@@ -219,14 +221,15 @@ function findNextBookingRow_(sheet) {
   return maxRows + 1;
 }
 
-function findExistingBookingRow_(sheet, email, phone) {
+function findExistingBookingRows_(sheet, email, phone) {
   const firstDataRow = 2;
   const maxRows = sheet.getMaxRows();
   const rowCount = Math.max(maxRows - firstDataRow + 1, 1);
   const normalizedEmail = normalizeEmail_(email);
   const normalizedPhone = normalizePhone_(phone);
+  const matches = [];
 
-  if (!normalizedEmail && !normalizedPhone) return null;
+  if (!normalizedEmail && !normalizedPhone) return matches;
 
   const values = sheet
     .getRange(firstDataRow, 1, rowCount, 3)
@@ -236,14 +239,21 @@ function findExistingBookingRow_(sheet, email, phone) {
     const rowEmail = normalizeEmail_(values[index][1]);
     const rowPhone = normalizePhone_(values[index][2]);
     if (normalizedEmail && rowEmail && normalizedEmail === rowEmail) {
-      return firstDataRow + index;
+      matches.push(firstDataRow + index);
+      continue;
     }
     if (normalizedPhone && rowPhone && normalizedPhone === rowPhone) {
-      return firstDataRow + index;
+      matches.push(firstDataRow + index);
     }
   }
 
-  return null;
+  return matches;
+}
+
+function clearDuplicateBookingRows_(sheet, duplicateRows, columnCount) {
+  duplicateRows.forEach(rowNumber => {
+    sheet.getRange(rowNumber, 1, 1, columnCount).clearContent();
+  });
 }
 
 function normalizeEmail_(email) {

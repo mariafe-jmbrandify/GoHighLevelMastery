@@ -263,7 +263,7 @@
   .pricing-list { list-style:none; margin:0; padding:0; display:grid; gap:10px; color:#a8b8d8; font-size:13px; }
   .pricing-list li { display:flex; align-items:flex-start; gap:10px; }
   .pricing-list li::before { content:'✓'; color:var(--cyan); flex-shrink:0; margin-top:3px; }
-  .pricing-cta { display:inline-flex; align-items:center; justify-content:center; padding:14px 16px; border-radius:12px; background:linear-gradient(135deg, var(--cyan), var(--cyan2)); color:#000; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; text-decoration:none; transition:transform .18s ease, box-shadow .18s ease; }
+  .pricing-cta { display:inline-flex; align-items:center; justify-content:center; width:100%; margin-top:auto; padding:14px 16px; border-radius:12px; background:linear-gradient(135deg, var(--cyan), var(--cyan2)); color:#000; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; text-decoration:none; transition:transform .18s ease, box-shadow .18s ease; }
   .pricing-cta:hover { transform:translateY(-1px); box-shadow:0 14px 30px rgba(41,182,246,.18); }
   .value-strip { display:grid; grid-template-columns:repeat(4,minmax(140px,1fr)); gap:12px; margin-bottom:18px; }
   .value-pill { padding:12px 14px; border-radius:12px; background:rgba(41,182,246,.08); border:1px solid rgba(41,182,246,.18); color:var(--cyan2); font-size:12px; text-align:center; font-family:'DM Mono',monospace; text-transform:uppercase; letter-spacing:1px; }
@@ -2030,8 +2030,9 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
           <li>Complete capstones</li>
           <li>Submit screenshots and documentation</li>
         </ul>
-<a class="pricing-cta cert-submission-trigger" href="#"
-  onclick="event.preventDefault(); document.getElementById('certSubmissionModal').classList.add('open');">Become a Founding Member</a>      </div>
+        <a class="pricing-cta cert-submission-trigger" href="#"
+          onclick="event.preventDefault(); document.getElementById('certSubmissionModal').classList.add('open');">Become a Founding Member</a>
+      </div>
 
       <div class="cert-card pricing-card">
         <div class="pricing-card-header">
@@ -2057,8 +2058,9 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
           <li>Complete Bonus Specialist Phase</li>
           <li>Submit screenshots and documentation</li>
         </ul>
-</div><a class="pricing-cta cert-submission-trigger" href="#"
-onclick="event.preventDefault(); document.getElementById('certSubmissionModal').classList.add('open');">Apply for Architect Certification</a>
+        <a class="pricing-cta cert-submission-trigger" href="#"
+          onclick="event.preventDefault(); document.getElementById('certSubmissionModal').classList.add('open');">Apply for Architect Certification</a>
+      </div>
 </div>
 </div>
 

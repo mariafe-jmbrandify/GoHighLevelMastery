@@ -103,15 +103,17 @@ function buildHeaderMappedRow_(sheet, valuesByHeader) {
 
 function findNextBookingRow_(sheet) {
   const firstDataRow = 2;
-  const lastColumn = Math.max(sheet.getLastColumn(), 8);
   const maxRows = sheet.getMaxRows();
   const rowCount = Math.max(maxRows - firstDataRow + 1, 1);
-  const values = sheet.getRange(firstDataRow, 1, rowCount, lastColumn).getValues();
+  const leadIdentityColumns = 3; // Name, Email, Phone Number
+
+  const values = sheet
+    .getRange(firstDataRow, 1, rowCount, leadIdentityColumns)
+    .getDisplayValues();
 
   for (let index = 0; index < values.length; index++) {
-    const row = values[index];
-    const hasLeadData = row.some(value => String(value).trim() !== '');
-    if (!hasLeadData) {
+    const [name, email, phone] = values[index].map(value => String(value).trim());
+    if (!name && !email && !phone) {
       return firstDataRow + index;
     }
   }

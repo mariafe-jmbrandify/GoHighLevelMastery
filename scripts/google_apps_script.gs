@@ -31,7 +31,8 @@ function doPost(e) {
       'Status': payload.status || 'New'
     });
 
-    sheet.appendRow(row);
+    const nextRow = findNextBookingRow_(sheet);
+    sheet.getRange(nextRow, 1, 1, row.length).setValues([row]);
 
     return json_({
       success: true,
@@ -98,6 +99,25 @@ function ensureBookingHeaders_(sheet) {
 function buildHeaderMappedRow_(sheet, valuesByHeader) {
   const headers = getHeaders_(sheet);
   return headers.map(header => valuesByHeader[header] || '');
+}
+
+function findNextBookingRow_(sheet) {
+  const firstDataRow = 2;
+  const lastColumn = Math.max(sheet.getLastColumn(), 8);
+  const maxRows = sheet.getMaxRows();
+  const rowCount = Math.max(maxRows - firstDataRow + 1, 1);
+  const values = sheet.getRange(firstDataRow, 1, rowCount, lastColumn).getValues();
+
+  for (let index = 0; index < values.length; index++) {
+    const row = values[index];
+    const hasLeadData = row.some(value => String(value).trim() !== '');
+    if (!hasLeadData) {
+      return firstDataRow + index;
+    }
+  }
+
+  sheet.insertRowAfter(maxRows);
+  return maxRows + 1;
 }
 
 function getHeaders_(sheet) {

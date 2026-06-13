@@ -1781,7 +1781,7 @@ onclick="document.getElementById('certSubmissionModal').classList.remove('open')
       </label>
       <div id="paypal-container-cert" style="margin-top:10px;"></div>
       <div style="margin-top:10px; color:var(--muted); font-size:13px;">Pay with PayPal to start the submission payment. Your purchase confirmation will be sent to the email above.</div>
-      <div id="certPaymentFallback" style="margin-top:14px;"><a id="certPaymentFallbackButton" href="#" style="display:inline-flex; align-items:center; justify-content:center; padding:12px 16px; border-radius:12px; background:linear-gradient(135deg, var(--cyan), var(--cyan2)); color:#000; font-weight:700; text-decoration:none;">Pay with PayPal</a></div>
+      <div id="certPaymentFallback" style="margin-top:14px;"><a id="certPaymentFallbackButton" href="#" style="display:inline-flex; align-items:center; justify-content:center; padding:12px 16px; border-radius:12px; background:linear-gradient(135deg, var(--cyan), var(--cyan2)); color:#000; font-weight:700; text-decoration:none;">Open PayPal Backup Link</a></div>
       <div id="certPaymentNotice" style="margin-top:10px; color:var(--muted); font-size:13px;">Wait for PayPal to start your payment before you submit your evidence.</div>
       <div id="certPaymentSuccess" style="display:none; margin-top:10px; color:var(--cyan); font-size:13px;">Payment started. A confirmation email will be sent once your transaction completes.</div>
     </div>
@@ -2677,6 +2677,10 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
         const certEmail = document.getElementById('certEmail').value.trim();
         const certType = document.getElementById('certType').value;
         const certDriveLink = document.getElementById('certDriveLink').value.trim();
+        const certFunnelUrl = document.getElementById('certFunnelUrl').value.trim();
+        const certWorkflowFolder = document.getElementById('certWorkflowFolder').value.trim();
+        const certSnapshotDoc = document.getElementById('certSnapshotDoc').value.trim();
+        const certLoomLink = document.getElementById('certLoomLink').value.trim();
         const certProblem = document.getElementById('certProblem').value.trim();
         const certChallenge = document.getElementById('certChallenge').value.trim();
         const certProud = document.getElementById('certProud').value.trim();
@@ -2686,9 +2690,26 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
           return;
         }
         try {
-          await fetch('https://script.google.com/macros/s/AKfycbwYCMa97iOcrc439DxYR3OrGPNo6WJKqIuBaNzvvzn5NezyKbxC_TP7GLzPx3pm8sKIIg/exec', {
+          await fetch('https://script.google.com/macros/s/AKfycbyxXL-oNTpHu9K1bF2Yx43zNI440VYzVVUfNiAVi56uDVevGzeLQctk93uIO5Lvz-r_HA/exec', {
             method: 'POST',
-            body: JSON.stringify({ name: certName, email: certEmail, certType, driveLink: certDriveLink, problem: certProblem, source: 'Certification Submission', status: 'Pending Review' })
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+              type: 'certification_submission',
+              name: certName,
+              email: certEmail,
+              certType,
+              driveLink: certDriveLink,
+              funnelUrl: certFunnelUrl,
+              workflowFolder: certWorkflowFolder,
+              snapshotDoc: certSnapshotDoc,
+              loomLink: certLoomLink,
+              problem: certProblem,
+              challenge: certChallenge,
+              proud: certProud,
+              source: 'Certification Submission',
+              status: 'Pending Review'
+            })
           });
         } catch(err) { console.warn('Sheet save failed:', err); }
         if (certForm && certConfirmation) {
@@ -2725,6 +2746,30 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
     return certificationHostedButtonIds[selectedCertification] || '';
   };
 
+  const recordCertificationPayment = async paypalData => {
+    const emailValue = window.certPaymentEmail || (window.certEmailInput ? window.certEmailInput.value.trim() : '');
+    const certificationValue = document.getElementById('certPaymentType') ? document.getElementById('certPaymentType').value : '';
+
+    try {
+      await fetch('https://script.google.com/macros/s/AKfycbyxXL-oNTpHu9K1bF2Yx43zNI440VYzVVUfNiAVi56uDVevGzeLQctk93uIO5Lvz-r_HA/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          type: 'payment',
+          email: emailValue,
+          certification: certificationValue,
+          paymentStatus: 'Successful',
+          paypalOrderId: paypalData && paypalData.orderID ? paypalData.orderID : '',
+          paypalPayerId: paypalData && paypalData.payerID ? paypalData.payerID : '',
+          source: 'PayPal Hosted Button'
+        })
+      });
+    } catch (err) {
+      console.warn('Payment record failed:', err);
+    }
+  };
+
   const renderPayPalButton = () => {
     const buttonId = getSelectedCertificationHostedButtonId();
     const container = document.getElementById('paypal-container-cert');
@@ -2758,6 +2803,7 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
       },
       onApprove: function(data, actions) {
         const emailValue = window.certPaymentEmail || (window.certEmailInput ? window.certEmailInput.value.trim() : '');
+        recordCertificationPayment(data);
         if (window.showFormAfterSuccess) {
           window.showFormAfterSuccess(emailValue);
         }

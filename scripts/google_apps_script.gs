@@ -1,4 +1,4 @@
-// Google Apps Script: Append GoHighLevel Mastery booking requests to Google Sheets.
+// Google Apps Script: Append GoHighLevel Mastery booking and payment events to Google Sheets.
 // Deploy as a Web App:
 // - Execute as: Me
 // - Who has access: Anyone
@@ -8,11 +8,23 @@
 
 const SHEET_ID = '1vfGGbV2wOdOCqrp0W_02poc6df7aNq1eXRpo_k63s5s';
 const SHEET_NAME = 'Schedule Booked';
+const PAYMENT_SHEET_NAME = 'Certification Payments';
+const CERTIFICATION_SHEET_NAME = 'Certification Submissions';
 
 function doPost(e) {
   try {
     const payload = parsePayload_(e);
-    const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
+    const spreadsheet = SpreadsheetApp.openById(SHEET_ID);
+
+    if (payload.type === 'payment') {
+      return recordPayment_(spreadsheet, payload);
+    }
+
+    if (payload.type === 'certification_submission') {
+      return recordCertificationSubmission_(spreadsheet, payload);
+    }
+
+    const sheet = spreadsheet.getSheetByName(SHEET_NAME);
 
     if (!sheet) {
       return json_({ success: false, error: `Sheet not found: ${SHEET_NAME}` });
@@ -43,6 +55,78 @@ function doPost(e) {
     Logger.log(`Booking webhook error: ${error}`);
     return json_({ success: false, error: String(error) });
   }
+}
+
+function recordPayment_(spreadsheet, payload) {
+  const sheet = getOrCreateSheet_(spreadsheet, PAYMENT_SHEET_NAME);
+  ensureHeaders_(sheet, [
+    'Timestamp',
+    'Email',
+    'Certification',
+    'Payment Status',
+    'PayPal Order ID',
+    'PayPal Payer ID',
+    'Source'
+  ]);
+
+  sheet.appendRow([
+    nowEastern_(),
+    payload.email || '',
+    payload.certification || payload.certType || '',
+    payload.paymentStatus || 'Successful',
+    payload.paypalOrderId || '',
+    payload.paypalPayerId || '',
+    payload.source || 'PayPal Hosted Button'
+  ]);
+
+  return json_({
+    success: true,
+    message: 'Payment event recorded successfully',
+    timestamp: nowEastern_()
+  });
+}
+
+function recordCertificationSubmission_(spreadsheet, payload) {
+  const sheet = getOrCreateSheet_(spreadsheet, CERTIFICATION_SHEET_NAME);
+  ensureHeaders_(sheet, [
+    'Timestamp',
+    'Name',
+    'Email',
+    'Certification',
+    'Drive Link',
+    'Funnel URL',
+    'Workflow Folder',
+    'Snapshot Documentation',
+    'Loom Link',
+    'Problem Solved',
+    'Challenge',
+    'Proud Of',
+    'Source',
+    'Status'
+  ]);
+
+  sheet.appendRow([
+    nowEastern_(),
+    payload.name || '',
+    payload.email || '',
+    payload.certType || payload.certification || '',
+    payload.driveLink || '',
+    payload.funnelUrl || '',
+    payload.workflowFolder || '',
+    payload.snapshotDoc || '',
+    payload.loomLink || '',
+    payload.problem || '',
+    payload.challenge || '',
+    payload.proud || '',
+    payload.source || 'Certification Submission',
+    payload.status || 'Pending Review'
+  ]);
+
+  return json_({
+    success: true,
+    message: 'Certification submission recorded successfully',
+    timestamp: nowEastern_()
+  });
 }
 
 function doGet() {
@@ -94,6 +178,17 @@ function ensureBookingHeaders_(sheet) {
     sheet.insertColumnAfter(insertAfter);
     sheet.getRange(1, insertAfter + 1).setValue('Bottleneck Details');
   }
+}
+
+function ensureHeaders_(sheet, requiredHeaders) {
+  const existingHeaders = getHeaders_(sheet);
+  if (!existingHeaders.length) {
+    sheet.getRange(1, 1, 1, requiredHeaders.length).setValues([requiredHeaders]);
+  }
+}
+
+function getOrCreateSheet_(spreadsheet, sheetName) {
+  return spreadsheet.getSheetByName(sheetName) || spreadsheet.insertSheet(sheetName);
 }
 
 function buildHeaderMappedRow_(sheet, valuesByHeader) {

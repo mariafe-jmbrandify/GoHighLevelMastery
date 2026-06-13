@@ -10,6 +10,7 @@ const SHEET_ID = '1vfGGbV2wOdOCqrp0W_02poc6df7aNq1eXRpo_k63s5s';
 const SHEET_NAME = 'Schedule Booked';
 const PAYMENT_SHEET_NAME = 'Certification Payments';
 const CERTIFICATION_SHEET_NAME = 'Certification Submissions';
+const REVIEW_SHEET_NAME = 'Certification Review';
 const ADMIN_EMAIL = 'maria@jmbrandify.com';
 
 function doPost(e) {
@@ -142,6 +143,44 @@ function doGet() {
     success: true,
     message: 'GoHighLevel Mastery booking webhook is running.'
   });
+}
+
+function onCertificationReviewEdit(e) {
+  try {
+    if (!e || !e.range) return;
+
+    const sheet = e.range.getSheet();
+    if (sheet.getName() !== REVIEW_SHEET_NAME || e.range.getRow() === 1) return;
+
+    ensureCertificationReviewHeaders_(sheet);
+    const headers = getHeaders_(sheet);
+    const editedHeader = headers[e.range.getColumn() - 1];
+    const watchedHeaders = ['Reviewer Status', 'Certificate Approved', 'Feedback', 'Certificate URL'];
+
+    if (!watchedHeaders.includes(editedHeader)) return;
+
+    const rowNumber = e.range.getRow();
+    const row = getRowObject_(sheet, rowNumber);
+    const notificationSent = String(row['Notification Sent'] || '').trim();
+    const reviewerStatus = String(row['Reviewer Status'] || '').trim();
+    const certificateApproved = String(row['Certificate Approved'] || '').trim();
+    const statusKey = `${reviewerStatus} ${certificateApproved}`.toLowerCase();
+
+    if (notificationSent) return;
+
+    if (statusKey.includes('approved') || statusKey.includes('yes')) {
+      sendStudentCertificationApproved_(row);
+      markReviewNotificationSent_(sheet, rowNumber, 'Approved email sent');
+      return;
+    }
+
+    if (statusKey.includes('denied') || statusKey.includes('revision') || statusKey.includes('not approved')) {
+      sendStudentCertificationFeedback_(row);
+      markReviewNotificationSent_(sheet, rowNumber, 'Feedback email sent');
+    }
+  } catch (error) {
+    Logger.log(`Certification review edit error: ${error}`);
+  }
 }
 
 function parsePayload_(e) {
@@ -308,10 +347,84 @@ function sendCertificationSubmissionNotification_(payload) {
   });
 }
 
+function ensureCertificationReviewHeaders_(sheet) {
+  ensureHeaders_(sheet, [
+    'Timestamp',
+    'Name',
+    'Email',
+    'Certification',
+    'Submission Link',
+    'AI Score',
+    'AI Recommendation',
+    'Reviewer Status',
+    'Feedback',
+    'Certificate Approved',
+    'Certificate URL',
+    'Notification Sent',
+    'Notification Sent At'
+  ]);
+}
+
+function getRowObject_(sheet, rowNumber) {
+  const headers = getHeaders_(sheet);
+  const values = sheet.getRange(rowNumber, 1, 1, headers.length).getDisplayValues()[0];
+  return headers.reduce((row, header, index) => {
+    row[header] = values[index] || '';
+    return row;
+  }, {});
+}
+
+function markReviewNotificationSent_(sheet, rowNumber, label) {
+  const headers = getHeaders_(sheet);
+  const sentIndex = headers.indexOf('Notification Sent');
+  const sentAtIndex = headers.indexOf('Notification Sent At');
+
+  if (sentIndex >= 0) {
+    sheet.getRange(rowNumber, sentIndex + 1).setValue(label);
+  }
+  if (sentAtIndex >= 0) {
+    sheet.getRange(rowNumber, sentAtIndex + 1).setValue(nowEastern_());
+  }
+}
+
+function sendStudentCertificationApproved_(row) {
+  const certificateUrl = row['Certificate URL'];
+  const certificateLink = certificateUrl
+    ? `<p>You can access your certificate here: ${linkHtml_(certificateUrl)}</p>`
+    : '<p>Your certificate has been approved. Maria will send your certificate link shortly.</p>';
+
+  safeSendEmail_({
+    to: row['Email'],
+    subject: `Certification approved: ${row['Certification'] || 'JM Brandify Certification'}`,
+    htmlBody: [
+      `<p>Hi ${escapeHtml_(row['Name'] || 'there')},</p>`,
+      `<p>Congratulations. Your <strong>${escapeHtml_(row['Certification'])}</strong> submission has been approved.</p>`,
+      certificateLink,
+      row['Feedback'] ? `<p><strong>Reviewer note:</strong><br>${escapeHtml_(row['Feedback'])}</p>` : '',
+      '<p>Congratulations again,<br>JM Brandify</p>'
+    ].join('')
+  });
+}
+
+function sendStudentCertificationFeedback_(row) {
+  safeSendEmail_({
+    to: row['Email'],
+    subject: `Certification feedback: ${row['Certification'] || 'JM Brandify Certification'}`,
+    htmlBody: [
+      `<p>Hi ${escapeHtml_(row['Name'] || 'there')},</p>`,
+      `<p>Thank you for submitting your <strong>${escapeHtml_(row['Certification'])}</strong> certification evidence.</p>`,
+      '<p>Your submission needs revision before it can be approved.</p>',
+      `<p><strong>Feedback:</strong><br>${escapeHtml_(row['Feedback'] || row['AI Recommendation'] || 'Please review the missing requirements and resubmit your evidence.')}</p>`,
+      '<p>Once updated, please resubmit your evidence for another review.</p>',
+      '<p>JM Brandify</p>'
+    ].join('')
+  });
+}
+
 function safeSendEmail_(message) {
   try {
     MailApp.sendEmail({
-      to: ADMIN_EMAIL,
+      to: message.to || ADMIN_EMAIL,
       subject: message.subject,
       htmlBody: message.htmlBody
     });

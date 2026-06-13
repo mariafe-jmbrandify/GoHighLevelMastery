@@ -10,6 +10,7 @@ const SHEET_ID = '1vfGGbV2wOdOCqrp0W_02poc6df7aNq1eXRpo_k63s5s';
 const SHEET_NAME = 'Schedule Booked';
 const PAYMENT_SHEET_NAME = 'Certification Payments';
 const CERTIFICATION_SHEET_NAME = 'Certification Submissions';
+const ADMIN_EMAIL = 'maria@jmbrandify.com';
 
 function doPost(e) {
   try {
@@ -47,6 +48,7 @@ function doPost(e) {
     const targetRow = existingRows.length ? existingRows[0] : findNextBookingRow_(sheet);
     sheet.getRange(targetRow, 1, 1, row.length).setValues([row]);
     clearDuplicateBookingRows_(sheet, existingRows.slice(1), row.length);
+    sendBookingNotification_(payload, targetRow, Boolean(existingRows.length));
 
     return json_({
       success: true,
@@ -82,6 +84,7 @@ function recordPayment_(spreadsheet, payload) {
     payload.paypalPayerId || '',
     payload.source || 'PayPal Hosted Button'
   ]);
+  sendPaymentNotification_(payload);
 
   return json_({
     success: true,
@@ -125,6 +128,7 @@ function recordCertificationSubmission_(spreadsheet, payload) {
     payload.source || 'Certification Submission',
     payload.status || 'Pending Review'
   ]);
+  sendCertificationSubmissionNotification_(payload);
 
   return json_({
     success: true,
@@ -254,6 +258,81 @@ function clearDuplicateBookingRows_(sheet, duplicateRows, columnCount) {
   duplicateRows.forEach(rowNumber => {
     sheet.getRange(rowNumber, 1, 1, columnCount).clearContent();
   });
+}
+
+function sendBookingNotification_(payload, rowNumber, wasUpdated) {
+  safeSendEmail_({
+    subject: wasUpdated ? 'Updated booking lead in Schedule Booked' : 'New booking lead in Schedule Booked',
+    htmlBody: [
+      '<p>A booking lead was recorded in <strong>Schedule Booked</strong>.</p>',
+      `<p><strong>Row:</strong> ${rowNumber}</p>`,
+      `<p><strong>Name:</strong> ${escapeHtml_(payload.name)}</p>`,
+      `<p><strong>Email:</strong> ${escapeHtml_(payload.email)}</p>`,
+      `<p><strong>Phone:</strong> ${escapeHtml_(payload.phone)}</p>`,
+      `<p><strong>Primary Bottleneck:</strong> ${escapeHtml_(payload.bottleneck || payload.primaryBottleneck)}</p>`,
+      `<p><strong>Bottleneck Details:</strong> ${escapeHtml_(payload.bottleneckDetails || payload.bottleneckIssueDetails)}</p>`,
+      `<p><strong>Source:</strong> ${escapeHtml_(payload.source || 'Website')}</p>`,
+      `<p><strong>Status:</strong> ${wasUpdated ? 'Existing lead updated / duplicate prevented' : 'New lead'}</p>`
+    ].join('')
+  });
+}
+
+function sendPaymentNotification_(payload) {
+  safeSendEmail_({
+    subject: 'Certification payment recorded',
+    htmlBody: [
+      '<p>A certification payment was recorded in <strong>Certification Payments</strong>.</p>',
+      `<p><strong>Email:</strong> ${escapeHtml_(payload.email)}</p>`,
+      `<p><strong>Certification:</strong> ${escapeHtml_(payload.certification || payload.certType)}</p>`,
+      `<p><strong>Payment Status:</strong> ${escapeHtml_(payload.paymentStatus || 'Successful')}</p>`,
+      `<p><strong>PayPal Order ID:</strong> ${escapeHtml_(payload.paypalOrderId)}</p>`,
+      `<p><strong>PayPal Payer ID:</strong> ${escapeHtml_(payload.paypalPayerId)}</p>`
+    ].join('')
+  });
+}
+
+function sendCertificationSubmissionNotification_(payload) {
+  safeSendEmail_({
+    subject: 'Certification submission ready for review',
+    htmlBody: [
+      '<p>A certification submission was recorded in <strong>Certification Submissions</strong>.</p>',
+      `<p><strong>Name:</strong> ${escapeHtml_(payload.name)}</p>`,
+      `<p><strong>Email:</strong> ${escapeHtml_(payload.email)}</p>`,
+      `<p><strong>Certification:</strong> ${escapeHtml_(payload.certType || payload.certification)}</p>`,
+      `<p><strong>Drive Link:</strong> ${linkHtml_(payload.driveLink)}</p>`,
+      `<p><strong>Funnel URL:</strong> ${linkHtml_(payload.funnelUrl)}</p>`,
+      `<p><strong>Workflow Folder:</strong> ${linkHtml_(payload.workflowFolder)}</p>`,
+      `<p><strong>Loom Link:</strong> ${linkHtml_(payload.loomLink)}</p>`,
+      `<p><strong>Status:</strong> Pending Review</p>`
+    ].join('')
+  });
+}
+
+function safeSendEmail_(message) {
+  try {
+    MailApp.sendEmail({
+      to: ADMIN_EMAIL,
+      subject: message.subject,
+      htmlBody: message.htmlBody
+    });
+  } catch (error) {
+    Logger.log(`Email notification failed: ${error}`);
+  }
+}
+
+function linkHtml_(url) {
+  const safeUrl = escapeHtml_(url);
+  if (!safeUrl) return '';
+  return `<a href="${safeUrl}">${safeUrl}</a>`;
+}
+
+function escapeHtml_(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 function normalizeEmail_(email) {

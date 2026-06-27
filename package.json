@@ -1,7 +1,7 @@
 {
   "name": "gohighlevelmastery",
   "version": "1.0.0",
-  "description": "A comprehensive, step-by-step learning path to mastering GoHighLevel (GHL) from scratch. This repository tracks my technical progression through sub-account architectures, custom landing page builds, advanced Zapier automations, and scalable snapshot deployments.\" > 💡 **Pro-Tip:** If you don't have an account yet, you can use [**this link to get a 30-Day Trial**](https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=maria-fe47). This gives you trial access to GoHighLevel so you can start learning the platform and follow the Bootcamp lessons.",
+  "description": "A comprehensive, step-by-step learning path to mastering GoHighLevel (GHL) from scratch. This repository tracks my technical progression through sub-account architectures, custom landing page builds, advanced Zapier automations, and scalable snapshot deployments.\" > 💡 **Pro-Tip:** If you don't have an account yet, you can use [**this link to get a 30-Day Trial**](https://www.gohighlevel.com/protrial?fp_ref=maria-fe47). This points you to HighLevel SaaS Pro trial access for advanced SaaS mode and API workflows.",
   "main": "test-ghl-puppeteer.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

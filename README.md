@@ -69,3 +69,4 @@ System Architect & AI Automation Developer
 
 - LinkedIn: [Maria Fe Blanca](https://www.linkedin.com/in/maria-fe-blanca-754a1a267)
 - Work inquiries: [maria@jmbrandify.com](mailto:maria@jmbrandify.com)
+- Live GoHighLevel Mastery demo link: https://mariafe-jmbrandify.github.io/GoHighLevelMastery/

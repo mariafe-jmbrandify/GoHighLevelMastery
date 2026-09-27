@@ -1,4 +1,4 @@
-![GoHighLevel Mastery banner](assets/ghl-banner-alt.svg)
+![GoHighLevel Mastery banner](https://raw.githubusercontent.com/mariafe-jmbrandify/GoHighLevelMastery/main/assets/ghl-banner-alt.svg)
 
 # GoHighLevel Mastery
 

@@ -1,0 +1,112 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGlow" x1="800" y1="0" x2="800" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#020812"/>
+      <stop offset="1" stop-color="#02060F"/>
+    </linearGradient>
+    <linearGradient id="heroText" x1="800" y1="250" x2="800" y2="670" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F0FBFF"/>
+      <stop offset="0.38" stop-color="#9FEAFB"/>
+      <stop offset="0.7" stop-color="#56D6F0"/>
+      <stop offset="1" stop-color="#5A8DFF"/>
+    </linearGradient>
+    <linearGradient id="buttonGlow" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#53D8F7"/>
+      <stop offset="1" stop-color="#6FB3FF"/>
+    </linearGradient>
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bgGlow)"/>
+
+  <g opacity="0.18">
+    <path d="M0 0H1600V900H0V0Z" stroke="#1D8ACF" stroke-width="1"/>
+    <g stroke="#1D8ACF" stroke-width="1">
+      <path d="M0 56H1600"/>
+      <path d="M0 112H1600"/>
+      <path d="M0 168H1600"/>
+      <path d="M0 224H1600"/>
+      <path d="M0 280H1600"/>
+      <path d="M0 336H1600"/>
+      <path d="M0 392H1600"/>
+      <path d="M0 448H1600"/>
+      <path d="M0 504H1600"/>
+      <path d="M0 560H1600"/>
+      <path d="M0 616H1600"/>
+      <path d="M0 672H1600"/>
+      <path d="M0 728H1600"/>
+      <path d="M0 784H1600"/>
+      <path d="M0 840H1600"/>
+      <path d="M56 0V900"/>
+      <path d="M112 0V900"/>
+      <path d="M168 0V900"/>
+      <path d="M224 0V900"/>
+      <path d="M280 0V900"/>
+      <path d="M336 0V900"/>
+      <path d="M392 0V900"/>
+      <path d="M448 0V900"/>
+      <path d="M504 0V900"/>
+      <path d="M560 0V900"/>
+      <path d="M616 0V900"/>
+      <path d="M672 0V900"/>
+      <path d="M728 0V900"/>
+      <path d="M784 0V900"/>
+      <path d="M840 0V900"/>
+      <path d="M896 0V900"/>
+      <path d="M952 0V900"/>
+      <path d="M1008 0V900"/>
+      <path d="M1064 0V900"/>
+      <path d="M1120 0V900"/>
+      <path d="M1176 0V900"/>
+      <path d="M1232 0V900"/>
+      <path d="M1288 0V900"/>
+      <path d="M1344 0V900"/>
+      <path d="M1400 0V900"/>
+      <path d="M1456 0V900"/>
+      <path d="M1512 0V900"/>
+    </g>
+  </g>
+
+  <g opacity="0.9">
+    <rect x="0" y="0" width="1600" height="78" fill="#050B18" stroke="#1F2C4C"/>
+    <rect x="1376" y="16" width="210" height="46" fill="rgba(15, 26, 48, 0.9)" stroke="#3FA9D8"/>
+    <text x="152" y="52" fill="#EAF7FF" font-size="26" font-family="Verdana, Arial, sans-serif" font-weight="700" letter-spacing="1">JM</text>
+    <text x="202" y="49" fill="#5ECDF7" font-size="32" font-family="Georgia, serif" font-style="italic" font-weight="700">Brandify</text>
+    <text x="565" y="47" fill="#92A7D7" font-size="15" font-family="Arial, sans-serif" letter-spacing="4" textLength="480">AUTOMATE THE NOISE. LEAD THE MISSION.</text>
+    <text x="595" y="46" fill="#9CF1FF" font-size="16" font-family="Verdana, Arial, sans-serif" letter-spacing="1.4" textLength="330">WE DON'T GUESS. WE ENGINEER.</text>
+    <text x="1420" y="49" fill="#7DEBFF" font-size="14" font-family="Verdana, Arial, sans-serif" letter-spacing="2">COMPLETE LEARNING PATH • 2026 EDITION</text>
+  </g>
+
+  <g>
+    <text x="800" y="410" text-anchor="middle" fill="url(#heroText)" font-size="240" font-family="Impact, Arial Black, sans-serif" letter-spacing="4" font-weight="900">GOHIGHLEVEL</text>
+    <text x="800" y="610" text-anchor="middle" fill="url(#heroText)" font-size="238" font-family="Impact, Arial Black, sans-serif" letter-spacing="4" font-weight="900">MASTERY</text>
+  </g>
+
+  <g>
+    <text x="800" y="730" text-anchor="middle" fill="#D8EAFB" font-size="34" font-family="Verdana, Arial, sans-serif" font-weight="400" letter-spacing="0.5">Beginner → Expert — with hand-picked YouTube tutorials &amp; official</text>
+    <text x="800" y="770" text-anchor="middle" fill="#D8EAFB" font-size="34" font-family="Verdana, Arial, sans-serif" font-weight="400" letter-spacing="0.5">GHL docs for every single module.</text>
+  </g>
+
+  <g transform="translate(260 786)">
+    <text x="0" y="0" fill="#70E7FF" font-size="60" font-family="Arial Black, sans-serif" font-weight="900">5</text>
+    <text x="110" y="32" fill="#8AA5D1" font-size="18" font-family="Verdana, Arial, sans-serif" textLength="120" letter-spacing="2">PHASES</text>
+
+    <text x="300" y="0" fill="#70E7FF" font-size="60" font-family="Arial Black, sans-serif" font-weight="900">12+</text>
+    <text x="430" y="32" fill="#8AA5D1" font-size="18" font-family="Verdana, Arial, sans-serif" textLength="120" letter-spacing="2">WEEKS</text>
+
+    <text x="610" y="0" fill="#70E7FF" font-size="60" font-family="Arial Black, sans-serif" font-weight="900">5</text>
+    <text x="730" y="32" fill="#8AA5D1" font-size="18" font-family="Verdana, Arial, sans-serif" textLength="120" letter-spacing="2">CAPSTONES</text>
+
+    <text x="930" y="0" fill="#70E7FF" font-size="60" font-family="Arial Black, sans-serif" font-weight="900">2</text>
+    <text x="1030" y="32" fill="#8AA5D1" font-size="18" font-family="Verdana, Arial, sans-serif" textLength="140" letter-spacing="2">CERTIFICATIONS</text>
+
+    <text x="1230" y="0" fill="#70E7FF" font-size="60" font-family="Arial Black, sans-serif" font-weight="900">20+</text>
+    <text x="1385" y="32" fill="#8AA5D1" font-size="18" font-family="Verdana, Arial, sans-serif" textLength="160" letter-spacing="2">VIDEO GUIDES</text>
+  </g>
+</svg>

@@ -77,4 +77,4 @@ Maria Fe Blanca
 System Architect & AI Automation Developer
 
 - LinkedIn: [Maria Fe Blanca](https://www.linkedin.com/in/maria-fe-blanca-754a1a267)
-- Work inquiries: [maria@jmbrandify.com](mailto:maria@jmbrandify.com)
+- Work inquiries: [mariafe022129@gmail.com](mailto:mariafe022129@gmail.com)

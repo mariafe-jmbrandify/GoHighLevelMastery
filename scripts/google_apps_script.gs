@@ -11,7 +11,7 @@ const SHEET_NAME = 'Schedule Booked';
 const PAYMENT_SHEET_NAME = 'Certification Payments';
 const CERTIFICATION_SHEET_NAME = 'Certification Submissions';
 const REVIEW_SHEET_NAME = 'Certification Review';
-const ADMIN_EMAIL = 'maria@jmbrandify.com';
+const ADMIN_EMAIL = 'mariafe022129@gmail.com';
 
 function doPost(e) {
   try {

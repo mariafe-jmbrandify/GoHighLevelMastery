@@ -60,7 +60,7 @@ http://localhost:8000
 The launch page currently references:
 
 - Google Sheet CSV source: `1vfGGbV2wOdOCqrp0W_02poc6df7aNq1eXRpo_k63s5s`
-- Booking calendar: `https://calendar.app.google/f9rWn4rqWSkt83v66`
+- Booking calendar: `https://calendar.app.google/WQjB2WzUfSktTn2H6`
 - Operations lead Google Apps Script endpoint
 - Certification submission Google Apps Script endpoint
 - PayPal hosted buttons for GHL Mastery Practitioner and Operations Architect Certification

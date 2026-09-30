@@ -1,8 +1,9 @@
 import os
 import urllib.request
 
-SHEET_ID = "1vfGGbV2wOdOCqrp0W_02poc6df7aNq1eXRpo_k63s5s"
-CSV_URL = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv"
+SHEET_ID = "1Vd1_mrTNa-w5dWiVQEfiKr8aGw1Gejul4aD98BSh7aQ"
+SHEET_GID = "1241651133"
+CSV_URL = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv&gid={SHEET_GID}"
 OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "resources", "roadmap_sheet.csv")
 
 

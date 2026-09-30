@@ -59,13 +59,13 @@ http://localhost:8000
 
 The launch page currently references:
 
-- Google Sheet CSV source: `1vfGGbV2wOdOCqrp0W_02poc6df7aNq1eXRpo_k63s5s`
+- Google Sheet tracker: [GHL Roadmap Tutorial Tracker](https://docs.google.com/spreadsheets/d/1Vd1_mrTNa-w5dWiVQEfiKr8aGw1Gejul4aD98BSh7aQ/edit)
 - Booking calendar: `https://calendar.app.google/WQjB2WzUfSktTn2H6`
 - Operations lead Google Apps Script endpoint
 - Certification submission Google Apps Script endpoint
 - PayPal hosted buttons for GHL Mastery Practitioner and Operations Architect Certification
 
-Keep those URLs current before launch.
+The tracker must be shared with the account that owns the deployed Apps Script. The roadmap CSV also needs to be readable by site visitors. Redeploy the Apps Script after changing its spreadsheet ID or notification settings.
 
 ## Privacy Note
 

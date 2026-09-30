@@ -2325,7 +2325,7 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
   formData.append('source', 'Website');
   formData.append('status', 'New');
 
-  await fetch('https://script.google.com/macros/s/AKfycbwl_X4R2YR-iv3orpRRFwGbxNJgW0bjTFfy847Z4rGVZGSwKgrdDzYR9GQJBOHSYedk/exec', {
+  await fetch('https://script.google.com/macros/s/AKfycbzoopVeMmoCAY57eJAgX4SAiEqSK-uDT4fJi7DTRhltlULocwP0-pT5BkghpxidFXCO/exec', {
     method: 'POST',
     mode: 'no-cors',
     body: formData
@@ -2472,7 +2472,7 @@ onclick="event.preventDefault(); document.getElementById('certSubmissionModal').
           return;
         }
         try {
-          await fetch('https://script.google.com/macros/s/AKfycbwl_X4R2YR-iv3orpRRFwGbxNJgW0bjTFfy847Z4rGVZGSwKgrdDzYR9GQJBOHSYedk/exec', {
+          await fetch('https://script.google.com/macros/s/AKfycbzoopVeMmoCAY57eJAgX4SAiEqSK-uDT4fJi7DTRhltlULocwP0-pT5BkghpxidFXCO/exec', {
             method: 'POST',
             body: JSON.stringify({ name: certName, email: certEmail, certType, driveLink: certDriveLink, problem: certProblem, source: 'Certification Submission', status: 'Pending Review' })
           });

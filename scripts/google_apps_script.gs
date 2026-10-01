@@ -467,3 +467,79 @@ function json_(value) {
     .createTextOutput(JSON.stringify(value))
     .setMimeType(ContentService.MimeType.JSON);
 }
+
+// ===== Sync booked call times from Google Calendar =====
+const BOOKING_TITLE_KEYWORD = 'Discovery Call'; // must match your appointment schedule title
+const LOOKAHEAD_DAYS = 60;
+
+function syncBookedCalls() {
+  const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
+  if (!sheet) return;
+
+  // Make sure the columns exist
+  let headers = getHeaders_(sheet);
+  ['Call Date/Time', 'Days/Time Until Call'].forEach(h => {
+    if (!headers.includes(h)) {
+      sheet.getRange(1, headers.length + 1).setValue(h);
+      headers = getHeaders_(sheet);
+    }
+  });
+
+  const emailCol  = headers.indexOf('Email');
+  const callCol   = headers.indexOf('Call Date/Time');
+  const untilCol  = headers.indexOf('Days/Time Until Call');
+  const statusCol = headers.indexOf('Status');
+
+  // Find upcoming (and recent) booked calls on your calendar
+  const now = new Date();
+  const start = new Date(now.getTime() - 7 * 86400000);
+  const end = new Date(now.getTime() + LOOKAHEAD_DAYS * 86400000);
+  const events = CalendarApp.getDefaultCalendar().getEvents(start, end)
+    .filter(ev => ev.getTitle().includes(BOOKING_TITLE_KEYWORD));
+
+  // Map guest email -> soonest call time
+  const callsByEmail = {};
+  events.forEach(ev => {
+    ev.getGuestList().forEach(g => {
+      const email = normalizeEmail_(g.getEmail());
+      if (!callsByEmail[email] || ev.getStartTime() < callsByEmail[email]) {
+        callsByEmail[email] = ev.getStartTime();
+      }
+    });
+  });
+
+  const lastRow = sheet.getLastRow();
+  if (lastRow < 2) return;
+  const data = sheet.getRange(2, 1, lastRow - 1, headers.length).getValues();
+
+  data.forEach((row, i) => {
+    const email = normalizeEmail_(row[emailCol]);
+    const callTime = callsByEmail[email];
+    if (!email || !callTime) return;
+
+    const r = i + 2;
+    sheet.getRange(r, callCol + 1).setValue(callTime)
+      .setNumberFormat('m/d/yyyy h:mm am/pm');
+    sheet.getRange(r, untilCol + 1).setValue(timeUntil_(callTime, now));
+
+    if (statusCol >= 0 && String(row[statusCol]).trim() === 'New') {
+      sheet.getRange(r, statusCol + 1).setValue('Call Booked');
+    }
+  });
+}
+
+function timeUntil_(callTime, now) {
+  const ms = callTime - now;
+  if (ms < 0) return 'Call passed';
+  const days = Math.floor(ms / 86400000);
+  const hours = Math.floor((ms % 86400000) / 3600000);
+  return days > 0 ? `${days}d ${hours}h` : `${hours}h`;
+}
+
+// Run this ONCE manually to start the 15-minute auto-sync
+function setupCallSyncTrigger() {
+  ScriptApp.getProjectTriggers()
+    .filter(t => t.getHandlerFunction() === 'syncBookedCalls')
+    .forEach(t => ScriptApp.deleteTrigger(t));
+  ScriptApp.newTrigger('syncBookedCalls').timeBased().everyMinutes(15).create();
+}

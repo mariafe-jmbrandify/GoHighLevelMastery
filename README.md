@@ -42,6 +42,7 @@ http://localhost:8000
 - Confirm `resources/roadmap_sheet.csv` loads as a fallback if the live Google Sheet is unavailable.
 - Submit the Operations Architecture Call form with a test lead.
 - Confirm the Google Apps Script receives that lead.
+- Open the Apps Script web app URL and confirm the health response says the tracker spreadsheet and `Schedule Booked` tab are accessible.
 - Confirm the calendar link opens correctly.
 - Test both PayPal certification selections.
 - Confirm the certification form unlocks after the payment flow starts/completes.

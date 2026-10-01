@@ -11,7 +11,7 @@ const SHEET_NAME = 'Schedule Booked';
 const PAYMENT_SHEET_NAME = 'Certification Payments';
 const CERTIFICATION_SHEET_NAME = 'Certification Submissions';
 const REVIEW_SHEET_NAME = 'Certification Review';
-const ADMIN_EMAIL = 'maria@jmbrandify.com';
+const ADMIN_EMAIL = 'mariafe022129@gmail.com';
 
 function doPost(e) {
   try {
@@ -156,25 +156,27 @@ function onCertificationReviewEdit(e) {
     const headers = getHeaders_(sheet);
     const editedHeader = headers[e.range.getColumn() - 1];
     const watchedHeaders = ['Reviewer Status', 'Certificate Approved', 'Feedback', 'Certificate URL'];
-
     if (!watchedHeaders.includes(editedHeader)) return;
 
     const rowNumber = e.range.getRow();
     const row = getRowObject_(sheet, rowNumber);
     const notificationSent = String(row['Notification Sent'] || '').trim();
-    const reviewerStatus = String(row['Reviewer Status'] || '').trim();
-    const certificateApproved = String(row['Certificate Approved'] || '').trim();
-    const statusKey = `${reviewerStatus} ${certificateApproved}`.toLowerCase();
+    const reviewerStatus = String(row['Reviewer Status'] || '').trim().toLowerCase();
 
-    if (notificationSent) return;
+    const isApproval = reviewerStatus === 'approved';
+    const isFeedback = reviewerStatus === 'needs revision' || reviewerStatus === 'denied';
 
-    if (statusKey.includes('approved') || statusKey.includes('yes')) {
+    // Approval: send once
+    if (isApproval) {
+      if (notificationSent === 'Approved email sent') return;
       sendStudentCertificationApproved_(row);
       markReviewNotificationSent_(sheet, rowNumber, 'Approved email sent');
       return;
     }
 
-    if (statusKey.includes('denied') || statusKey.includes('revision') || statusKey.includes('not approved')) {
+    // Feedback: send once per status change
+    if (isFeedback) {
+      if (notificationSent === 'Feedback email sent' && editedHeader !== 'Reviewer Status') return;
       sendStudentCertificationFeedback_(row);
       markReviewNotificationSent_(sheet, rowNumber, 'Feedback email sent');
     }
@@ -500,7 +502,7 @@ function syncBookedCalls() {
   // Map guest email -> soonest call time
   const callsByEmail = {};
   events.forEach(ev => {
-    ev.getGuestList().forEach(g => {
+    ev.getGuestList(true).forEach(g => {
       const email = normalizeEmail_(g.getEmail());
       if (!callsByEmail[email] || ev.getStartTime() < callsByEmail[email]) {
         callsByEmail[email] = ev.getStartTime();
@@ -542,4 +544,102 @@ function setupCallSyncTrigger() {
     .filter(t => t.getHandlerFunction() === 'syncBookedCalls')
     .forEach(t => ScriptApp.deleteTrigger(t));
   ScriptApp.newTrigger('syncBookedCalls').timeBased().everyMinutes(15).create();
+}
+
+// ===== TEST: fill every tab with one test record =====
+const TEST_TAG = 'TEST - delete me';
+
+function testAllTabs() {
+  const email = 'test.student@example.com';
+
+  // 1) Schedule Booked: goes through the live doPost path
+  doPost({ postData: { contents: JSON.stringify({
+    type: 'booking',
+    name: 'Test Student',
+    email: email,
+    phone: '5550001234',
+    bottleneck: 'Lead Generation',
+    bottleneckDetails: 'No follow-up after opt-in',
+    source: TEST_TAG,
+    status: 'New'
+  })}});
+
+  // 2) Certification Payments: the same path a PayPal approval uses
+  doPost({ postData: { contents: JSON.stringify({
+    type: 'payment',
+    email: email,
+    certification: 'GHL Mastery Practitioner',
+    paymentStatus: 'Successful',
+    paypalOrderId: 'TEST-ORDER-001',
+    paypalPayerId: 'TEST-PAYER-001',
+    source: TEST_TAG
+  })}});
+
+  // 3) Certification Submissions: the same path as the submission form
+  doPost({ postData: { contents: JSON.stringify({
+    type: 'certification_submission',
+    name: 'Test Student',
+    email: email,
+    certType: 'GHL Mastery Practitioner',
+    driveLink: 'https://drive.google.com/test',
+    funnelUrl: 'https://example.com/funnel',
+    workflowFolder: 'https://drive.google.com/test-workflows',
+    snapshotDoc: 'https://docs.google.com/test-snapshot',
+    loomLink: 'https://loom.com/test',
+    problem: 'Leads were not being followed up',
+    challenge: 'Connecting the calendar to the pipeline',
+    proud: 'Fully automated follow-up sequence',
+    source: TEST_TAG,
+    status: 'Pending Review'
+  })}});
+
+  // 4) Certification Review: written to the first empty row
+  const review = SpreadsheetApp.openById(SHEET_ID).getSheetByName(REVIEW_SHEET_NAME);
+  if (review) {
+    const headers = getHeaders_(review);
+    const timestamps = review.getRange(2, 1, review.getMaxRows() - 1, 1).getValues();
+    const emptyIndex = timestamps.findIndex(r => !String(r[0]).trim());
+    const rowNum = emptyIndex >= 0 ? emptyIndex + 2 : review.getMaxRows() + 1;
+
+    const values = {
+      'Timestamp': nowEastern_(),
+      'Name': 'Test Student',
+      'Email': email,
+      'Certification': 'GHL Mastery Practitioner',
+      'Submission Link': 'https://drive.google.com/test',
+      'AI Score': 85,
+      'AI Recommendation': 'Approve. All required evidence included. ' + TEST_TAG,
+      'Reviewer Status': 'Pending'
+    };
+    headers.forEach((h, i) => {
+      if (values[h] !== undefined) review.getRange(rowNum, i + 1).setValue(values[h]);
+    });
+  }
+
+  Logger.log('Test records added to all 4 tabs.');
+}
+
+// ===== CLEANUP: remove every row tagged as a test =====
+function removeTestRows() {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  ss.getSheets().forEach(sheet => {
+    const lastRow = sheet.getLastRow();
+    if (lastRow < 2) return;
+    const data = sheet.getRange(2, 1, lastRow - 1, sheet.getLastColumn()).getDisplayValues();
+    for (let i = data.length - 1; i >= 0; i--) {
+      const isTest = data[i].some(cell => cell.includes(TEST_TAG) || cell.includes('test.student@example.com'));
+      if (isTest) sheet.deleteRow(i + 2);
+    }
+  });
+  Logger.log('Test rows removed.');
+}
+
+function testReviewEdit() {
+  const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(REVIEW_SHEET_NAME);
+  const headers = getHeaders_(sheet);
+  const statusCol = headers.indexOf('Reviewer Status') + 1;
+  Logger.log('Reviewer Status column: ' + statusCol);
+  Logger.log('Row 2: ' + JSON.stringify(getRowObject_(sheet, 2)));
+  onCertificationReviewEdit({ range: sheet.getRange(2, statusCol) });
+  Logger.log('Notification Sent now: ' + sheet.getRange(2, headers.indexOf('Notification Sent') + 1).getValue());
 }

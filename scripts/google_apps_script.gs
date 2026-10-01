@@ -139,10 +139,22 @@ function recordCertificationSubmission_(spreadsheet, payload) {
 }
 
 function doGet() {
-  return json_({
-    success: true,
-    message: 'GoHighLevel Mastery booking webhook is running.'
-  });
+  try {
+    const spreadsheet = SpreadsheetApp.openById(SHEET_ID);
+    const bookingSheetExists = Boolean(spreadsheet.getSheetByName(SHEET_NAME));
+
+    return json_({
+      success: bookingSheetExists,
+      message: bookingSheetExists
+        ? 'Webhook is running and the booking sheet is accessible.'
+        : `Webhook is running, but the required sheet "${SHEET_NAME}" was not found.`,
+      spreadsheetName: spreadsheet.getName(),
+      bookingSheetExists
+    });
+  } catch (error) {
+    Logger.log(`Booking webhook health check failed: ${error}`);
+    return json_({ success: false, error: String(error) });
+  }
 }
 
 function onCertificationReviewEdit(e) {
